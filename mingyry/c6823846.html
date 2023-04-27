@@ -1,0 +1,728 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>计算机网络-HTTP | MingYRY</title><meta name="author" content="Wenyu Yu"><meta name="copyright" content="Wenyu Yu"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="计算机网络-HTTPhttps:&#x2F;&#x2F;www.xiaolincoding.com&#x2F;network&#x2F; HTTP：超文本传输协议HTTP常见的状态码1XX属于提示信息，是协议处理中的一种中间状态 2XX表示服务器成功处理了客户端的请求  200 OK 最常见的成功状态码，表示一切正常  204 No Content 成功状态码，但是响应头中没有body数据  206 Partial Content 应用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机网络-HTTP">
+<meta property="og:url" content="https://mingyry.github.io/mingyry/c6823846.html">
+<meta property="og:site_name" content="MingYRY">
+<meta property="og:description" content="计算机网络-HTTPhttps:&#x2F;&#x2F;www.xiaolincoding.com&#x2F;network&#x2F; HTTP：超文本传输协议HTTP常见的状态码1XX属于提示信息，是协议处理中的一种中间状态 2XX表示服务器成功处理了客户端的请求  200 OK 最常见的成功状态码，表示一切正常  204 No Content 成功状态码，但是响应头中没有body数据  206 Partial Content 应用">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/OIP-C.Nks1ypQCAlR2iNorBkq70AHaHa">
+<meta property="article:published_time" content="2023-03-22T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-04-26T14:16:10.323Z">
+<meta property="article:author" content="Wenyu Yu">
+<meta property="article:tag" content="HTTP">
+<meta property="article:tag" content="计算机网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/OIP-C.Nks1ypQCAlR2iNorBkq70AHaHa"><link rel="shortcut icon" href="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img%2Fwallhaven-85keej.png"><link rel="canonical" href="https://mingyry.github.io/mingyry/c6823846.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/5.13.0/css/all.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?00e91e237345a7bf551803ef3d797bde";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://unpkg.com/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://unpkg.com/flickr-justified-gallery/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '计算机网络-HTTP',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-04-26 22:16:10'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://unpkg.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://unpkg.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = 'hidden';
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+
+preloader.initLoading()
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img%2Fluffy.png" onerror="onerror=null;src='https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img%2Ffriend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">18</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">14</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></div><div class="menus_item"><a class="site-page" href="/project/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/OIP-C.Nks1ypQCAlR2iNorBkq70AHaHa')"><nav id="nav"><span id="blog-info"><a href="/" title="MingYRY"><span class="site-name">MingYRY</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></div><div class="menus_item"><a class="site-page" href="/project/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">计算机网络-HTTP</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="fa-fw post-meta-icon fas fa-history"></i><span class="post-meta-label">更新于</span><time datetime="2023-04-26T14:16:10.323Z" title="更新于 2023-04-26 22:16:10">2023-04-26</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">6.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>19分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="计算机网络-HTTP"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="计算机网络-HTTP"><a href="#计算机网络-HTTP" class="headerlink" title="计算机网络-HTTP"></a>计算机网络-HTTP</h2><p><a target="_blank" rel="noopener" href="https://www.xiaolincoding.com/network/">https://www.xiaolincoding.com/network/</a></p>
+<h3 id="HTTP：超文本传输协议"><a href="#HTTP：超文本传输协议" class="headerlink" title="HTTP：超文本传输协议"></a>HTTP：超文本传输协议</h3><h4 id="HTTP常见的状态码"><a href="#HTTP常见的状态码" class="headerlink" title="HTTP常见的状态码"></a>HTTP常见的状态码</h4><p><code>1XX</code>属于提示信息，是协议处理中的一种中间状态</p>
+<p><code>2XX</code>表示服务器成功处理了客户端的请求</p>
+<ul>
+<li><p><code>200 OK</code> 最常见的成功状态码，表示一切正常</p>
+</li>
+<li><p><code>204 No Content</code> 成功状态码，但是响应头中没有body数据</p>
+</li>
+<li><code>206 Partial Content</code> 应用于HTTP分块下载或断点续传，表示响应返回的body数据并不是资源的全部，而是其中的一部分</li>
+</ul>
+<p><code>3XX</code>表示重定向，需要客户端重现发送请求获取资源</p>
+<ul>
+<li><p><code>301 Moved Permanently</code> 表示永久重定向，说明请求的资源已经不存在了</p>
+</li>
+<li><p><code>302 Found</code> 表示临时充电线，说明请求的资源还在，但暂时需要另一个URL来访问</p>
+<p>301和302浏览器会自动重新定向到新的URL</p>
+</li>
+<li><p><code>304 Not Modified</code> 不具有跳转的含义，表示资源未修改，重定向已存在的缓冲文件</p>
+</li>
+</ul>
+<p><code>4XX</code> 表示客户端发送的报文有误，服务器无法处理</p>
+<ul>
+<li><p><code>400 Bad Request</code> 表示客户端请求的报文有错误</p>
+</li>
+<li><p><code>403 Forbidden</code> 表示服务器禁止访问资源</p>
+</li>
+<li><code>404 Not Found</code> 表示请求的资源在服务器上不存在或者未找到</li>
+</ul>
+<p><code>5XX</code>表示客户端请求报文正确，但是服务器处理时内部发生错误，属于服务器端的错误码</p>
+<ul>
+<li><code>500 Internal Server Error</code> 通用错误码，服务器端发生错误</li>
+<li><code>501 Not Implemented</code> 表示客户端请求的功能还不支持</li>
+<li><code>502 Bad Gateway</code> 服务器作为网关或代理时返回的错误码、表示服务器自身工作正常，访问后端服务器发生了错误</li>
+<li><code>503 Service Unavailable</code> 表示服务器当前很忙，暂时无法响应客户端</li>
+</ul>
+<h4 id="Get方法和Post方法"><a href="#Get方法和Post方法" class="headerlink" title="Get方法和Post方法"></a>Get方法和Post方法</h4><ul>
+<li>Get方法是从服务器获取指定的资源</li>
+<li>Post方法是根据Body对指定的资源做出处理</li>
+</ul>
+<p>安全性：请求方法不会破坏服务器上的资源</p>
+<p>幂等性：多次执行相同的操作，结果都是相同的</p>
+<ul>
+<li>Get方法是安全且幂等的，可以对Get请求的数据做缓存，可以将缓存发给到浏览器身上，也可以做到代理上（nginx）</li>
+<li>Post方法不安全且不幂等，不能把Post请求作为缓存</li>
+</ul>
+<p>注意：以上前提是根据RFC（互联网中的标准，所定义的）规范定义的语义来分析的，你也可以选择在get方法中携带body。</p>
+<h4 id="HTTP的缓存技术"><a href="#HTTP的缓存技术" class="headerlink" title="HTTP的缓存技术"></a>HTTP的缓存技术</h4><h5 id="强制缓存"><a href="#强制缓存" class="headerlink" title="强制缓存"></a>强制缓存</h5><p>只要浏览器判断缓存没有过期，则直接使用浏览器的本地缓存</p>
+<ul>
+<li><code>Cache-Control</code>， 是一个相对时间</li>
+<li><p><code>Expires</code>，是一个绝对时间</p>
+</li>
+<li><p>都表示资源在客户端缓存的有效期</p>
+</li>
+</ul>
+<h5 id="协商缓存"><a href="#协商缓存" class="headerlink" title="协商缓存"></a>协商缓存</h5><p>当请求的响应码是<code>304</code>时，就告诉浏览器可以使用本地缓存的资源，这种需要通过服务器来告知客户端是否可以使用缓存的方式叫做协商缓存</p>
+<p>请求头部中的 <code>If-None-Match</code> 字段与响应头部中的 <code>ETag</code> 字段</p>
+<ul>
+<li>响应头部中 <code>Etag</code>：唯一标识响应资源；</li>
+<li>请求头部中的 <code>If-None-Match</code>：当资源过期时，浏览器发现响应头里有 Etag，则再次向服务器发起请求时，会将请求头 If-None-Match 值设置为 Etag 的值。服务器收到请求后进行比对，如果资源没有变化返回 304，如果资源变化了返回 200。</li>
+</ul>
+<p>当使用 ETag 字段实现的协商缓存的过程：</p>
+<ul>
+<li><p>当浏览器第一次请求访问服务器资源时，服务器会在返回这个资源的同时，在 Response 头部加上 ETag 唯一标识，这个唯一标识的值是根据当前请求的资源生成的；</p>
+</li>
+<li><p>当浏览器再次请求访问服务器中的该资源时，首先会先检查强制缓存是否过期：</p>
+<ul>
+<li>如果没有过期，则直接使用本地缓存；</li>
+<li>如果缓存过期了，会在 Request 头部加上 If-None-Match 字段，该字段的值就是 ETag 唯一标识；</li>
+</ul>
+</li>
+<li><p>服务器再次收到请求后，</p>
+<p>会根据请求中的 If-None-Match 值与当前请求的资源生成的唯一标识进行比较：</p>
+<ul>
+<li><strong>如果值相等，则返回 304 Not Modified，不会返回资源</strong>；</li>
+<li>如果不相等，则返回 200 状态码和返回资源，并在 Response 头部加上新的 ETag 唯一标识；</li>
+</ul>
+</li>
+<li><p>如果浏览器收到 304 的请求响应状态码，则会从本地缓存中加载资源，否则更新资源。</p>
+</li>
+</ul>
+<h3 id="HTTP-1-1"><a href="#HTTP-1-1" class="headerlink" title="HTTP/1.1"></a>HTTP/1.1</h3><h4 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h4><ol>
+<li>简单：基本的报文格式就是<code>header+body</code>，头部信息也是<code>key-value</code>的简单文本的形式</li>
+<li>灵活和易于扩展：HTTP 协议里的各类请求方法、URI/URL、状态码、头字段等每个组成要求都没有被固定死，都允许开发人员<strong>自定义和扩充</strong>。</li>
+<li>应用广泛和跨平台：可以跨平台使用</li>
+</ol>
+<h4 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h4><ul>
+<li><p>无状态双刃剑：</p>
+<p>每次请求都需要验证用户的信息（解决办法，cookie或者jwt，或者Session）</p>
+</li>
+<li><p>明文传输的弊端：</p>
+<p>HTTP所有的信息都可以被窃取</p>
+</li>
+<li><p>不安全</p>
+<ul>
+<li>通信使用了明文</li>
+<li>不验证通信双方的身份</li>
+<li>无法证明报文的完整性</li>
+</ul>
+</li>
+</ul>
+<h4 id="性能："><a href="#性能：" class="headerlink" title="性能："></a>性能：</h4><p>HTTP协议是基于TCP/IP，并且使用了请求-应答的通信模式</p>
+<ul>
+<li><p>长连接：    </p>
+<p>只要任意一端没有明确提出断开连接，则保持TCP连接状态</p>
+<p>减少了TCP连接重复建立和断开所造成的开销，减轻了服务器端的负载</p>
+</li>
+<li><p>管道（pipeline）网络传输：</p>
+<ul>
+<li>在同一个TCP连接里，客户端可以发起多个请求，不需要等待回应，即可再发送请求，<strong>减少了整体的响应时间</strong></li>
+<li>问题：解决了请求的队头阻塞，但是没有解决响应的队头阻塞问题，并且没有使用</li>
+</ul>
+</li>
+<li><p>队头阻塞：</p>
+<p>当顺序发送的请求队列有一个请求没有没处理时，其他后面的请求都无法处理，一直阻塞</p>
+</li>
+</ul>
+<h4 id="优化："><a href="#优化：" class="headerlink" title="优化："></a>优化：</h4><ul>
+<li><p>避免发送HTTP请求：</p>
+<p>通过缓存技术，将响应的数据缓存在本地，获取本地数据的速度肯定要大于网路传输的速度</p>
+</li>
+<li><p>减少HTTP请求次数：</p>
+<ul>
+<li><p>减少重定向请求次数：</p>
+<p>将重定向工作交给代理服务器来完成，不用经过客户端</p>
+</li>
+<li><p>合并请求：</p>
+<ul>
+<li>减少了重复发送的HTTP头部</li>
+<li>解决方法：合并资源，到客户端后再将资源分解</li>
+</ul>
+</li>
+<li><p>延迟发送请求：</p>
+<p>按需获取，不需要所有资源都加载</p>
+</li>
+</ul>
+</li>
+<li><p>减少HTTP响应的数据大小</p>
+<p>对相应的资源进行压缩</p>
+<ul>
+<li><p>无损压缩：</p>
+<p>信息不会被破环，可以完全恢复成压缩前的模样</p>
+</li>
+<li><p>有损压缩：</p>
+<p>牺牲一些质量来减少数据量、提高压缩比。用于压缩多媒体数据，音频、视频、图片等</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h3><p>HTTPS 解决了 HTTP 不安全的缺陷，在 TCP 和 HTTP 网络层之间加入了SSL/TLS安全协议使得报文能够加密传输</p>
+<p>TCP三次握手之后，再进行SSL/TLS的握手过程，才可以进行加密报文传输</p>
+<h4 id="HTTP-的风险和-HTTPS-的解决"><a href="#HTTP-的风险和-HTTPS-的解决" class="headerlink" title="HTTP 的风险和 HTTPS 的解决"></a>HTTP 的风险和 HTTPS 的解决</h4><p>安全上存在三个风险</p>
+<ul>
+<li>窃听风险</li>
+<li>篡改风险</li>
+<li>冒充风险</li>
+</ul>
+<p>HTTPS的<code>SSL/TLS</code>协议的 解决办法：</p>
+<ul>
+<li>信息加密：交互信息无法被窃取 （混合加密）</li>
+<li>校验机制：无法篡改通信内容 （摘要算法+数字签名）</li>
+<li>身份证书：保证身份的准确性（数字证书）</li>
+</ul>
+<h5 id="混合加密"><a href="#混合加密" class="headerlink" title="混合加密"></a>混合加密</h5><p>HTTPS采用的是<strong>对称加密</strong>和<strong>非对称加密</strong>结合的方式</p>
+<ul>
+<li>再通信建立前采用<strong>非对称加密</strong>的方式，交换会话密钥:key:，后续就不再使用非对称加密</li>
+<li>再通信过程中全部使用<strong>对称加密</strong>的会话密钥:key:加密明文数据</li>
+</ul>
+<p>采用混合加密的原因：</p>
+<ul>
+<li><strong>对称加密</strong>只使用一个密钥，运算速度快，密钥必须保密，无法做到安全的密钥交换</li>
+<li><strong>非对称加密</strong>，使用公钥和私钥，解决了密钥交换问题但速度慢</li>
+</ul>
+<h5 id="摘要算法和数字签名"><a href="#摘要算法和数字签名" class="headerlink" title="摘要算法和数字签名"></a>摘要算法和数字签名</h5><p>利用摘要算法（哈希函数）来计算出内容的哈希值，也就是内容的指纹，之歌哈希值是唯一的，且无法通过哈希值推导出内容</p>
+<p>通过摘要算法可以保证内容不会被篡改，但是无法保证整个内容有没有被替换出去，缺少客户端收到的消息来源于服务端的证明</p>
+<p>采用<strong>非对称加密算法</strong>来解决这个问题：</p>
+<ul>
+<li>一个公钥，公开给所有人</li>
+<li>一个私钥，必须由本人管理，不可泄漏</li>
+</ul>
+<p>两个密钥可以互相加密或者解密，流程不同，目的也不同</p>
+<ul>
+<li><p><strong>公钥加密，私钥解密</strong>：</p>
+<ul>
+<li><strong>保证内容传输的安全</strong></li>
+<li>被公钥加密的内容，其他人是无法解密的，只有持有私钥的人才能解密</li>
+</ul>
+</li>
+<li><p><strong>私钥加密，公钥解密</strong>：</p>
+<ul>
+<li>保证消息不会被冒充</li>
+<li>私钥不可泄漏，如果公钥能够正常解密出私钥加密的内容，就说米这个消息时来源于持有私钥身份的人发送的</li>
+</ul>
+</li>
+</ul>
+<p>数字签名算法：就是通过私钥加密，公钥解密的方式来确认消息的身份</p>
+<h5 id="数字证书"><a href="#数字证书" class="headerlink" title="数字证书"></a>数字证书</h5><ul>
+<li>已经保证了消息的完整性</li>
+<li>保证了消息来源的可靠性</li>
+</ul>
+<p>但是缺少身份验证的环节，可以私钥和公钥都被替换掉了</p>
+<p>因此，提出数字证书：</p>
+<p>「个人信息 + 公钥 + 数字签名」打包成一个数字证书</p>
+<p><img src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/image-20230419110359781.png" alt="image-20230419110359781" style="zoom: 80%;" /></p>
+<h4 id="HTTPS建立连接的流程"><a href="#HTTPS建立连接的流程" class="headerlink" title="HTTPS建立连接的流程"></a>HTTPS建立连接的流程</h4><p>SSL/TLS 协议的基本流程：</p>
+<ul>
+<li>客户端向服务器索要并验证服务器的公钥</li>
+<li>双方协商生产会话密钥</li>
+<li>双方采用会话密钥进行加密通信</li>
+</ul>
+<p>前两步也就是 SSL/TLS 的建立过程，也就是 TLS 握手阶段。</p>
+<p>TLS 的「握手阶段」涉及<strong>四次</strong>通信，使用不同的密钥交换算法，TLS 握手流程也会不一样的，现在常用的密钥交换算法有两种：RSA 算法 (opens new window)和 ECDHE 算法 (opens new window)。</p>
+<h4 id="RSA算法"><a href="#RSA算法" class="headerlink" title="RSA算法"></a>RSA算法</h4><p><img src="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/HTTP/23-HTTPS%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B.png" alt="HTTPS 连接建立过程"></p>
+<ul>
+<li>第一次握手：客户端发送 「<strong>Client Hello</strong>」里面有TLS版本号，随机数C，密码套件列表</li>
+<li>第二次握手：<ul>
+<li>服务器端发送「<strong>Server Hello</strong>」，里面有确认的TLS版本号，随机数S，密码套件（RSA）</li>
+<li>服务器端「<strong>Server Certificate</strong>」，里面有数字证书</li>
+<li>服务端发了「<strong>Server Hello Done</strong>」消息，告诉打招呼完毕</li>
+</ul>
+</li>
+<li>第三次握手：<ul>
+<li>客户端发送「<strong>Client Key Exchange</strong>」，里面包含加密后的随机数A，此时客户端已经有三个随机数，生成了<strong>会话密钥（Master Secret）</strong>。</li>
+<li>客户端发一个「<strong>Change Cipher Spec</strong>」，告诉服务器开始使用加密方式发送消息</li>
+<li>客户端发一个「<strong>Finish</strong>」</li>
+</ul>
+</li>
+<li>第四次握手：<ul>
+<li>服务器端发「<strong>Change Cipher Spec</strong>」告诉客户端开始使用加密方式发送消息</li>
+<li>服务器端发「<strong>Finish</strong>」</li>
+<li>服务器端会发「<strong>Encrypted Handshake Message</strong>」消息，让客户端验证对称密钥是否可以正常使用</li>
+</ul>
+</li>
+</ul>
+<h5 id="缺陷："><a href="#缺陷：" class="headerlink" title="缺陷："></a>缺陷：</h5><p>不支持前向保密</p>
+<p>因为客户端传递随机数（用于生成对称加密密钥的条件之一）给服务端时使用的是公钥加密的，服务端收到后，会用私钥解密得到随机数。所以一旦服务端的私钥泄漏了，过去被第三方截获的所有 TLS 通讯密文都会被破解</p>
+<h4 id="ECDHE算法"><a href="#ECDHE算法" class="headerlink" title="ECDHE算法"></a>ECDHE算法</h4><p><strong>使用了 ECDHE，在 TLS 第四次握手前，客户端就已经发送了加密的 HTTP 数据</strong>，而对于 RSA 握手过程，必须要完成 TLS 四次握手，才能传输应用数据。</p>
+<p>所以，<strong>ECDHE 相比 RSA 握手过程省去了一个消息往返的时间</strong>，这个有点「抢跑」的意思，它被称为是「<em>TLS False Start</em>」，跟「<em>TCP Fast Open</em>」有点像，都是在还没连接完全建立前，就发送了应用数据，这样便提高了传输的效率。</p>
+<ul>
+<li><p>第一次握手：客户端发送 「<strong>Client Hello</strong>」里面有TLS版本号，随机数C，密码套件列表</p>
+</li>
+<li><p>第二次握手：</p>
+<ul>
+<li><p>服务端发送「<strong>Server Hello</strong>」消息，里面有确认的TLS版本号，随机数S，密码套件（ECDHE）</p>
+</li>
+<li><p>服务器端发送「<strong>Server Certificate</strong>」，里面有数字证书</p>
+</li>
+<li>服务器端发送「<strong>Server Key Exchange</strong>」，里面有选择的椭圆曲线，椭圆曲线的公钥，密钥留在服务器内</li>
+<li>服务端发送「<strong>Server Hello Done</strong>」消息，告诉打招呼完毕</li>
+</ul>
+</li>
+</ul>
+<p><strong>最终的会话密钥，就是用「客户端随机数 + 服务端随机数 + x（ECDHE 算法算出的共享密钥） 」三个材料生成的</strong>。</p>
+<ul>
+<li><p>第三次握手：</p>
+<ul>
+<li>客户端发送「<strong>Client Key Exchange</strong>」，里面有椭圆曲线的公钥，私钥留在客户端内</li>
+<li>客户端会发一个「<strong>Change Cipher Spec</strong>」消息，告诉服务端后续改用对称算法加密通信。</li>
+<li>客户端会发「<strong>Encrypted Handshake Message</strong>」消息，让服务器端验证对称密钥是否可以正常使用</li>
+</ul>
+</li>
+<li><p>第四次握手：</p>
+<ul>
+<li>服务端 发「<strong>Change Cipher Spec</strong>」告诉客户端开始使用加密方式发送消息</li>
+<li>服务器端会发「<strong>Encrypted Handshake Message</strong>」消息，让客户端验证对称密钥是否可以正常使用</li>
+</ul>
+</li>
+</ul>
+<p>ECDHE密钥协商算法支持前向保密</p>
+<h4 id="HTTPS一定安全可靠么"><a href="#HTTPS一定安全可靠么" class="headerlink" title="HTTPS一定安全可靠么"></a>HTTPS一定安全可靠么</h4><p><img src="https://cdn.xiaolincoding.com/gh/xiaolincoder/network/http/https%E4%B8%AD%E9%97%B4%E4%BA%BA.drawio.png" alt="img"></p>
+<p>HTTPS 协议本身到目前为止还是没有任何漏洞的，即使你成功进行中间人攻击，本质上是利用了客户端的漏洞（用户点击继续访问或者被恶意导入伪造的根证书），并不是 HTTPS 不够安全。</p>
+<h4 id="优化：-1"><a href="#优化：-1" class="headerlink" title="优化："></a>优化：</h4><ul>
+<li>性能损耗：<ul>
+<li>第一个环节， TLS 协议握手过程；</li>
+<li>第二个环节，握手后的对称加密报文传输。</li>
+</ul>
+</li>
+<li><p>硬件优化：</p>
+<ul>
+<li><strong>HTTPS 协议是计算密集型，而不是 I/O 密集型</strong></li>
+<li>选择好的CPU</li>
+<li>选择可以<strong>支持 AES-NI 特性的 CPU</strong></li>
+</ul>
+</li>
+<li><p>软件优化：</p>
+<ul>
+<li>软件升级：<ul>
+<li>将 Linux 内核从 2.x 升级到 4.x；</li>
+<li>将 OpenSSL 从 1.0.1 升级到 1.1.1；</li>
+</ul>
+</li>
+<li>协议优化：<ul>
+<li>RSA 密钥交换算法的 TLS 握手过程，不仅慢，而且安全性也不高。</li>
+<li><strong>选用 ECDHE 密钥交换</strong>，支持「False Start」，<strong>而且安全性也高，具备前向安全性</strong></li>
+</ul>
+</li>
+<li>TLS升级：<ul>
+<li>TLS 1.2 升级成 TLS 1.3，<strong>完成 TLS 握手只要 1 RTT</strong>，而且安全性更高。</li>
+<li><strong>TLS 1.3 把 Hello 和公钥交换这两个消息合并成了一个消息，于是这样就减少到只需 1 RTT 就能完成 TLS 握手</strong>。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>证书优化：</p>
+<ul>
+<li>证书传输优化：选择ECDSA证书</li>
+<li>证书验证优化：</li>
+</ul>
+</li>
+<li><p>会话复用：</p>
+<p>TLS 握手的目的就是为了协商出会话密钥，也就是对称加密密钥，那我们如果我们把首次 TLS 握手协商的对称加密密钥缓存起来，待下次需要建立 HTTPS 连接时，直接「复用」这个密钥，不就减少 TLS 握手的性能损耗了吗？</p>
+<ul>
+<li><p>Session ID：<strong>客户端和服务器首次 TLS 握手连接后，双方会在内存缓存会话密钥，并用唯一的 Session ID 来标识</strong></p>
+<p>问题：</p>
+<ul>
+<li>现在网站服务一般是由多台服务器通过负载均衡提供服务的，<strong>客户端再次连接不一定会命中上次访问过的服务器</strong>，于是还要走完整的 TLS 握手过程；</li>
+<li>服务器必须保持每一个客户端的会话密钥，随着客户端的增多，<strong>服务器的内存压力也会越大</strong>。</li>
+</ul>
+</li>
+<li><p>Session Ticket：<strong>服务器不再缓存每个客户端的会话密钥，而是把缓存的工作交给了客户端</strong>，类似于 HTTP 的 Cookie。</p>
+</li>
+</ul>
+<p>二者都<strong>不具备前向安全性</strong></p>
+</li>
+</ul>
+<h3 id="HTTP-2"><a href="#HTTP-2" class="headerlink" title="HTTP/2"></a>HTTP/2</h3><h4 id="HTTP-1-1的问题"><a href="#HTTP-1-1的问题" class="headerlink" title="HTTP/1.1的问题"></a>HTTP/1.1的问题</h4><ul>
+<li><em>延迟难以下降</em>，虽然现在网络的「带宽」相比以前变多了，但是延迟降到一定幅度后，就很难再下降了，说白了就是到达了延迟的下限；</li>
+<li><em>并发连接有限</em>，谷歌浏览器最大并发连接数是 6 个，而且每一个连接都要经过 TCP 和 TLS 握手耗时，以及 TCP 慢启动过程给流量带来的影响；</li>
+<li><em>队头阻塞问题</em>，同一连接只能在完成一个 HTTP 事务（请求和响应）后，才能处理下一个事务；</li>
+<li><em>HTTP 头部巨大且重复</em>，由于 HTTP 协议是无状态的，每一个请求都得携带 HTTP 头部，特别是对于有携带 Cookie 的头部，而 Cookie 的大小通常很大；</li>
+<li><em>不支持服务器推送消息</em>，因此当客户端需要获取通知时，只能通过定时器不断地拉取消息，这无疑浪费大量了带宽和服务器资源。</li>
+</ul>
+<h4 id="HTTP-2兼容HTTP-1-1"><a href="#HTTP-2兼容HTTP-1-1" class="headerlink" title="HTTP/2兼容HTTP/1.1"></a>HTTP/2兼容HTTP/1.1</h4><h4 id="改进方面"><a href="#改进方面" class="headerlink" title="改进方面"></a>改进方面</h4><ul>
+<li>头部压缩：<ul>
+<li><strong>HPACK</strong> 算法压缩头部数据</li>
+</ul>
+</li>
+<li>二进制帧：<ul>
+<li>将 HTTP/1 的文本格式改成二进制格式传输数据，极大提高了 HTTP 传输效率</li>
+</ul>
+</li>
+<li>并发传输：<ul>
+<li>通过 Stream，<strong>多个 Stream 复用一条 TCP 连接，达到并发的效果</strong>，解决了 HTTP/1.1 队头阻塞的问题，提高了 HTTP 传输的吞吐量</li>
+</ul>
+</li>
+<li>服务器主动推送资源：<ul>
+<li>根据Stream的编号来实现推送，偶数号 Stream 发送资源给客户端。</li>
+<li>客户端发起的请求，必须使用的是奇数号 Stream，服务器主动的推送，使用的是偶数号 Stream。服务器在推送资源时，会通过 <code>PUSH_PROMISE</code> 帧传输 HTTP 头部，并通过帧中的 <code>Promised Stream ID</code> 字段告知客户端，接下来会在哪个偶数号 Stream 中发送包体。</li>
+</ul>
+</li>
+</ul>
+<h4 id="Stream"><a href="#Stream" class="headerlink" title="Stream"></a>Stream</h4><p><img src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/image-20230419115607305.png" alt="image-20230419115607305" style="zoom:80%;" /></p>
+<ul>
+<li>1 个 TCP 连接包含一个或者多个 Stream，Stream 是 HTTP/2 并发的关键技术；</li>
+<li>Stream 里可以包含 1 个或多个 Message，Message 对应 HTTP/1 中的请求或响应，由 HTTP 头部和包体构成；</li>
+<li>Message 里包含一条或者多个 Frame，Frame 是 HTTP/2 最小单位，以二进制压缩格式存放 HTTP/1 中的内容（头部和包体）；</li>
+</ul>
+<p><strong>不同 Stream 的帧是可以乱序发送的（因此可以并发不同的 Stream ）</strong>，因为每个帧的头部会携带 Stream ID 信息，所以接收端可以通过 Stream ID 有序组装成 HTTP 消息，而<strong>同一 Stream 内部的帧必须是严格有序的</strong>。</p>
+<p><img src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/image-20230419115832102.png" alt="image-20230419115832102"></p>
+<h4 id="缺陷：-1"><a href="#缺陷：-1" class="headerlink" title="缺陷："></a>缺陷：</h4><ul>
+<li><p>队头阻塞：</p>
+<ul>
+<li>HTTP/2 多个请求是跑在一个 TCP 连接中的，那么当 TCP 丢包时，整个 TCP 都要等待重传，那么就会阻塞该 TCP 连接中的所有请求。</li>
+<li>比如下图中，Stream 2 有一个 TCP 报文丢失了，那么即使收到了 Stream 3 和 Stream 4 的 TCP 报文，应用层也是无法读取读取的，相当于阻塞了 Stream 3 和 Stream 4 请求。    <img src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/image-20230419120120966.png" alt="image-20230419120120966"></li>
+</ul>
+</li>
+<li><p>TCP 与 TLS 的握手时延迟：</p>
+<ul>
+<li>TCP 三次握手和 TLS 四次握手（TLS 1.2）需要 3 个 RTT 的时延才能发出请求数据</li>
+</ul>
+</li>
+<li>网络迁移需要重新连接：<ul>
+<li>一个 TCP 连接是由四元组（源 IP 地址，源端口，目标 IP 地址，目标端口）确定的</li>
+<li>如果 IP 地址或者端口变动了，就会导致需要 TCP 与 TLS 重新握手</li>
+</ul>
+</li>
+</ul>
+<h3 id="HTTP-3"><a href="#HTTP-3" class="headerlink" title="HTTP/3"></a>HTTP/3</h3><p>针对HTTP/2中的问题，提出了HTTP/3来解决，主要就是使用了UDP协议，并且「应用层」实现了 <strong>QUIC 协议</strong>，让UDP协议变得可靠了</p>
+<h4 id="QUIC协议的特点"><a href="#QUIC协议的特点" class="headerlink" title="QUIC协议的特点"></a>QUIC协议的特点</h4><ul>
+<li>无队头阻塞：<ul>
+<li>QUIC 协议也有类似 HTTP/2 Stream 与多路复用的概念，也是可以在同一条连接上并发传输多个 Stream</li>
+<li>QUIC 使用的传输协议是 UDP，UDP 不关心数据包的顺序，如果数据包丢失，UDP 也不关心。</li>
+<li>而其他流的数据报文只要被完整接收，HTTP/3 就可以读取到数据。这与 HTTP/2 不同，HTTP/2 只要某个流中的数据包丢失了，其他流也会因此受影响。</li>
+</ul>
+</li>
+<li><p>更快的连接建立：</p>
+<ul>
+<li>QUIC 协议握手，这个握手过程只需要 1 RTT</li>
+<li><strong>QUIC 内部包含了 TLS，它在自己的帧会携带 TLS 里的“记录”，再加上 QUIC 使用的是 TLS 1.3，因此仅需 1 个 RTT 就可以「同时」完成建立连接与密钥协商，</strong></li>
+</ul>
+</li>
+<li><p>连接迁移：</p>
+<ul>
+<li>QUIC 协议通过<strong>连接 ID</strong> 来标记通信的两个端点，客户端和服务器可以各自选择一组 ID 来标记自己</li>
+<li>即使移动设备的网络变化后，导致 IP 地址变化了，只要仍保有上下文信息（比如连接 ID、TLS 密钥等），就可以“无缝”地复用原连接</li>
+</ul>
+</li>
+</ul>
+<h3 id="RPC"><a href="#RPC" class="headerlink" title="RPC"></a>RPC</h3><p><img src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/da970d16a205fb48d6a8bea14498814d.png" alt="四层网络协议"></p>
+<p><strong>RPC</strong>（<strong>R</strong>emote <strong>P</strong>rocedure <strong>C</strong>all），又叫做<strong>远程过程调用</strong>。它本身并不是一个具体的协议，而是一种<strong>调用方式</strong>。</p>
+<p> RPC 调用的协议目的是希望程序员能像调用本地方法那样去调用远端的服务方法。同时 RPC 有很多种实现方式，<strong>不一定非得基于 TCP 协议</strong>。</p>
+<p>内部集群的微服务之间则采用 RPC 协议进行通讯。</p>
+<p><strong>HTTP/2.0</strong> 在 <strong>HTTP/1.1</strong> 的基础上做了优化，性能可能比很多 RPC 协议都要好，但由于是这几年才出来的，所以也不太可能取代掉 RPC</p>
+<h4 id="HTTP和RPC的区别"><a href="#HTTP和RPC的区别" class="headerlink" title="HTTP和RPC的区别"></a>HTTP和RPC的区别</h4><ul>
+<li><p>服务发现</p>
+<ul>
+<li><strong>HTTP</strong> 中，你知道服务的域名，就可以通过 <strong>DNS 服务</strong>去解析得到它背后的 IP 地址，默认 80 端口</li>
+<li><strong>RPC</strong> 的话，就有些区别，一般会有专门的<strong>中间服务</strong>去保存服务名和IP信息，想要访问某个服务，就去这些中间服务去获得 IP 和端口信息</li>
+</ul>
+</li>
+<li><p>底层连接形式：</p>
+<ul>
+<li><strong>HTTP/1.1</strong> 协议为例，其默认在建立底层 TCP 连接之后会一直保持这个连接（<strong>Keep Alive</strong>）</li>
+<li><strong>RPC</strong> 协议，除了长连接以外，建个<strong>连接池</strong>，建立多条连接放在池内，要发数据的时候就从池里取一条连接出来，<strong>用完放回去，下次再复用</strong></li>
+<li><strong>由于连接池有利于提升网络请求性能，所以不少编程语言的网络库里都会给 HTTP 加个连接池</strong>，比如 <strong>Go</strong> 就是这么干的。</li>
+</ul>
+</li>
+<li>传输的内容：<ul>
+<li>HTTP/1.1，传的内容以字符串为主。Header 和 Body 都是如此。在 Body 这块，它使用 <strong>Json</strong> 来<strong>序列化</strong>结构体数据。比较冗余</li>
+<li>RPC，因为它定制化程度更高，采用体积更小的 Protobuf 或其他序列化协议去保存结构体数据</li>
+</ul>
+</li>
+</ul>
+<h3 id="WebScoket"><a href="#WebScoket" class="headerlink" title="WebScoket"></a>WebScoket</h3><p>场景需求：<strong>服务器主动发消息给客户端的场景</strong></p>
+<p>三种方式：</p>
+<h4 id="使用-HTTP-不断轮询："><a href="#使用-HTTP-不断轮询：" class="headerlink" title="使用 HTTP 不断轮询："></a>使用 HTTP 不断轮询：</h4><p><strong>网页的前端代码里不断定时发 HTTP 请求到服务器，服务器收到请求后给客户端响应消息。</strong></p>
+<p>一种「<strong>伪</strong>」服务器推的形式，是客户端自己不断偷偷请求服务器，只是用户无感知而已。</p>
+<p>常见方式：<strong>扫码登录</strong>：<strong>前端</strong>不知道扫没扫，向<strong>后端</strong>服务器询问</p>
+<p>但这样，会有两个比较明显的问题：</p>
+<ul>
+<li>当你打开 F12 页面时，你会发现满屏的 HTTP 请求。虽然很小，但这其实也消耗带宽，同时也会增加下游服务器的负担。</li>
+<li>最坏情况下，用户在扫码后，需要等个 1~2 秒，正好才触发下一次 HTTP 请求，然后才跳转页面，用户会感到<strong>明显的卡顿</strong>。</li>
+</ul>
+<h4 id="长轮询"><a href="#长轮询" class="headerlink" title="长轮询"></a>长轮询</h4><ul>
+<li>先将HTTP 请求<strong>超时设置的很大</strong>，<strong>在这 30 秒内只要服务器收到了扫码请求，就立马返回给客户端网页。如果超时，那就立马发起下一次请求。</strong></li>
+<li>这样就减少了 HTTP 请求的个数，并且由于大部分情况下，用户都会在某个 30 秒的区间内做扫码操作，所以响应也是及时的。</li>
+</ul>
+<p><img src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/1058a96ba35215c0f30accc3ff5bb824.png" alt="图片"></p>
+<h4 id="WebScoket-1"><a href="#WebScoket-1" class="headerlink" title="WebScoket"></a>WebScoket</h4><p><strong>同一时间里</strong>，<strong>双方</strong>都可以<strong>主动</strong>向对方发送数据。这就是所谓的<strong>全双工</strong>，适用于客户端和服务器之间都要互相主动发大量数据的场景。</p>
+<p>WebScoket建立流程：</p>
+<p><img src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/f4edd3018914fe6eb38fad6aa3fd2d65.png" alt="图片" style="zoom:80%;" /></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://MingYRY.github.io">Wenyu Yu</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://mingyry.github.io/mingyry/c6823846.html">https://mingyry.github.io/mingyry/c6823846.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://MingYRY.github.io" target="_blank">MingYRY</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/HTTP/">HTTP</a><a class="post-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></div><div class="post_share"><div class="social-share" data-image="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/OIP-C.Nks1ypQCAlR2iNorBkq70AHaHa" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://unpkg.com/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://unpkg.com/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/mingyry/a7eb5674.html" title="Java内存区域"><img class="cover" src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/java-runtime-data-areas-jdk1.8.png" onerror="onerror=null;src='https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img%2F404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Java内存区域</div></div></a></div><div class="next-post pull-right"><a href="/mingyry/248e04fe.html" title="计算机网络-IP"><img class="cover" src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/OIP-C.n00VyrViHz8XB18zbNSVuAHaD4" onerror="onerror=null;src='https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img%2F404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">计算机网络-IP</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/mingyry/248e04fe.html" title="计算机网络-IP"><img class="cover" src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/OIP-C.n00VyrViHz8XB18zbNSVuAHaD4" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2023-04-26</div><div class="title">计算机网络-IP</div></div></a></div><div><a href="/mingyry/96599ed7.html" title="计算机网络-TCP"><img class="cover" src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/tcp-86029986.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2023-04-26</div><div class="title">计算机网络-TCP</div></div></a></div><div><a href="/mingyry/d8da6227.html" title="计算机网络-UDP"><img class="cover" src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/UDP%2520Protocol%2520And%2520Its%2520working.png" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2023-04-26</div><div class="title">计算机网络-UDP</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-HTTP"><span class="toc-number">1.</span> <span class="toc-text">计算机网络-HTTP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP%EF%BC%9A%E8%B6%85%E6%96%87%E6%9C%AC%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AE"><span class="toc-number">1.1.</span> <span class="toc-text">HTTP：超文本传输协议</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTP%E5%B8%B8%E8%A7%81%E7%9A%84%E7%8A%B6%E6%80%81%E7%A0%81"><span class="toc-number">1.1.1.</span> <span class="toc-text">HTTP常见的状态码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Get%E6%96%B9%E6%B3%95%E5%92%8CPost%E6%96%B9%E6%B3%95"><span class="toc-number">1.1.2.</span> <span class="toc-text">Get方法和Post方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTP%E7%9A%84%E7%BC%93%E5%AD%98%E6%8A%80%E6%9C%AF"><span class="toc-number">1.1.3.</span> <span class="toc-text">HTTP的缓存技术</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%BC%BA%E5%88%B6%E7%BC%93%E5%AD%98"><span class="toc-number">1.1.3.1.</span> <span class="toc-text">强制缓存</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8D%8F%E5%95%86%E7%BC%93%E5%AD%98"><span class="toc-number">1.1.3.2.</span> <span class="toc-text">协商缓存</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP-1-1"><span class="toc-number">1.2.</span> <span class="toc-text">HTTP&#x2F;1.1</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%98%E7%82%B9%EF%BC%9A"><span class="toc-number">1.2.1.</span> <span class="toc-text">优点：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%BA%E7%82%B9%EF%BC%9A"><span class="toc-number">1.2.2.</span> <span class="toc-text">缺点：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%EF%BC%9A"><span class="toc-number">1.2.3.</span> <span class="toc-text">性能：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%98%E5%8C%96%EF%BC%9A"><span class="toc-number">1.2.4.</span> <span class="toc-text">优化：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTPS"><span class="toc-number">1.3.</span> <span class="toc-text">HTTPS</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTP-%E7%9A%84%E9%A3%8E%E9%99%A9%E5%92%8C-HTTPS-%E7%9A%84%E8%A7%A3%E5%86%B3"><span class="toc-number">1.3.1.</span> <span class="toc-text">HTTP 的风险和 HTTPS 的解决</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B7%B7%E5%90%88%E5%8A%A0%E5%AF%86"><span class="toc-number">1.3.1.1.</span> <span class="toc-text">混合加密</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%91%98%E8%A6%81%E7%AE%97%E6%B3%95%E5%92%8C%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D"><span class="toc-number">1.3.1.2.</span> <span class="toc-text">摘要算法和数字签名</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6"><span class="toc-number">1.3.1.3.</span> <span class="toc-text">数字证书</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTPS%E5%BB%BA%E7%AB%8B%E8%BF%9E%E6%8E%A5%E7%9A%84%E6%B5%81%E7%A8%8B"><span class="toc-number">1.3.2.</span> <span class="toc-text">HTTPS建立连接的流程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RSA%E7%AE%97%E6%B3%95"><span class="toc-number">1.3.3.</span> <span class="toc-text">RSA算法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%BC%BA%E9%99%B7%EF%BC%9A"><span class="toc-number">1.3.3.1.</span> <span class="toc-text">缺陷：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ECDHE%E7%AE%97%E6%B3%95"><span class="toc-number">1.3.4.</span> <span class="toc-text">ECDHE算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTPS%E4%B8%80%E5%AE%9A%E5%AE%89%E5%85%A8%E5%8F%AF%E9%9D%A0%E4%B9%88"><span class="toc-number">1.3.5.</span> <span class="toc-text">HTTPS一定安全可靠么</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%98%E5%8C%96%EF%BC%9A-1"><span class="toc-number">1.3.6.</span> <span class="toc-text">优化：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP-2"><span class="toc-number">1.4.</span> <span class="toc-text">HTTP&#x2F;2</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTP-1-1%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">1.4.1.</span> <span class="toc-text">HTTP&#x2F;1.1的问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTP-2%E5%85%BC%E5%AE%B9HTTP-1-1"><span class="toc-number">1.4.2.</span> <span class="toc-text">HTTP&#x2F;2兼容HTTP&#x2F;1.1</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%94%B9%E8%BF%9B%E6%96%B9%E9%9D%A2"><span class="toc-number">1.4.3.</span> <span class="toc-text">改进方面</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Stream"><span class="toc-number">1.4.4.</span> <span class="toc-text">Stream</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%BA%E9%99%B7%EF%BC%9A-1"><span class="toc-number">1.4.5.</span> <span class="toc-text">缺陷：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP-3"><span class="toc-number">1.5.</span> <span class="toc-text">HTTP&#x2F;3</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#QUIC%E5%8D%8F%E8%AE%AE%E7%9A%84%E7%89%B9%E7%82%B9"><span class="toc-number">1.5.1.</span> <span class="toc-text">QUIC协议的特点</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RPC"><span class="toc-number">1.6.</span> <span class="toc-text">RPC</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTP%E5%92%8CRPC%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.6.1.</span> <span class="toc-text">HTTP和RPC的区别</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#WebScoket"><span class="toc-number">1.7.</span> <span class="toc-text">WebScoket</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-HTTP-%E4%B8%8D%E6%96%AD%E8%BD%AE%E8%AF%A2%EF%BC%9A"><span class="toc-number">1.7.1.</span> <span class="toc-text">使用 HTTP 不断轮询：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%95%BF%E8%BD%AE%E8%AF%A2"><span class="toc-number">1.7.2.</span> <span class="toc-text">长轮询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#WebScoket-1"><span class="toc-number">1.7.3.</span> <span class="toc-text">WebScoket</span></a></li></ol></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background-image: url('https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img%2Fwallhaven-5g7rd3.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2023 By Wenyu Yu</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a href="https://MingYRY.github.io/">blog</a>!</div><p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px"><img src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&amp;logo=hexo" title="博客框架为Hexo"/></a><a class="github-badge" target="_blank" href="https://demo.jerryc.me/" style="margin-inline:5px"><img src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&amp;logo=bitdefender" title="主题版本Butterfly"/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px"><img src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub" title="本站项目由Gtihub托管"/></a><a class="github-badge" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" style="margin-inline:5px"><img src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&amp;logo=Claris" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"/></a><a class="github-badge" target="_blank" href="https://beian.miit.gov.cn/" style="margin-inline:5px"><img src="https://img.shields.io/badge/%E9%BB%91ICP%E5%A4%87-2023004985%E5%8F%B7--1-red" title="本站已在工信部备案"/></a></p></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://unpkg.com/@fancyapps/ui/dist/fancybox/fancybox.umd.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'JnVNUuheue1XlmfbyvgSY1Oe-gzGzoHsz',
+      appKey: 'bVRKDRonMGGQ5U4Me0xmipvT',
+      placeholder: '欢迎在博客中留言！ 1.昵称输入QQ号可以自动识别头像和QQ邮箱 2.博客留言中昵称和email必须填写 3.欢迎留下网址方便互相回访',
+      avatar: 'monsterid',
+      serverURLs: 'https://jnvnuuhe.lc-cn-n1-shared.com',
+      emojiMaps: "",
+      pageSize: '10',
+      master: '3451cd11a28a25de7691d4d856b929d3',   //博主邮箱md5加密32位小写
+      tagMeta: ["博主", "小伙伴", "访客"],     //标识字段名
+      friends: ['b412f37e42d89e15c8aaf065934eb62e'],  //小伙伴邮箱Md5
+      enableQQ: true,
+      lang: 'zh-CN',
+      path: window.location.pathname,
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('/js/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><div class="aplayer no-destroy" data-id="1384026889" data-server="netease" data-type="song" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-lrctype="1" data-preload="none" data-autoplay="true" muted></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://unpkg.com/butterfly-extsrc/dist/canvas-nest.min.js"></script><script id="click-show-text" src="https://unpkg.com/butterfly-extsrc/dist/click-show-text.min.js" data-mobile="false" data-text="乐观,健康,积极,自由,暴富,增肌,APEX" data-fontsize="15px" data-random="false" async="async"></script><link rel="stylesheet" href="https://unpkg.com/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://unpkg.com/aplayer/dist/APlayer.min.js"></script><script src="https://unpkg.com/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script src="https://unpkg.com/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><!-- hexo injector body_end start --><script async src="//at.alicdn.com/t/c/font_4015716_msa9w6uaxn.js"></script><!-- hexo injector body_end end --></body></html>
