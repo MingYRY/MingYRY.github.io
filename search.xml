@@ -38,7 +38,7 @@
       
       <categories>
           
-          <category> Hexo博客 </category>
+          <category> Hexo </category>
           
       </categories>
       
@@ -65,7 +65,7 @@
       
       <categories>
           
-          <category> 数据库 </category>
+          <category> Database </category>
           
           <category> MySQL </category>
           
@@ -74,7 +74,7 @@
       
         <tags>
             
-            <tag> 关系型数据库 </tag>
+            <tag> MySQL </tag>
             
         </tags>
       
@@ -317,14 +317,14 @@
       
       <categories>
           
-          <category> 计算机网络 </category>
+          <category> Computer Network </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> 计算机网络 </tag>
+            <tag> Computer Network </tag>
             
             <tag> HTTP </tag>
             
@@ -344,14 +344,14 @@
       
       <categories>
           
-          <category> 计算机网络 </category>
+          <category> Computer Network </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> 计算机网络 </tag>
+            <tag> Computer Network </tag>
             
             <tag> IP </tag>
             
@@ -371,14 +371,14 @@
       
       <categories>
           
-          <category> 计算机网络 </category>
+          <category> Computer Network </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> 计算机网络 </tag>
+            <tag> Computer Network </tag>
             
             <tag> TCP </tag>
             
@@ -398,7 +398,7 @@
       
       <categories>
           
-          <category> 计算机网络 </category>
+          <category> Computer Network </category>
           
       </categories>
       
@@ -407,7 +407,7 @@
             
             <tag> UDP </tag>
             
-            <tag> 计算机网络 </tag>
+            <tag> Computer Network </tag>
             
         </tags>
       
@@ -425,14 +425,14 @@
       
       <categories>
           
-          <category> 数据库 </category>
+          <category> Database </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> 数据库 </tag>
+            <tag> Database </tag>
             
         </tags>
       
