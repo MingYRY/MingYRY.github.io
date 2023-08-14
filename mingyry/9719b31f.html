@@ -1,0 +1,392 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>熔断与降级 | 明月依然的小站</title><meta name="author" content="Wenyu Yu"><meta name="copyright" content="Wenyu Yu"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="熔断与降级在高并发环境下，服务之间的依赖关系导致调用失败，解决的方式通常是: 限流-&gt;熔断-&gt;隔离-&gt;降级, 其目的是防止雪崩效应。 降级的目的在于应对系统自身的故障，而熔断的目的在于应对当前系统依赖的外部系统或者第三方系统的故障。 基本的容错模式 常见的容错模式主要包含以下几种方式   主动超时：Http请求主动设置一个超时时间，超时就直接返回，不会造成服务堆积 限流：限制最大">
+<meta property="og:type" content="article">
+<meta property="og:title" content="熔断与降级">
+<meta property="og:url" content="https://mingyry.github.io/mingyry/9719b31f.html">
+<meta property="og:site_name" content="明月依然的小站">
+<meta property="og:description" content="熔断与降级在高并发环境下，服务之间的依赖关系导致调用失败，解决的方式通常是: 限流-&gt;熔断-&gt;隔离-&gt;降级, 其目的是防止雪崩效应。 降级的目的在于应对系统自身的故障，而熔断的目的在于应对当前系统依赖的外部系统或者第三方系统的故障。 基本的容错模式 常见的容错模式主要包含以下几种方式   主动超时：Http请求主动设置一个超时时间，超时就直接返回，不会造成服务堆积 限流：限制最大">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/63126910.jpg">
+<meta property="article:published_time" content="2023-07-07T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-08-14T13:06:13.676Z">
+<meta property="article:author" content="Wenyu Yu">
+<meta property="article:tag" content="熔断">
+<meta property="article:tag" content="降级">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/63126910.jpg"><link rel="shortcut icon" href="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img%2Fwallhaven-85keej.png"><link rel="canonical" href="https://mingyry.github.io/mingyry/9719b31f.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/5.13.0/css/all.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?00e91e237345a7bf551803ef3d797bde";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://unpkg.com/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://unpkg.com/flickr-justified-gallery/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '熔断与降级',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-08-14 21:06:13'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://unpkg.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://unpkg.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = 'hidden';
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+
+preloader.initLoading()
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img%2Fluffy.png" onerror="onerror=null;src='https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img%2Ffriend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">49</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">38</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">18</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/63126910.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="明月依然的小站"><span class="site-name">明月依然的小站</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">熔断与降级</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="fa-fw post-meta-icon fas fa-history"></i><span class="post-meta-label">更新于</span><time datetime="2023-08-14T13:06:13.676Z" title="更新于 2023-08-14 21:06:13">2023-08-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>10分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="熔断与降级"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="熔断与降级"><a href="#熔断与降级" class="headerlink" title="熔断与降级"></a>熔断与降级</h1><p>在高并发环境下，<strong>服务之间的依赖关系导致调用失败，解决的方式通常是: 限流-&gt;熔断-&gt;隔离-&gt;降级, 其目的是防止雪崩效应</strong>。</p>
+<p>降级的目的在于应对系统自身的故障，而熔断的目的在于应对当前系统依赖的外部系统或者第三方系统的故障。</p>
+<h2 id="基本的容错模式"><a href="#基本的容错模式" class="headerlink" title="基本的容错模式"></a>基本的容错模式</h2><blockquote>
+<p>常见的容错模式主要包含以下几种方式</p>
+</blockquote>
+<ul>
+<li>主动超时：Http请求主动设置一个超时时间，超时就直接返回，不会造成服务堆积</li>
+<li>限流：限制最大并发数</li>
+<li>熔断：当错误数超过阈值时快速失败，不调用后端服务，同时隔一定时间放几个请求去重试后端服务是否能正常调用，如果成功则关闭熔断状态，失败则继续快速失败，直接返回。（此处有个重试，重试就是弹性恢复的能力）</li>
+<li>隔离：把每个依赖或调用的服务都隔离开来，防止级联失败引起整体服务不可用</li>
+<li>降级：服务失败或异常后，返回指定的默认信息</li>
+</ul>
+<h2 id="服务熔断"><a href="#服务熔断" class="headerlink" title="服务熔断"></a>服务熔断</h2><blockquote>
+<p>在互联网系统中，当下游服务因访问压力过大而响应变慢或失败，上游服务为了保护系统整体的可用性，可以暂时切断对下游服务的调用。</p>
+</blockquote>
+<h3 id="相关概念"><a href="#相关概念" class="headerlink" title="相关概念"></a>相关概念</h3><blockquote>
+<p>在学习服务熔断时，有必要区分下如下几个相关的概念。</p>
+</blockquote>
+<ul>
+<li>服务雪崩</li>
+</ul>
+<p>多个微服务之间调用的时候，假设微服务A调用微服务B和微服务C，微服务B和微服务C有调用其他的微服务，如果整个链路上某个微服务的调用响应式过长或者不可用，对微服务A的调用就会占用越来越多的系统资源，进而引起系统雪崩，所谓的”雪崩效应”</p>
+<ul>
+<li>断路器</li>
+</ul>
+<p>“断路器”本身是一种开关装置，当某个服务单元发生故障监控(类似熔断保险丝)，向调用方法返回一个符合预期的、可处理的备选响应(FallBack)，而不是长时间的等待或者抛出调用方法无法处理的异常，这样就保证了服务调用方的线程不会被长时间、不必要地占用，从而避免了故障在分布式系统中的蔓延。乃至雪崩。</p>
+<ul>
+<li>服务熔断</li>
+</ul>
+<p>熔断机制是应对雪崩效应的一种微服务链路保护机制，当整个链路的某个微服务不可用或者响应时间太长时，会进行服务的降级，进而熔断该节点微服务的调用，快速返回”错误”的响应信息。</p>
+<h3 id="断路器模式"><a href="#断路器模式" class="headerlink" title="断路器模式"></a>断路器模式</h3><p>它有两个基本状态（close和open）和一个基本trip动作：</p>
+<ul>
+<li>close状态下， client向supplier发起的服务请求， 直接无阻碍通过断路器， supplier的返回值接直接由断路器交回给client。</li>
+<li>open状态下，client向supplier发起的服务请求后，断路器不会将请求转到supplier, 而是直接返回client, client和supplier之间的通路是断的</li>
+<li>trip: 在close状态下，如果supplier持续超时报错， 达到规定的阀值后，断路器就发生trip, 之后断路器状态就会从close进入open。</li>
+</ul>
+<p>此外：需要额外的措施可以在supplier恢复服务后，可以重置断路器。一种可行的办法是断路器定期探测supplier的服务是否恢复， 一但恢复， 就将状态设置成close。断路器进行重试时的状态为半开（half-open）状态。</p>
+<h3 id="服务熔断中需考虑的设计"><a href="#服务熔断中需考虑的设计" class="headerlink" title="服务熔断中需考虑的设计"></a>服务熔断中需考虑的设计</h3><p>源自博主张善友的观点：</p>
+<ul>
+<li><strong>异常处理</strong>：调用受熔断器保护的服务的时候，我们必须要处理当服务不可用时的异常情况。这些异常处理通常需要视具体的业务情况而定。比如，如果应用程序只是暂时的功能降级，可能需要切换到其它的可替换的服务上来执行相同的任务或者获取相同的数据，或者给用户报告错误然后提示他们稍后重试。</li>
+<li><strong>异常的类型</strong>：请求失败的原因可能有很多种。一些原因可能会比其它原因更严重。比如，请求会失败可能是由于远程的服务崩溃，这可能需要花费数分钟来恢复；也可能是由于服务器暂时负载过重导致超时。熔断器应该能够检查错误的类型，从而根据具体的错误情况来调整策略。比如，可能需要很多次超时异常才可以断定需要切换到断开状态，而只需要几次错误提示就可以判断服务不可用而快速切换到断开状态。</li>
+<li><strong>日志</strong>：熔断器应该能够记录所有失败的请求，以及一些可能会尝试成功的请求，使得的管理员能够监控使用熔断器保护的服务的执行情况。 测试服务是否可用：在断开状态下，熔断器可以采用定期的ping远程的服务或者资源，来判断是否服务是否恢复，而不是使用计时器来自动切换到半断开状态。这种ping操作可以模拟之前那些失败的请求，或者可以使用通过调用远程服务提供的检查服务是否可用的方法来判断。</li>
+<li><strong>手动重置</strong>：在系统中对于失败操作的恢复时间是很难确定的，提供一个手动重置功能能够使得管理员可以手动的强制将熔断器切换到闭合状态。同样的，如果受熔断器保护的服务暂时不可用的话，管理员能够强制的将熔断器设置为断开状态。 并发问题：相同的熔断器有可能被大量并发请求同时访问。熔断器的实现不应该阻塞并发的请求或者增加每次请求调用的负担。 资源的差异性：使用单个熔断器时，一个资源如果有分布在多个地方就需要小心。比如，一个数据可能存储在多个磁盘分区上(shard)，某个分区可以正常访问，而另一个可能存在暂时性的问题。在这种情况下，不同的错误响应如果混为一谈，那么应用程序访问的这些存在问题的分区的失败的可能性就会高，而那些被认为是正常的分区，就有可能被阻塞。</li>
+<li><strong>加快熔断器的熔断操作</strong>:有时候，服务返回的错误信息足够让熔断器立即执行熔断操作并且保持一段时间。比如，如果从一个分布式资源返回的响应提示负载超重，那么应该等待几分钟后再重试。（HTTP协议定义了”HTTP 503 Service Unavailable”来表示请求的服务当前不可用，他可以包含其他信息比如，超时等）</li>
+<li><strong>重复失败请求</strong>：当熔断器在断开状态的时候，熔断器可以记录每一次请求的细节，而不是仅仅返回失败信息，这样当远程服务恢复的时候，可以将这些失败的请求再重新请求一次。</li>
+</ul>
+<h3 id="服务熔断恢复需注意的问题"><a href="#服务熔断恢复需注意的问题" class="headerlink" title="服务熔断恢复需注意的问题"></a>服务熔断恢复需注意的问题</h3><p>如果服务是幂等性的，则恢复重试不会有问题；而如果服务是非幂等性的，则重试会导致数据出现问题</p>
+<h2 id="服务降级"><a href="#服务降级" class="headerlink" title="服务降级"></a>服务降级</h2><h3 id="降级服务的特征"><a href="#降级服务的特征" class="headerlink" title="降级服务的特征"></a>降级服务的特征</h3><ul>
+<li>原因：整体负荷超出整体负载承受能力。</li>
+<li>目的：保证重要或基本服务正常运行，非重要服务<strong>延迟使用或暂停使用</strong></li>
+<li>大小：降低服务粒度，要考虑整体模块粒度的大小，将粒度控制在合适的范围内</li>
+<li>可控性：在服务粒度大小的基础上增加服务的可控性，后台服务开关的功能是一项必要配置（单机可配置文件，其他可领用数据库和缓存），可分为手动控制和自动控制。</li>
+<li>次序：一般<strong>从外围延伸服务</strong>开始降级，需要有一定的配置项，重要性低的优先降级，比如可以分组设置等级1-10，当服务需要降级到某一个级别时，进行相关配置</li>
+</ul>
+<h3 id="降级方式"><a href="#降级方式" class="headerlink" title="降级方式"></a>降级方式</h3><ul>
+<li>延迟服务：比如发表了评论，重要服务，比如在文章中显示正常，但是延迟给用户增加积分，只是放到一个缓存中，等服务平稳之后再执行。</li>
+<li>在粒度范围内关闭服务（片段降级或服务功能降级）：比如关闭相关文章的推荐，直接关闭推荐区</li>
+<li>页面异步请求降级：比如商品详情页上有推荐信息/配送至等异步加载的请求，如果这些信息响应慢或者后端服务有问题，可以进行降级；</li>
+<li>页面跳转（页面降级）：比如可以有相关文章推荐，但是更多的页面则直接跳转到某一个地址</li>
+<li>写降级：比如秒杀抢购，我们可以只进行Cache的更新，然后异步同步扣减库存到DB，保证最终一致性即可，此时可以将DB降级为Cache。</li>
+<li>读降级：比如多级缓存模式，如果后端服务有问题，可以降级为只读缓存，这种方式适用于对读一致性要求不高的场景。</li>
+</ul>
+<h3 id="降级预案"><a href="#降级预案" class="headerlink" title="降级预案"></a>降级预案</h3><p>在进行降级之前要对系统进行梳理，看看系统是不是可以丢卒保帅；从而梳理出哪些必须誓死保护，哪些可降级；比如可以参考日志级别设置预案：</p>
+<ul>
+<li>一般：比如有些服务偶尔因为网络抖动或者服务正在上线而超时，可以自动降级；</li>
+<li>警告：有些服务在一段时间内成功率有波动（如在95~100%之间），可以自动降级或人工降级，并发送告警；</li>
+<li>错误：比如可用率低于90%，或者数据库连接池被打爆了，或者访问量突然猛增到系统能承受的最大阀值，此时可以根据情况自动降级或者人工降级；</li>
+<li>严重错误：比如因为特殊原因数据错误了，此时需要紧急人工降级。</li>
+</ul>
+<h3 id="服务降级分类"><a href="#服务降级分类" class="headerlink" title="服务降级分类"></a>服务降级分类</h3><ul>
+<li>降级按照是否自动化可分为：自动开关降级（超时、失败次数、故障、限流）和人工开关降级（秒杀、电商大促等）。</li>
+<li>降级按照功能可分为：读服务降级、写服务降级。</li>
+<li>降级按照处于的系统层次可分为：多级降级。</li>
+</ul>
+<h3 id="自动降级分类"><a href="#自动降级分类" class="headerlink" title="自动降级分类"></a>自动降级分类</h3><ul>
+<li>超时降级：主要配置好超时时间和超时重试次数和机制，并使用异步机制探测回复情况</li>
+<li>失败次数降级：主要是一些不稳定的api，当失败调用次数达到一定阀值自动降级，同样要使用异步机制探测回复情况</li>
+<li>故障降级：比如要调用的远程服务挂掉了（网络故障、DNS故障、http服务返回错误的状态码、rpc服务抛出异常），则可以直接降级。降级后的处理方案有：默认值（比如库存服务挂了，返回默认现货）、兜底数据（比如广告挂了，返回提前准备好的一些静态页面）、缓存（之前暂存的一些缓存数据）</li>
+<li>限流降级: 当我们去秒杀或者抢购一些限购商品时，此时可能会因为访问量太大而导致系统崩溃，此时开发者会使用限流来进行限制访问量，当达到限流阀值，后续请求会被降级；降级后的处理方案可以是：排队页面（将用户导流到排队页面等一会重试）、无货（直接告知用户没货了）、错误页（如活动太火爆了，稍后重试）</li>
+</ul>
+<h3 id="服务降级需考虑的问题"><a href="#服务降级需考虑的问题" class="headerlink" title="服务降级需考虑的问题"></a>服务降级需考虑的问题</h3><ul>
+<li>核心服务或非核心服务。</li>
+<li>是否支持降级，及其降级策略。</li>
+<li>业务放通场景，极其策略。</li>
+</ul>
+<h3 id="服务熔断与服务降级比较"><a href="#服务熔断与服务降级比较" class="headerlink" title="服务熔断与服务降级比较"></a>服务熔断与服务降级比较</h3><p>服务熔断对服务提供了proxy，防止服务不可能时，出现串联故障（cascading failure），导致雪崩效应。</p>
+<p><strong>服务熔断一般是某个服务（下游服务）故障引起，而服务降级一般是从整体负荷考虑</strong>。</p>
+<ul>
+<li>共性： <ul>
+<li>目的 -&gt; 都是从可用性、可靠性出发，提高系统的容错能力。</li>
+<li>最终表现-&gt;使某一些应用不可达或不可用，来保证整体系统稳定。</li>
+<li>粒度 -&gt; 一般都是服务级别，但也有细粒度的层面：如做到数据持久层、只许查询不许增删改等。</li>
+<li>自治 -&gt; 对其自治性要求很高。都要求具有较高的自动处理机制。</li>
+</ul>
+</li>
+<li>区别： <ul>
+<li>触发原因 -&gt; 服务熔断通常是下级服务故障引起；服务降级通常为整体系统而考虑。</li>
+<li>管理目标 -&gt; 熔断是每个微服务都需要的，是一个框架级的处理；而服务降级一般是关注业务，对业务进行考虑，抓住业务的层级，从而决定在哪一层上进行处理：比如在IO层，业务逻辑层，还是在外围进行处理。</li>
+<li>实现方式 -&gt; 代码实现中的差异。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>参考文章：<a target="_blank" rel="noopener" href="https://pdai.tech/md/arch/arch-y-reduce.html">https://pdai.tech/md/arch/arch-y-reduce.html</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://MingYRY.github.io">Wenyu Yu</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://mingyry.github.io/mingyry/9719b31f.html">https://mingyry.github.io/mingyry/9719b31f.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://MingYRY.github.io" target="_blank">明月依然的小站</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%86%94%E6%96%AD/">熔断</a><a class="post-meta__tags" href="/tags/%E9%99%8D%E7%BA%A7/">降级</a></div><div class="post_share"><div class="social-share" data-image="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/63126910.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://unpkg.com/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://unpkg.com/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/mingyry/a654c162.html" title="Java并发面试题"><img class="cover" src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/aHR0cHM6Ly9tbWJpei5xcGljLmNuL21tYml6X3BuZy84MjJ5d2djOWRDSjVBd2J4b0F3a0ZDcVpQcnpnU0tvYkw1OVFqaWFoZlMyN0FGQTJIdUhySTRrMlgwQzZ6cUhHV3c4UGlhVjFYelhZbjZWZTJZcFRZWWpnLzY0MA.png" onerror="onerror=null;src='https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img%2F404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Java并发面试题</div></div></a></div><div class="next-post pull-right"><a href="/mingyry/2a553090.html" title="流量控制"><img class="cover" src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/63126910.jpg" onerror="onerror=null;src='https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img%2F404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">流量控制</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%86%94%E6%96%AD%E4%B8%8E%E9%99%8D%E7%BA%A7"><span class="toc-number">1.</span> <span class="toc-text">熔断与降级</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E7%9A%84%E5%AE%B9%E9%94%99%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.1.</span> <span class="toc-text">基本的容错模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E7%86%94%E6%96%AD"><span class="toc-number">1.2.</span> <span class="toc-text">服务熔断</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5"><span class="toc-number">1.2.1.</span> <span class="toc-text">相关概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%AD%E8%B7%AF%E5%99%A8%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.2.2.</span> <span class="toc-text">断路器模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E7%86%94%E6%96%AD%E4%B8%AD%E9%9C%80%E8%80%83%E8%99%91%E7%9A%84%E8%AE%BE%E8%AE%A1"><span class="toc-number">1.2.3.</span> <span class="toc-text">服务熔断中需考虑的设计</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E7%86%94%E6%96%AD%E6%81%A2%E5%A4%8D%E9%9C%80%E6%B3%A8%E6%84%8F%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">1.2.4.</span> <span class="toc-text">服务熔断恢复需注意的问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E9%99%8D%E7%BA%A7"><span class="toc-number">1.3.</span> <span class="toc-text">服务降级</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%99%8D%E7%BA%A7%E6%9C%8D%E5%8A%A1%E7%9A%84%E7%89%B9%E5%BE%81"><span class="toc-number">1.3.1.</span> <span class="toc-text">降级服务的特征</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%99%8D%E7%BA%A7%E6%96%B9%E5%BC%8F"><span class="toc-number">1.3.2.</span> <span class="toc-text">降级方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%99%8D%E7%BA%A7%E9%A2%84%E6%A1%88"><span class="toc-number">1.3.3.</span> <span class="toc-text">降级预案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E9%99%8D%E7%BA%A7%E5%88%86%E7%B1%BB"><span class="toc-number">1.3.4.</span> <span class="toc-text">服务降级分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E9%99%8D%E7%BA%A7%E5%88%86%E7%B1%BB"><span class="toc-number">1.3.5.</span> <span class="toc-text">自动降级分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E9%99%8D%E7%BA%A7%E9%9C%80%E8%80%83%E8%99%91%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">1.3.6.</span> <span class="toc-text">服务降级需考虑的问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E7%86%94%E6%96%AD%E4%B8%8E%E6%9C%8D%E5%8A%A1%E9%99%8D%E7%BA%A7%E6%AF%94%E8%BE%83"><span class="toc-number">1.3.7.</span> <span class="toc-text">服务熔断与服务降级比较</span></a></li></ol></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background-image: url('https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img%2Fwallhaven-5g7rd3.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2023 By Wenyu Yu</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a href="https://MingYRY.github.io/">blog</a>!</div><p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px"><img src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&amp;logo=hexo" title="博客框架为Hexo"/></a><a class="github-badge" target="_blank" href="https://demo.jerryc.me/" style="margin-inline:5px"><img src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&amp;logo=bitdefender" title="主题版本Butterfly"/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px"><img src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub" title="本站项目由Gtihub托管"/></a><a class="github-badge" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" style="margin-inline:5px"><img src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&amp;logo=Claris" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"/></a><a class="github-badge" target="_blank" href="https://beian.miit.gov.cn/" style="margin-inline:5px"><img src="https://img.shields.io/badge/%E9%BB%91ICP%E5%A4%87-2023004985%E5%8F%B7-lightgrey" title="本站已在工信部备案"/></a></p></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://unpkg.com/@fancyapps/ui/dist/fancybox/fancybox.umd.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'JnVNUuheue1XlmfbyvgSY1Oe-gzGzoHsz',
+      appKey: 'bVRKDRonMGGQ5U4Me0xmipvT',
+      placeholder: '欢迎在博客中留言！ 1.昵称输入QQ号可以自动识别头像和QQ邮箱 2.博客留言中昵称和email必须填写 3.欢迎留下网址方便互相回访',
+      avatar: 'monsterid',
+      serverURLs: 'https://jnvnuuhe.lc-cn-n1-shared.com',
+      emojiMaps: "",
+      pageSize: '10',
+      master: '3451cd11a28a25de7691d4d856b929d3',   //博主邮箱md5加密32位小写
+      tagMeta: ["博主", "小伙伴", "访客"],     //标识字段名
+      friends: ['b412f37e42d89e15c8aaf065934eb62e'],  //小伙伴邮箱Md5
+      enableQQ: true,
+      lang: 'zh-CN',
+      path: window.location.pathname,
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('/js/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><div class="aplayer no-destroy" data-id="1384026889" data-server="netease" data-type="song" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-lrctype="1" data-preload="none" data-autoplay="true" muted></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://unpkg.com/butterfly-extsrc/dist/canvas-nest.min.js"></script><script id="click-show-text" src="https://unpkg.com/butterfly-extsrc/dist/click-show-text.min.js" data-mobile="false" data-text="乐观,健康,积极,自由,暴富,增肌,APEX" data-fontsize="15px" data-random="false" async="async"></script><link rel="stylesheet" href="https://unpkg.com/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://unpkg.com/aplayer/dist/APlayer.min.js"></script><script src="https://unpkg.com/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script src="https://unpkg.com/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><!-- hexo injector body_end start --><script async src="//at.alicdn.com/t/c/font_4015716_msa9w6uaxn.js"></script><!-- hexo injector body_end end --></body></html>

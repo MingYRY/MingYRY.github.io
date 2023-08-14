@@ -1,0 +1,1160 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Java命名规范 | 明月依然的小站</title><meta name="author" content="Wenyu Yu"><meta name="copyright" content="Wenyu Yu"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="java命名规范Java 中的命名规范类一般采用大驼峰命名，方法和局部变量使用小驼峰命名，而大写下划线命名通常是常量和枚举中使用。     类型 约束 例     项目名 全部小写，多个单词用中划线分隔‘-’ spring-cloud   包名 全部小写 com.alibaba.fastjson   类名 单词首字母大写 Feature, ParserConfig,DefaultFieldDese">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java命名规范">
+<meta property="og:url" content="https://mingyry.github.io/mingyry/1761bce2.html">
+<meta property="og:site_name" content="明月依然的小站">
+<meta property="og:description" content="java命名规范Java 中的命名规范类一般采用大驼峰命名，方法和局部变量使用小驼峰命名，而大写下划线命名通常是常量和枚举中使用。     类型 约束 例     项目名 全部小写，多个单词用中划线分隔‘-’ spring-cloud   包名 全部小写 com.alibaba.fastjson   类名 单词首字母大写 Feature, ParserConfig,DefaultFieldDese">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/sadjakfsauwhdjasnkjdnad.jpg">
+<meta property="article:published_time" content="2023-03-31T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-08-14T13:06:13.651Z">
+<meta property="article:author" content="Wenyu Yu">
+<meta property="article:tag" content="Java命名规范">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/sadjakfsauwhdjasnkjdnad.jpg"><link rel="shortcut icon" href="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img%2Fwallhaven-85keej.png"><link rel="canonical" href="https://mingyry.github.io/mingyry/1761bce2.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/5.13.0/css/all.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?00e91e237345a7bf551803ef3d797bde";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://unpkg.com/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://unpkg.com/flickr-justified-gallery/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Java命名规范',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-08-14 21:06:13'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://unpkg.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://unpkg.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = 'hidden';
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+
+preloader.initLoading()
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img%2Fluffy.png" onerror="onerror=null;src='https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img%2Ffriend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">49</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">38</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">18</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/sadjakfsauwhdjasnkjdnad.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="明月依然的小站"><span class="site-name">明月依然的小站</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Java命名规范</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="fa-fw post-meta-icon fas fa-history"></i><span class="post-meta-label">更新于</span><time datetime="2023-08-14T13:06:13.651Z" title="更新于 2023-08-14 21:06:13">2023-08-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Java/">Java</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>13分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Java命名规范"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="java命名规范"><a href="#java命名规范" class="headerlink" title="java命名规范"></a>java命名规范</h1><h2 id="Java-中的命名规范"><a href="#Java-中的命名规范" class="headerlink" title="Java 中的命名规范"></a>Java 中的命名规范</h2><p><strong>类一般采用大驼峰命名，方法和局部变量使用小驼峰命名，而大写下划线命名通常是常量和枚举中使用。</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">类型</th>
+<th style="text-align:center">约束</th>
+<th style="text-align:center">例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">项目名</td>
+<td style="text-align:center">全部小写，多个单词用中划线分隔‘-’</td>
+<td style="text-align:center">spring-cloud</td>
+</tr>
+<tr>
+<td style="text-align:center">包名</td>
+<td style="text-align:center">全部小写</td>
+<td style="text-align:center">com.alibaba.fastjson</td>
+</tr>
+<tr>
+<td style="text-align:center">类名</td>
+<td style="text-align:center">单词首字母大写</td>
+<td style="text-align:center">Feature, ParserConfig,DefaultFieldDeserializer</td>
+</tr>
+<tr>
+<td style="text-align:center">变量名</td>
+<td style="text-align:center">首字母小写，多个单词组成时，除首个单词，其他单词首字母都要大写</td>
+<td style="text-align:center">password, userName</td>
+</tr>
+<tr>
+<td style="text-align:center">常量名</td>
+<td style="text-align:center">全部大写，多个单词，用’_’分隔</td>
+<td style="text-align:center">CACHE_EXPIRED_TIME</td>
+</tr>
+<tr>
+<td style="text-align:center">方法</td>
+<td style="text-align:center">同变量</td>
+<td style="text-align:center">read(), readObject(), getById()</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="包命名"><a href="#包命名" class="headerlink" title="包命名"></a>包命名</h2><p><strong>包名</strong>统一使用<strong>小写</strong>，<strong>点分隔符</strong>之间有且仅有一个自然语义的英文单词或者多个单词自然连接到一块（如 springframework，deepspace 不需要使用任何分割）。包名统一使用单数形式，如果类名有复数含义，则可以使用复数形式。</p>
+<p>包名的构成可以分为以下几四部分【前缀】 【发起者名】【项目名】【模块名】。常见的前缀可以分为以下几种：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">前缀名</th>
+<th style="text-align:center">例</th>
+<th style="text-align:center">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">indi（或 onem ）</td>
+<td style="text-align:center">indi.发起者名.项目名.模块名.……</td>
+<td style="text-align:center">个体项目，指个人发起，但非自己独自完成的项目，可公开或私有项目，copyright 主要属于发起者。</td>
+</tr>
+<tr>
+<td style="text-align:center">pers</td>
+<td style="text-align:center">pers.个人名.项目名.模块名.……</td>
+<td style="text-align:center">个人项目，指个人发起，独自完成，可分享的项目，copyright 主要属于个人</td>
+</tr>
+<tr>
+<td style="text-align:center">priv</td>
+<td style="text-align:center">priv.个人名.项目名.模块名.……</td>
+<td style="text-align:center">私有项目，指个人发起，独自完成，非公开的私人使用的项目，copyright 属于个人。</td>
+</tr>
+<tr>
+<td style="text-align:center">team</td>
+<td style="text-align:center">team.团队名.项目名.模块名.……</td>
+<td style="text-align:center">团队项目，指由团队发起，并由该团队开发的项目，copyright 属于该团队所有</td>
+</tr>
+<tr>
+<td style="text-align:center">顶级域名</td>
+<td style="text-align:center">com.公司名.项目名.模块名.……</td>
+<td style="text-align:center">公司项目，copyright 由项目发起的公司所有</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="类命名"><a href="#类命名" class="headerlink" title="类命名"></a>类命名</h2><p><strong>类名使用大驼峰命名形式</strong>，类命通常时<strong>名词或名词短语</strong>，接口名除了用名词和名词短语以外，还可以使用形容词或形容词短语，如 Cloneable，Callable 等，表示实现该接口的类有某种功能或能力。对于测试类则以它要测试的类开头，以 Test 结尾，如 HashMapTest。</p>
+<p>对于一些特殊特有名词缩写也可以使用全大写命名，比如 XMLHttpRequest，不过笔者认为缩写三个字母以内都大写，超过三个字母则按照要给单词算。这个没有标准如阿里巴巴中 fastjson 用 JSONObject 作为类命，而 google 则使用 JsonObjectRequest 命名，对于这种特殊的缩写，原则是统一就好。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">属性</th>
+<th style="text-align:left">约束</th>
+<th style="text-align:left">例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">抽象类</td>
+<td style="text-align:left">Abstract 或者 Base 开头</td>
+<td style="text-align:left">BaseUserService</td>
+</tr>
+<tr>
+<td style="text-align:left">枚举类</td>
+<td style="text-align:left">Enum 作为后缀</td>
+<td style="text-align:left">GenderEnum</td>
+</tr>
+<tr>
+<td style="text-align:left">工具类</td>
+<td style="text-align:left">Utils 作为后缀</td>
+<td style="text-align:left">StringUtils</td>
+</tr>
+<tr>
+<td style="text-align:left">异常类</td>
+<td style="text-align:left">Exception 结尾</td>
+<td style="text-align:left">RuntimeException</td>
+</tr>
+<tr>
+<td style="text-align:left">接口实现类</td>
+<td style="text-align:left">接口名+ Impl</td>
+<td style="text-align:left">UserServiceImpl</td>
+</tr>
+<tr>
+<td style="text-align:left">领域模型相关</td>
+<td style="text-align:left">/DO/DTO/VO/DAO</td>
+<td style="text-align:left">正例：UserDAO 反例：UserDo， UserDao</td>
+</tr>
+<tr>
+<td style="text-align:left">设计模式相关类</td>
+<td style="text-align:left">Builder，Factory 等</td>
+<td style="text-align:left">当使用到设计模式时，需要使用对应的设计模式作为后缀，如 ThreadFactory</td>
+</tr>
+<tr>
+<td style="text-align:left">处理特定功能的</td>
+<td style="text-align:left">Handler，Predicate, Validator</td>
+<td style="text-align:left">表示处理器，校验器，断言，这些类工厂还有配套的方法名如 handle，predicate，validate</td>
+</tr>
+<tr>
+<td style="text-align:left">测试类</td>
+<td style="text-align:left">Test 结尾</td>
+<td style="text-align:left">UserServiceTest， 表示用来测试 UserService 类的</td>
+</tr>
+<tr>
+<td style="text-align:left">MVC 分层</td>
+<td style="text-align:left">Controller，Service，ServiceImpl，DAO 后缀</td>
+<td style="text-align:left">UserManageController，UserManageDAO</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><p><strong>方法命名采用小驼峰的形式</strong>，首字小写，往后的每个单词首字母都要大写。和类名不同的是，方法命名一般为<strong>动词或动词短语</strong>，与参数或参数名共同组成动宾短语，即动词 + 名词。一个好的函数名一般能通过名字直接获知该函数实现什么样的功能。</p>
+<h3 id="4-1-返回真伪值的方法"><a href="#4-1-返回真伪值的方法" class="headerlink" title="4.1 返回真伪值的方法"></a>4.1 返回真伪值的方法</h3><p>注：Prefix-前缀，Suffix-后缀，Alone-单独使用</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">位置</th>
+<th style="text-align:left">单词</th>
+<th style="text-align:left">意义</th>
+<th style="text-align:left">例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Prefix</td>
+<td style="text-align:left">is</td>
+<td style="text-align:left">对象是否符合期待的状态</td>
+<td style="text-align:left">isValid</td>
+</tr>
+<tr>
+<td style="text-align:left">Prefix</td>
+<td style="text-align:left">can</td>
+<td style="text-align:left">对象<strong>能否执行</strong>所期待的动作</td>
+<td style="text-align:left">canRemove</td>
+</tr>
+<tr>
+<td style="text-align:left">Prefix</td>
+<td style="text-align:left">should</td>
+<td style="text-align:left">调用方执行某个命令或方法是<strong>好还是不好</strong>,<strong>应不应该</strong>，或者说<strong>推荐还是不推荐</strong></td>
+<td style="text-align:left">shouldMigrate</td>
+</tr>
+<tr>
+<td style="text-align:left">Prefix</td>
+<td style="text-align:left">has</td>
+<td style="text-align:left">对象<strong>是否持有</strong>所期待的数据和属性</td>
+<td style="text-align:left">hasObservers</td>
+</tr>
+<tr>
+<td style="text-align:left">Prefix</td>
+<td style="text-align:left">needs</td>
+<td style="text-align:left">调用方<strong>是否需要</strong>执行某个命令或方法</td>
+<td style="text-align:left">needsMigrate</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="4-2-用来检查的方法"><a href="#4-2-用来检查的方法" class="headerlink" title="4.2 用来检查的方法"></a>4.2 用来检查的方法</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">单词</th>
+<th style="text-align:left">意义</th>
+<th style="text-align:left">例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">ensure</td>
+<td style="text-align:left">检查是否为期待的状态，不是则抛出异常或返回 error code</td>
+<td style="text-align:left">ensureCapacity</td>
+</tr>
+<tr>
+<td style="text-align:left">validate</td>
+<td style="text-align:left">检查是否为正确的状态，不是则抛出异常或返回 error code</td>
+<td style="text-align:left">validateInputs</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="4-3-按需求才执行的方法"><a href="#4-3-按需求才执行的方法" class="headerlink" title="4.3 按需求才执行的方法"></a>4.3 按需求才执行的方法</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">位置</th>
+<th style="text-align:left">单词</th>
+<th style="text-align:left">意义</th>
+<th style="text-align:left">例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Suffix</td>
+<td style="text-align:left">IfNeeded</td>
+<td style="text-align:left">需要的时候执行，不需要的时候什么都不做</td>
+<td style="text-align:left">drawIfNeeded</td>
+</tr>
+<tr>
+<td style="text-align:left">Prefix</td>
+<td style="text-align:left">might</td>
+<td style="text-align:left">同上</td>
+<td style="text-align:left">mightCreate</td>
+</tr>
+<tr>
+<td style="text-align:left">Prefix</td>
+<td style="text-align:left">try</td>
+<td style="text-align:left">尝试执行，失败时抛出异常或是返回 error code</td>
+<td style="text-align:left">tryCreate</td>
+</tr>
+<tr>
+<td style="text-align:left">Suffix</td>
+<td style="text-align:left">OrDefault</td>
+<td style="text-align:left">尝试执行，失败时返回默认值</td>
+<td style="text-align:left">getOrDefault</td>
+</tr>
+<tr>
+<td style="text-align:left">Suffix</td>
+<td style="text-align:left">OrElse</td>
+<td style="text-align:left">尝试执行、失败时返回实际参数中指定的值</td>
+<td style="text-align:left">getOrElse</td>
+</tr>
+<tr>
+<td style="text-align:left">Prefix</td>
+<td style="text-align:left">force</td>
+<td style="text-align:left">强制尝试执行。error 抛出异常或是返回值</td>
+<td style="text-align:left">forceCreate, forceStop</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="4-4-异步相关方法"><a href="#4-4-异步相关方法" class="headerlink" title="4.4 异步相关方法"></a>4.4 异步相关方法</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">位置</th>
+<th style="text-align:left">单词</th>
+<th style="text-align:left">意义</th>
+<th style="text-align:left">例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Prefix</td>
+<td style="text-align:left">blocking</td>
+<td style="text-align:left">线程阻塞方法</td>
+<td style="text-align:left">blockingGetUser</td>
+</tr>
+<tr>
+<td style="text-align:left">Suffix</td>
+<td style="text-align:left">InBackground</td>
+<td style="text-align:left">执行在后台的线程</td>
+<td style="text-align:left">doInBackground</td>
+</tr>
+<tr>
+<td style="text-align:left">Suffix</td>
+<td style="text-align:left">Async</td>
+<td style="text-align:left">异步方法</td>
+<td style="text-align:left">sendAsync</td>
+</tr>
+<tr>
+<td style="text-align:left">Suffix</td>
+<td style="text-align:left">Sync</td>
+<td style="text-align:left">对应已有异步方法的同步方法</td>
+<td style="text-align:left">sendSync</td>
+</tr>
+<tr>
+<td style="text-align:left">Prefix or Alone</td>
+<td style="text-align:left">schedule</td>
+<td style="text-align:left">Job 和 Task 放入队列</td>
+<td style="text-align:left">schedule, scheduleJob</td>
+</tr>
+<tr>
+<td style="text-align:left">Prefix or Alone</td>
+<td style="text-align:left">post</td>
+<td style="text-align:left">同上</td>
+<td style="text-align:left">postJob</td>
+</tr>
+<tr>
+<td style="text-align:left">Prefix or Alone</td>
+<td style="text-align:left">execute</td>
+<td style="text-align:left">执行异步方法（注：我一般拿这个做同步方法名）</td>
+<td style="text-align:left">execute, executeTask</td>
+</tr>
+<tr>
+<td style="text-align:left">Prefix or Alone</td>
+<td style="text-align:left">start</td>
+<td style="text-align:left">同上</td>
+<td style="text-align:left">start, startJob</td>
+</tr>
+<tr>
+<td style="text-align:left">Prefix or Alone</td>
+<td style="text-align:left">cancel</td>
+<td style="text-align:left">停止异步方法</td>
+<td style="text-align:left">cancel, cancelJob</td>
+</tr>
+<tr>
+<td style="text-align:left">Prefix or Alone</td>
+<td style="text-align:left">stop</td>
+<td style="text-align:left">同上</td>
+<td style="text-align:left">stop, stopJob</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="4-5-回调方法"><a href="#4-5-回调方法" class="headerlink" title="4.5 回调方法"></a>4.5 回调方法</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">位置</th>
+<th style="text-align:left">单词</th>
+<th style="text-align:left">意义</th>
+<th style="text-align:left">例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Prefix</td>
+<td style="text-align:left">on</td>
+<td style="text-align:left">事件发生时执行</td>
+<td style="text-align:left">onCompleted</td>
+</tr>
+<tr>
+<td style="text-align:left">Prefix</td>
+<td style="text-align:left">before</td>
+<td style="text-align:left">事件发生前执行</td>
+<td style="text-align:left">beforeUpdate</td>
+</tr>
+<tr>
+<td style="text-align:left">Prefix</td>
+<td style="text-align:left">pre</td>
+<td style="text-align:left">同上</td>
+<td style="text-align:left">preUpdate</td>
+</tr>
+<tr>
+<td style="text-align:left">Prefix</td>
+<td style="text-align:left">will</td>
+<td style="text-align:left">同上</td>
+<td style="text-align:left">willUpdate</td>
+</tr>
+<tr>
+<td style="text-align:left">Prefix</td>
+<td style="text-align:left">after</td>
+<td style="text-align:left">事件发生后执行</td>
+<td style="text-align:left">afterUpdate</td>
+</tr>
+<tr>
+<td style="text-align:left">Prefix</td>
+<td style="text-align:left">post</td>
+<td style="text-align:left">同上</td>
+<td style="text-align:left">postUpdate</td>
+</tr>
+<tr>
+<td style="text-align:left">Prefix</td>
+<td style="text-align:left">did</td>
+<td style="text-align:left">同上</td>
+<td style="text-align:left">didUpdate</td>
+</tr>
+<tr>
+<td style="text-align:left">Prefix</td>
+<td style="text-align:left">should</td>
+<td style="text-align:left">确认事件是否可以发生时执行</td>
+<td style="text-align:left">shouldUpdate</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="4-6-操作对象生命周期的方法"><a href="#4-6-操作对象生命周期的方法" class="headerlink" title="4.6 操作对象生命周期的方法"></a>4.6 操作对象生命周期的方法</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">单词</th>
+<th style="text-align:left">意义</th>
+<th style="text-align:left">例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">initialize</td>
+<td style="text-align:left">初始化。也可作为延迟初始化使用</td>
+<td style="text-align:left">initialize</td>
+</tr>
+<tr>
+<td style="text-align:left">pause</td>
+<td style="text-align:left">暂停</td>
+<td style="text-align:left">onPause ，pause</td>
+</tr>
+<tr>
+<td style="text-align:left">stop</td>
+<td style="text-align:left">停止</td>
+<td style="text-align:left">onStop，stop</td>
+</tr>
+<tr>
+<td style="text-align:left">abandon</td>
+<td style="text-align:left">销毁的替代</td>
+<td style="text-align:left">abandon</td>
+</tr>
+<tr>
+<td style="text-align:left">destroy</td>
+<td style="text-align:left">同上</td>
+<td style="text-align:left">destroy</td>
+</tr>
+<tr>
+<td style="text-align:left">dispose</td>
+<td style="text-align:left">同上</td>
+<td style="text-align:left">dispose</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="4-7-与集合操作相关的方法"><a href="#4-7-与集合操作相关的方法" class="headerlink" title="4.7 与集合操作相关的方法"></a>4.7 与集合操作相关的方法</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">单词</th>
+<th style="text-align:left">意义</th>
+<th style="text-align:left">例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">contains</td>
+<td style="text-align:left">是否持有与指定对象相同的对象</td>
+<td style="text-align:left">contains</td>
+</tr>
+<tr>
+<td style="text-align:left">add</td>
+<td style="text-align:left">添加</td>
+<td style="text-align:left">addJob</td>
+</tr>
+<tr>
+<td style="text-align:left">append</td>
+<td style="text-align:left">添加</td>
+<td style="text-align:left">appendJob</td>
+</tr>
+<tr>
+<td style="text-align:left">insert</td>
+<td style="text-align:left">插入到下标 n</td>
+<td style="text-align:left">insertJob</td>
+</tr>
+<tr>
+<td style="text-align:left">put</td>
+<td style="text-align:left">添加与 key 对应的元素</td>
+<td style="text-align:left">putJob</td>
+</tr>
+<tr>
+<td style="text-align:left">remove</td>
+<td style="text-align:left">移除元素</td>
+<td style="text-align:left">removeJob</td>
+</tr>
+<tr>
+<td style="text-align:left">enqueue</td>
+<td style="text-align:left">添加到队列的最末位</td>
+<td style="text-align:left">enqueueJob</td>
+</tr>
+<tr>
+<td style="text-align:left">dequeue</td>
+<td style="text-align:left">从队列中头部取出并移除</td>
+<td style="text-align:left">dequeueJob</td>
+</tr>
+<tr>
+<td style="text-align:left">push</td>
+<td style="text-align:left">添加到栈头</td>
+<td style="text-align:left">pushJob</td>
+</tr>
+<tr>
+<td style="text-align:left">pop</td>
+<td style="text-align:left">从栈头取出并移除</td>
+<td style="text-align:left">popJob</td>
+</tr>
+<tr>
+<td style="text-align:left">peek</td>
+<td style="text-align:left">从栈头取出但不移除</td>
+<td style="text-align:left">peekJob</td>
+</tr>
+<tr>
+<td style="text-align:left">find</td>
+<td style="text-align:left">寻找符合条件的某物</td>
+<td style="text-align:left">findById</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="4-8-与数据相关的方法"><a href="#4-8-与数据相关的方法" class="headerlink" title="4.8 与数据相关的方法"></a>4.8 与数据相关的方法</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">单词</th>
+<th style="text-align:left">意义</th>
+<th style="text-align:left">例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">create</td>
+<td style="text-align:left">新创建</td>
+<td style="text-align:left">createAccount</td>
+</tr>
+<tr>
+<td style="text-align:left">new</td>
+<td style="text-align:left">新创建</td>
+<td style="text-align:left">newAccount</td>
+</tr>
+<tr>
+<td style="text-align:left">from</td>
+<td style="text-align:left">从既有的某物新建，或是从其他的数据新建</td>
+<td style="text-align:left">fromConfig</td>
+</tr>
+<tr>
+<td style="text-align:left">to</td>
+<td style="text-align:left">转换</td>
+<td style="text-align:left">toString</td>
+</tr>
+<tr>
+<td style="text-align:left">update</td>
+<td style="text-align:left">更新既有某物</td>
+<td style="text-align:left">updateAccount</td>
+</tr>
+<tr>
+<td style="text-align:left">load</td>
+<td style="text-align:left">读取</td>
+<td style="text-align:left">loadAccount</td>
+</tr>
+<tr>
+<td style="text-align:left">fetch</td>
+<td style="text-align:left">远程读取</td>
+<td style="text-align:left">fetchAccount</td>
+</tr>
+<tr>
+<td style="text-align:left">delete</td>
+<td style="text-align:left">删除</td>
+<td style="text-align:left">deleteAccount</td>
+</tr>
+<tr>
+<td style="text-align:left">remove</td>
+<td style="text-align:left">删除</td>
+<td style="text-align:left">removeAccount</td>
+</tr>
+<tr>
+<td style="text-align:left">save</td>
+<td style="text-align:left">保存</td>
+<td style="text-align:left">saveAccount</td>
+</tr>
+<tr>
+<td style="text-align:left">store</td>
+<td style="text-align:left">保存</td>
+<td style="text-align:left">storeAccount</td>
+</tr>
+<tr>
+<td style="text-align:left">commit</td>
+<td style="text-align:left">保存</td>
+<td style="text-align:left">commitChange</td>
+</tr>
+<tr>
+<td style="text-align:left">apply</td>
+<td style="text-align:left">保存或应用</td>
+<td style="text-align:left">applyChange</td>
+</tr>
+<tr>
+<td style="text-align:left">clear</td>
+<td style="text-align:left">清除数据或是恢复到初始状态</td>
+<td style="text-align:left">clearAll</td>
+</tr>
+<tr>
+<td style="text-align:left">reset</td>
+<td style="text-align:left">清除数据或是恢复到初始状态</td>
+<td style="text-align:left">resetAll</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="4-9-成对出现的动词"><a href="#4-9-成对出现的动词" class="headerlink" title="4.9 成对出现的动词"></a>4.9 成对出现的动词</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">单词</th>
+<th style="text-align:left">意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">get 获取</td>
+<td style="text-align:left">set 设置</td>
+</tr>
+<tr>
+<td style="text-align:left">add 增加</td>
+<td style="text-align:left">remove 删除</td>
+</tr>
+<tr>
+<td style="text-align:left">create 创建</td>
+<td style="text-align:left">destory 移除</td>
+</tr>
+<tr>
+<td style="text-align:left">start 启动</td>
+<td style="text-align:left">stop 停止</td>
+</tr>
+<tr>
+<td style="text-align:left">open 打开</td>
+<td style="text-align:left">close 关闭</td>
+</tr>
+<tr>
+<td style="text-align:left">read 读取</td>
+<td style="text-align:left">write 写入</td>
+</tr>
+<tr>
+<td style="text-align:left">load 载入</td>
+<td style="text-align:left">save 保存</td>
+</tr>
+<tr>
+<td style="text-align:left">create 创建</td>
+<td style="text-align:left">destroy 销毁</td>
+</tr>
+<tr>
+<td style="text-align:left">begin 开始</td>
+<td style="text-align:left">end 结束</td>
+</tr>
+<tr>
+<td style="text-align:left">backup 备份</td>
+<td style="text-align:left">restore 恢复</td>
+</tr>
+<tr>
+<td style="text-align:left">import 导入</td>
+<td style="text-align:left">export 导出</td>
+</tr>
+<tr>
+<td style="text-align:left">split 分割</td>
+<td style="text-align:left">merge 合并</td>
+</tr>
+<tr>
+<td style="text-align:left">inject 注入</td>
+<td style="text-align:left">extract 提取</td>
+</tr>
+<tr>
+<td style="text-align:left">attach 附着</td>
+<td style="text-align:left">detach 脱离</td>
+</tr>
+<tr>
+<td style="text-align:left">bind 绑定</td>
+<td style="text-align:left">separate 分离</td>
+</tr>
+<tr>
+<td style="text-align:left">view 查看</td>
+<td style="text-align:left">browse 浏览</td>
+</tr>
+<tr>
+<td style="text-align:left">edit 编辑</td>
+<td style="text-align:left">modify 修改</td>
+</tr>
+<tr>
+<td style="text-align:left">select 选取</td>
+<td style="text-align:left">mark 标记</td>
+</tr>
+<tr>
+<td style="text-align:left">copy 复制</td>
+<td style="text-align:left">paste 粘贴</td>
+</tr>
+<tr>
+<td style="text-align:left">undo 撤销</td>
+<td style="text-align:left">redo 重做</td>
+</tr>
+<tr>
+<td style="text-align:left">insert 插入</td>
+<td style="text-align:left">delete 移除</td>
+</tr>
+<tr>
+<td style="text-align:left">add 加入</td>
+<td style="text-align:left">append 添加</td>
+</tr>
+<tr>
+<td style="text-align:left">clean 清理</td>
+<td style="text-align:left">clear 清除</td>
+</tr>
+<tr>
+<td style="text-align:left">index 索引</td>
+<td style="text-align:left">sort 排序</td>
+</tr>
+<tr>
+<td style="text-align:left">find 查找</td>
+<td style="text-align:left">search 搜索</td>
+</tr>
+<tr>
+<td style="text-align:left">increase 增加</td>
+<td style="text-align:left">decrease 减少</td>
+</tr>
+<tr>
+<td style="text-align:left">play 播放</td>
+<td style="text-align:left">pause 暂停</td>
+</tr>
+<tr>
+<td style="text-align:left">launch 启动</td>
+<td style="text-align:left">run 运行</td>
+</tr>
+<tr>
+<td style="text-align:left">compile 编译</td>
+<td style="text-align:left">execute 执行</td>
+</tr>
+<tr>
+<td style="text-align:left">debug 调试</td>
+<td style="text-align:left">trace 跟踪</td>
+</tr>
+<tr>
+<td style="text-align:left">observe 观察</td>
+<td style="text-align:left">listen 监听</td>
+</tr>
+<tr>
+<td style="text-align:left">build 构建</td>
+<td style="text-align:left">publish 发布</td>
+</tr>
+<tr>
+<td style="text-align:left">input 输入</td>
+<td style="text-align:left">output 输出</td>
+</tr>
+<tr>
+<td style="text-align:left">encode 编码</td>
+<td style="text-align:left">decode 解码</td>
+</tr>
+<tr>
+<td style="text-align:left">encrypt 加密</td>
+<td style="text-align:left">decrypt 解密</td>
+</tr>
+<tr>
+<td style="text-align:left">compress 压缩</td>
+<td style="text-align:left">decompress 解压缩</td>
+</tr>
+<tr>
+<td style="text-align:left">pack 打包</td>
+<td style="text-align:left">unpack 解包</td>
+</tr>
+<tr>
+<td style="text-align:left">parse 解析</td>
+<td style="text-align:left">emit 生成</td>
+</tr>
+<tr>
+<td style="text-align:left">connect 连接</td>
+<td style="text-align:left">disconnect 断开</td>
+</tr>
+<tr>
+<td style="text-align:left">send 发送</td>
+<td style="text-align:left">receive 接收</td>
+</tr>
+<tr>
+<td style="text-align:left">download 下载</td>
+<td style="text-align:left">upload 上传</td>
+</tr>
+<tr>
+<td style="text-align:left">refresh 刷新</td>
+<td style="text-align:left">synchronize 同步</td>
+</tr>
+<tr>
+<td style="text-align:left">update 更新</td>
+<td style="text-align:left">revert 复原</td>
+</tr>
+<tr>
+<td style="text-align:left">lock 锁定</td>
+<td style="text-align:left">unlock 解锁</td>
+</tr>
+<tr>
+<td style="text-align:left">check out 签出</td>
+<td style="text-align:left">check in 签入</td>
+</tr>
+<tr>
+<td style="text-align:left">submit 提交</td>
+<td style="text-align:left">commit 交付</td>
+</tr>
+<tr>
+<td style="text-align:left">push 推</td>
+<td style="text-align:left">pull 拉</td>
+</tr>
+<tr>
+<td style="text-align:left">expand 展开</td>
+<td style="text-align:left">collapse 折叠</td>
+</tr>
+<tr>
+<td style="text-align:left">begin 起始</td>
+<td style="text-align:left">end 结束</td>
+</tr>
+<tr>
+<td style="text-align:left">start 开始</td>
+<td style="text-align:left">finish 完成</td>
+</tr>
+<tr>
+<td style="text-align:left">enter 进入</td>
+<td style="text-align:left">exit 退出</td>
+</tr>
+<tr>
+<td style="text-align:left">abort 放弃</td>
+<td style="text-align:left">quit 离开</td>
+</tr>
+<tr>
+<td style="text-align:left">obsolete 废弃</td>
+<td style="text-align:left">depreciate 废旧</td>
+</tr>
+<tr>
+<td style="text-align:left">collect 收集</td>
+<td style="text-align:left">aggregate 聚集</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="变量-amp-常量命名"><a href="#变量-amp-常量命名" class="headerlink" title="变量&amp;常量命名"></a>变量&amp;常量命名</h2><h3 id="5-1-变量命名"><a href="#5-1-变量命名" class="headerlink" title="5.1 变量命名"></a>5.1 变量命名</h3><p>变量是指在程序运行中可以改变其值的量，包括成员变量和局部变量。变量名由多单词组成时，第一个单词的首字母小写，其后单词的首字母大写，俗称骆驼式命名法（也称驼峰命名法），如 computedValues，index、变量命名时，尽量简短且能清楚的表达变量的作用，命名体现具体的业务含义即可。</p>
+<p>变量名不应以下划线或美元符号开头，尽管这在语法上是允许的。变量名应简短且富于描述。变量名的选用应该易于记忆，即，能够指出其用途。尽量避免单个字符的变量名，除非是一次性的临时变量。pojo 中的布尔变量，都不要加 is(数据库中的布尔字段全都要加 is_ 前缀)。</p>
+<h3 id="5-2-常量命名"><a href="#5-2-常量命名" class="headerlink" title="5.2 常量命名"></a>5.2 常量命名</h3><p>常量命名 CONSTANT_CASE，一般采用全部大写（作为方法参数时除外），单词间用下划线分割。那么什么是常量呢？</p>
+<p>常量是在作用域内保持不变的值，一般使用 final 进行修饰。一般分为三种，全局常量（public static final 修饰），类内常量（private static final 修饰）以及局部常量（方法内，或者参数中的常量），局部常量比较特殊，通常采用小驼峰命名即可。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 一个demo</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Jann Lee</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2019-12-07 00:25</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line">publicclass HelloWorld &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 局部常量(正例)</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">USER_MESSAGE_CACHE_EXPIRE_TIME</span> <span class="operator">=</span> <span class="number">3600</span>;</span><br><span class="line"></span><br><span class="line">      <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 局部常量(反例，命名不清晰）</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">MESSAGE_CACHE_TIME</span> <span class="operator">=</span> <span class="number">3600</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 全局常量</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">ERROR_MESSAGE</span> <span class="operator">=</span> <span class="string">&quot;error message&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 成员变量</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> currentUserId;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 控制台打印 &#123;<span class="doctag">@code</span> message&#125; 信息</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> message 消息体，局部常量</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">sayHello</span><span class="params">(<span class="keyword">final</span> String message)</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Hello world!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>常量一般都有自己的业务含义,<strong>不要害怕长度过长而进行省略或者缩写</strong>。如，用户消息缓存过期时间的表示，那种方式更佳清晰，交给你来评判。</p>
+<h2 id="通用命名规则"><a href="#通用命名规则" class="headerlink" title="通用命名规则"></a>通用命名规则</h2><ol>
+<li>尽量不要使用拼音；杜绝拼音和英文混用。对于一些通用的表示或者难以用英文描述的可以采用拼音，一旦采用拼音就坚决不能和英文混用。正例：BeiJing， HangZhou  反例：validateCanShu</li>
+<li>命名过程中尽量不要出现特殊的字符，常量除外。</li>
+<li>尽量不要和 jdk 或者框架中已存在的类重名，也不能使用 java 中的关键字命名。</li>
+<li>妙用介词，如 for(可以用同音的 4 代替), to(可用同音的 2 代替), from, with，of 等。如类名采用 User4RedisDO，方法名 getUserInfoFromRedis，convertJson2Map 等。</li>
+</ol>
+<h2 id="代码注解"><a href="#代码注解" class="headerlink" title="代码注解"></a>代码注解</h2><h3 id="6-1-注解的原则"><a href="#6-1-注解的原则" class="headerlink" title="6.1 注解的原则"></a>6.1 注解的原则</h3><p>好的命名增加代码阅读性，代码的命名往往有严格的限制。而注解不同，程序员往往可以自由发挥，单并不意味着可以为所欲为之胡作非为。优雅的注解通常要满足三要素。</p>
+<ol>
+<li>Nothing is strange 没有注解的代码对于阅读者非常不友好，哪怕代码写的在清除，阅读者至少从心理上会有抵触，更何况代码中往往有许多复杂的逻辑，所以一定要写注解，不仅要记录代码的逻辑，还有说清楚修改的逻辑。</li>
+<li>Less is more 从代码维护角度来讲，代码中的注解一定是精华中的精华。合理清晰的命名能让代码易于理解，对于逻辑简单且命名规范，能够清楚表达代码功能的代码不需要注解。滥用注解会增加额外的负担，更何况大部分都是废话。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 根据id获取信息【废话注解】</span></span><br><span class="line">getMessageById(id)</span><br></pre></td></tr></table></figure>
+<ol>
+<li>Advance with the time 注解应该随着代码的变动而改变，注解表达的信息要与代码中完全一致。通常情况下修改代码后一定要修改注解。</li>
+</ol>
+<h3 id="6-2-注解格式"><a href="#6-2-注解格式" class="headerlink" title="6.2 注解格式"></a>6.2 注解格式</h3><p>注解大体上可以分为两种，一种是 javadoc 注解，另一种是简单注解。javadoc 注解可以生成 JavaAPI 为外部用户提供有效的支持 javadoc 注解通常在使用 IDEA，或者 Eclipse 等开发工具时都可以自动生成，也支持自定义的注解模板，仅需要对对应的字段进行解释。参与同一项目开发的同学，尽量设置成相同的注解模板。</p>
+<h4 id="a-包注解"><a href="#a-包注解" class="headerlink" title="a. 包注解"></a>a. 包注解</h4><p>包注解在工作中往往比较特殊，通过包注解可以快速知悉当前包下代码是用来实现哪些功能，强烈建议工作中加上，尤其是对于一些比较复杂的包，包注解一般在包的根目录下，名称统一为 package-info.java。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 落地也质量检测</span></span><br><span class="line"><span class="comment"> * 1. 用来解决什么问题</span></span><br><span class="line"><span class="comment"> * 对广告主投放的广告落地页进行性能检测，模拟不同的系统，如Android，IOS等; 模拟不同的网络：2G，3G，4G，wifi等</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * 2. 如何实现</span></span><br><span class="line"><span class="comment"> * 基于chrome浏览器，用chromedriver驱动浏览器，设置对应的网络，OS参数，获取到浏览器返回结果。</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * 注意：网络环境配置信息&#123;<span class="doctag">@link</span> cn.mycookies.landingpagecheck.meta.NetWorkSpeedEnum&#125;目前使用是常规速度，可以根据实际情况进行调整</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> cruder</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@time</span> 2019/12/7 20:3 下午</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">package</span> cn.mycookies.landingpagecheck;</span><br></pre></td></tr></table></figure>
+<h4 id="b-类注接"><a href="#b-类注接" class="headerlink" title="b. 类注接"></a>b. 类注接</h4><p>javadoc 注解中，每个类都必须有注解。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* Copyright (C), 2019-2020, Jann  balabala...</span></span><br><span class="line"><span class="comment">*</span></span><br><span class="line"><span class="comment">* 类的介绍：这是一个用来做什么事情的类，有哪些功能，用到的技术.....</span></span><br><span class="line"><span class="comment">*</span></span><br><span class="line"><span class="comment">* <span class="doctag">@author</span>   类创建者姓名 保持对齐</span></span><br><span class="line"><span class="comment">* <span class="doctag">@date</span>     创建日期 保持对齐</span></span><br><span class="line"><span class="comment">* <span class="doctag">@version</span>  版本号 保持对齐</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+<h4 id="c-属性注解"><a href="#c-属性注解" class="headerlink" title="c. 属性注解"></a>c. 属性注解</h4><p>在每个属性前面必须加上属性注释，通常有一下两种形式，至于怎么选择，你高兴就好，不过一个项目中要保持统一。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** 提示信息 */</span></span><br><span class="line"><span class="keyword">private</span> String userName;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 密码</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> String password;</span><br></pre></td></tr></table></figure>
+<h4 id="d-方法注释"><a href="#d-方法注释" class="headerlink" title="d. 方法注释"></a>d. 方法注释</h4><p>在每个方法前面必须加上方法注释，对于方法中的每个参数，以及返回值都要有说明。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">  * 方法的详细说明，能干嘛，怎么实现的，注意事项...</span></span><br><span class="line"><span class="comment">  *</span></span><br><span class="line"><span class="comment">  * <span class="doctag">@param</span> xxx 	 参数1的使用说明， 能否为null</span></span><br><span class="line"><span class="comment">  * <span class="doctag">@return</span> 返回结果的说明， 不同情况下会返回怎样的结果</span></span><br><span class="line"><span class="comment">  * <span class="doctag">@throws</span> 异常类型   注明从此类方法中抛出异常的说明</span></span><br><span class="line"><span class="comment">  */</span></span><br></pre></td></tr></table></figure>
+<h4 id="e-构造方法注释"><a href="#e-构造方法注释" class="headerlink" title="e. 构造方法注释"></a>e. 构造方法注释</h4><p>在每个构造方法前面必须加上注释，注释模板如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">  * 构造方法的详细说明</span></span><br><span class="line"><span class="comment">  *</span></span><br><span class="line"><span class="comment">  * <span class="doctag">@param</span> xxx 	 参数1的使用说明， 能否为null</span></span><br><span class="line"><span class="comment">  * <span class="doctag">@throws</span> 异常类型   注明从此类方法中抛出异常的说明</span></span><br><span class="line"><span class="comment">  */</span></span><br></pre></td></tr></table></figure>
+<p>而简单注解往往是需要工程师字节定义，在使用注解时应该注意一下几点：</p>
+<ol>
+<li>枚举类的各个属性值都要使用注解，枚举可以理解为是常量，通常不会发生改变，通常会被在多个地方引用，对枚举的修改和添加属性通常会带来很大的影响。</li>
+<li>保持排版整洁，不要使用行尾注释；双斜杠和星号之后要用 1 个空格分隔。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">id = <span class="number">1</span>;<span class="comment">// 反例：不要使用行尾注释</span></span><br><span class="line"><span class="comment">//反例：换行符与注释之间没有缩进</span></span><br><span class="line"><span class="type">int</span> <span class="variable">age</span> <span class="operator">=</span> <span class="number">18</span>;</span><br><span class="line"><span class="comment">// 正例：姓名</span></span><br><span class="line">String name;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 1. 多行注释</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * 2. 对于不同的逻辑说明，可以用空行分隔</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://MingYRY.github.io">Wenyu Yu</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://mingyry.github.io/mingyry/1761bce2.html">https://mingyry.github.io/mingyry/1761bce2.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://MingYRY.github.io" target="_blank">明月依然的小站</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Java%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/">Java命名规范</a></div><div class="post_share"><div class="social-share" data-image="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/sadjakfsauwhdjasnkjdnad.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://unpkg.com/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://unpkg.com/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/mingyry/f35148c1.html" title="计算机网络-面试相关"><img class="cover" src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/Rasdadadadakfldjsgihs.png" onerror="onerror=null;src='https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img%2F404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">计算机网络-面试相关</div></div></a></div><div class="next-post pull-right"><a href="/mingyry/53d0684b.html" title="Linux"><img class="cover" src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/R-C.7802b52b7916c00014450891496fe04a" onerror="onerror=null;src='https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img%2F404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Linux</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#java%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83"><span class="toc-number">1.</span> <span class="toc-text">java命名规范</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Java-%E4%B8%AD%E7%9A%84%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83"><span class="toc-number">1.1.</span> <span class="toc-text">Java 中的命名规范</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8C%85%E5%91%BD%E5%90%8D"><span class="toc-number">1.2.</span> <span class="toc-text">包命名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B1%BB%E5%91%BD%E5%90%8D"><span class="toc-number">1.3.</span> <span class="toc-text">类命名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E6%B3%95"><span class="toc-number">1.4.</span> <span class="toc-text">方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E8%BF%94%E5%9B%9E%E7%9C%9F%E4%BC%AA%E5%80%BC%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-number">1.4.1.</span> <span class="toc-text">4.1 返回真伪值的方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-%E7%94%A8%E6%9D%A5%E6%A3%80%E6%9F%A5%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-number">1.4.2.</span> <span class="toc-text">4.2 用来检查的方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-%E6%8C%89%E9%9C%80%E6%B1%82%E6%89%8D%E6%89%A7%E8%A1%8C%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-number">1.4.3.</span> <span class="toc-text">4.3 按需求才执行的方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-%E5%BC%82%E6%AD%A5%E7%9B%B8%E5%85%B3%E6%96%B9%E6%B3%95"><span class="toc-number">1.4.4.</span> <span class="toc-text">4.4 异步相关方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-5-%E5%9B%9E%E8%B0%83%E6%96%B9%E6%B3%95"><span class="toc-number">1.4.5.</span> <span class="toc-text">4.5 回调方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-6-%E6%93%8D%E4%BD%9C%E5%AF%B9%E8%B1%A1%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-number">1.4.6.</span> <span class="toc-text">4.6 操作对象生命周期的方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-7-%E4%B8%8E%E9%9B%86%E5%90%88%E6%93%8D%E4%BD%9C%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-number">1.4.7.</span> <span class="toc-text">4.7 与集合操作相关的方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-8-%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%9B%B8%E5%85%B3%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-number">1.4.8.</span> <span class="toc-text">4.8 与数据相关的方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-9-%E6%88%90%E5%AF%B9%E5%87%BA%E7%8E%B0%E7%9A%84%E5%8A%A8%E8%AF%8D"><span class="toc-number">1.4.9.</span> <span class="toc-text">4.9 成对出现的动词</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%98%E9%87%8F-amp-%E5%B8%B8%E9%87%8F%E5%91%BD%E5%90%8D"><span class="toc-number">1.5.</span> <span class="toc-text">变量&amp;常量命名</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-%E5%8F%98%E9%87%8F%E5%91%BD%E5%90%8D"><span class="toc-number">1.5.1.</span> <span class="toc-text">5.1 变量命名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-%E5%B8%B8%E9%87%8F%E5%91%BD%E5%90%8D"><span class="toc-number">1.5.2.</span> <span class="toc-text">5.2 常量命名</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%9A%E7%94%A8%E5%91%BD%E5%90%8D%E8%A7%84%E5%88%99"><span class="toc-number">1.6.</span> <span class="toc-text">通用命名规则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E6%B3%A8%E8%A7%A3"><span class="toc-number">1.7.</span> <span class="toc-text">代码注解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-%E6%B3%A8%E8%A7%A3%E7%9A%84%E5%8E%9F%E5%88%99"><span class="toc-number">1.7.1.</span> <span class="toc-text">6.1 注解的原则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-%E6%B3%A8%E8%A7%A3%E6%A0%BC%E5%BC%8F"><span class="toc-number">1.7.2.</span> <span class="toc-text">6.2 注解格式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#a-%E5%8C%85%E6%B3%A8%E8%A7%A3"><span class="toc-number">1.7.2.1.</span> <span class="toc-text">a. 包注解</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#b-%E7%B1%BB%E6%B3%A8%E6%8E%A5"><span class="toc-number">1.7.2.2.</span> <span class="toc-text">b. 类注接</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#c-%E5%B1%9E%E6%80%A7%E6%B3%A8%E8%A7%A3"><span class="toc-number">1.7.2.3.</span> <span class="toc-text">c. 属性注解</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#d-%E6%96%B9%E6%B3%95%E6%B3%A8%E9%87%8A"><span class="toc-number">1.7.2.4.</span> <span class="toc-text">d. 方法注释</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#e-%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95%E6%B3%A8%E9%87%8A"><span class="toc-number">1.7.2.5.</span> <span class="toc-text">e. 构造方法注释</span></a></li></ol></li></ol></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background-image: url('https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img%2Fwallhaven-5g7rd3.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2023 By Wenyu Yu</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a href="https://MingYRY.github.io/">blog</a>!</div><p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px"><img src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&amp;logo=hexo" title="博客框架为Hexo"/></a><a class="github-badge" target="_blank" href="https://demo.jerryc.me/" style="margin-inline:5px"><img src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&amp;logo=bitdefender" title="主题版本Butterfly"/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px"><img src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub" title="本站项目由Gtihub托管"/></a><a class="github-badge" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" style="margin-inline:5px"><img src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&amp;logo=Claris" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"/></a><a class="github-badge" target="_blank" href="https://beian.miit.gov.cn/" style="margin-inline:5px"><img src="https://img.shields.io/badge/%E9%BB%91ICP%E5%A4%87-2023004985%E5%8F%B7-lightgrey" title="本站已在工信部备案"/></a></p></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://unpkg.com/@fancyapps/ui/dist/fancybox/fancybox.umd.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'JnVNUuheue1XlmfbyvgSY1Oe-gzGzoHsz',
+      appKey: 'bVRKDRonMGGQ5U4Me0xmipvT',
+      placeholder: '欢迎在博客中留言！ 1.昵称输入QQ号可以自动识别头像和QQ邮箱 2.博客留言中昵称和email必须填写 3.欢迎留下网址方便互相回访',
+      avatar: 'monsterid',
+      serverURLs: 'https://jnvnuuhe.lc-cn-n1-shared.com',
+      emojiMaps: "",
+      pageSize: '10',
+      master: '3451cd11a28a25de7691d4d856b929d3',   //博主邮箱md5加密32位小写
+      tagMeta: ["博主", "小伙伴", "访客"],     //标识字段名
+      friends: ['b412f37e42d89e15c8aaf065934eb62e'],  //小伙伴邮箱Md5
+      enableQQ: true,
+      lang: 'zh-CN',
+      path: window.location.pathname,
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('/js/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><div class="aplayer no-destroy" data-id="1384026889" data-server="netease" data-type="song" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-lrctype="1" data-preload="none" data-autoplay="true" muted></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://unpkg.com/butterfly-extsrc/dist/canvas-nest.min.js"></script><script id="click-show-text" src="https://unpkg.com/butterfly-extsrc/dist/click-show-text.min.js" data-mobile="false" data-text="乐观,健康,积极,自由,暴富,增肌,APEX" data-fontsize="15px" data-random="false" async="async"></script><link rel="stylesheet" href="https://unpkg.com/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://unpkg.com/aplayer/dist/APlayer.min.js"></script><script src="https://unpkg.com/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script src="https://unpkg.com/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><!-- hexo injector body_end start --><script async src="//at.alicdn.com/t/c/font_4015716_msa9w6uaxn.js"></script><!-- hexo injector body_end end --></body></html>

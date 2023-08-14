@@ -1,0 +1,494 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>分布式协同 | 明月依然的小站</title><meta name="author" content="Wenyu Yu"><meta name="copyright" content="Wenyu Yu"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="分布式协同分布式锁什么是分布式锁 要介绍分布式锁，首先要提到与分布式锁相对应的是线程锁、进程锁。   线程锁：主要用来给方法、代码块加锁。当某个方法或代码使用锁，在同一时刻仅有一个线程执行该方法或该代码段。线程锁只在同一JVM中有效果，因为线程锁的实现在根本上是依靠线程之间共享内存实现的，比如synchronized是共享对象头，显示锁Lock是共享某个变量（state）。 进程锁：为了控制同一操">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分布式协同">
+<meta property="og:url" content="https://mingyry.github.io/mingyry/6f01c864.html">
+<meta property="og:site_name" content="明月依然的小站">
+<meta property="og:description" content="分布式协同分布式锁什么是分布式锁 要介绍分布式锁，首先要提到与分布式锁相对应的是线程锁、进程锁。   线程锁：主要用来给方法、代码块加锁。当某个方法或代码使用锁，在同一时刻仅有一个线程执行该方法或该代码段。线程锁只在同一JVM中有效果，因为线程锁的实现在根本上是依靠线程之间共享内存实现的，比如synchronized是共享对象头，显示锁Lock是共享某个变量（state）。 进程锁：为了控制同一操">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/63126910.jpg">
+<meta property="article:published_time" content="2023-07-03T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-08-14T13:06:13.669Z">
+<meta property="article:author" content="Wenyu Yu">
+<meta property="article:tag" content="分布式协同">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/63126910.jpg"><link rel="shortcut icon" href="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img%2Fwallhaven-85keej.png"><link rel="canonical" href="https://mingyry.github.io/mingyry/6f01c864.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/5.13.0/css/all.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?00e91e237345a7bf551803ef3d797bde";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://unpkg.com/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://unpkg.com/flickr-justified-gallery/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '分布式协同',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-08-14 21:06:13'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://unpkg.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://unpkg.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = 'hidden';
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+
+preloader.initLoading()
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img%2Fluffy.png" onerror="onerror=null;src='https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img%2Ffriend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">49</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">38</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">18</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/63126910.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="明月依然的小站"><span class="site-name">明月依然的小站</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">分布式协同</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="fa-fw post-meta-icon fas fa-history"></i><span class="post-meta-label">更新于</span><time datetime="2023-08-14T13:06:13.669Z" title="更新于 2023-08-14 21:06:13">2023-08-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">5.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>16分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="分布式协同"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="分布式协同"><a href="#分布式协同" class="headerlink" title="分布式协同"></a>分布式协同</h1><h2 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h2><h3 id="什么是分布式锁"><a href="#什么是分布式锁" class="headerlink" title="什么是分布式锁"></a>什么是分布式锁</h3><blockquote>
+<p>要介绍分布式锁，首先要提到与分布式锁相对应的是线程锁、进程锁。</p>
+</blockquote>
+<ul>
+<li><strong>线程锁</strong>：主要用来给方法、代码块加锁。当某个方法或代码使用锁，在同一时刻仅有一个线程执行该方法或该代码段。线程锁只在同一JVM中有效果，因为线程锁的实现在根本上是依靠线程之间共享内存实现的，比如synchronized是共享对象头，显示锁Lock是共享某个变量（state）。</li>
+<li><strong>进程锁</strong>：为了控制同一操作系统中多个进程访问某个共享资源，因为进程具有独立性，各个进程无法访问其他进程的资源，因此无法通过synchronized等线程锁实现进程锁。</li>
+<li><strong>分布式锁</strong>：当多个进程不在同一个系统中(比如分布式系统中控制共享资源访问)，用分布式锁控制多个进程对资源的访问。</li>
+</ul>
+<h3 id="分布式锁的设计原则"><a href="#分布式锁的设计原则" class="headerlink" title="分布式锁的设计原则"></a>分布式锁的设计原则</h3><blockquote>
+<p>分布式锁的最小设计原则：<strong>安全性</strong>和<strong>有效性</strong></p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://redis.io/docs/reference/patterns/distributed-locks/">Redis的官网</a>上对使用分布式锁提出至少需要满足如下三个要求：</p>
+<ol>
+<li><strong>互斥</strong>（属于安全性）：在任何给定时刻，只有一个客户端可以持有锁。</li>
+<li><strong>无死锁</strong>（属于有效性）：即使锁定资源的客户端崩溃或被分区，也总是可以获得锁；通常通过超时机制实现。</li>
+<li><strong>容错性</strong>（属于有效性）：只要大多数 Redis 节点都启动，客户端就可以获取和释放锁。</li>
+</ol>
+<p>除此之外，分布式锁的设计中还可以/需要考虑：</p>
+<ol>
+<li>加锁解锁的<strong>同源性</strong>：A加的锁，不能被B解锁</li>
+<li>获取锁是<strong>非阻塞</strong>的：如果获取不到锁，不能无限期等待；</li>
+<li><strong>高性能</strong>：加锁解锁是高性能的</li>
+</ol>
+<h3 id="分布式锁的实现方案"><a href="#分布式锁的实现方案" class="headerlink" title="分布式锁的实现方案"></a>分布式锁的实现方案</h3><blockquote>
+<p>就体系的角度而言，谈谈常见的分布式锁的实现方案。</p>
+</blockquote>
+<ul>
+<li><strong>基于数据库实现分布式锁</strong><ul>
+<li>基于数据库表（锁表，很少使用）</li>
+<li>乐观锁(基于版本号)</li>
+<li>悲观锁(基于排它锁)</li>
+</ul>
+</li>
+<li><strong>基于 redis 实现分布式锁:</strong><ul>
+<li>单个Redis实例：setnx(key,当前时间+过期时间) + Lua</li>
+<li>Redis集群模式：Redlock</li>
+</ul>
+</li>
+<li><strong>基于 zookeeper实现分布式锁</strong><ul>
+<li>临时有序节点来实现的分布式锁,Curator</li>
+</ul>
+</li>
+<li><strong>基于 Consul 实现分布式锁</strong></li>
+</ul>
+<h3 id="基于数据库如何实现分布式锁？有什么缺陷？"><a href="#基于数据库如何实现分布式锁？有什么缺陷？" class="headerlink" title="基于数据库如何实现分布式锁？有什么缺陷？"></a>基于数据库如何实现分布式锁？有什么缺陷？</h3><h4 id="基于悲观锁"><a href="#基于悲观锁" class="headerlink" title="基于悲观锁"></a>基于悲观锁</h4><p><strong>悲观锁实现思路</strong>？</p>
+<ol>
+<li>在对任意记录进行修改前，先尝试为该记录加上排他锁（exclusive locking）。</li>
+<li>如果加锁失败，说明该记录正在被修改，那么当前查询可能要等待或者抛出异常。 具体响应方式由开发者根据实际需要决定。</li>
+<li>如果成功加锁，那么就可以对记录做修改，事务完成后就会解锁了。</li>
+<li>其间如果有其他对该记录做修改或加排他锁的操作，都会等待我们解锁或直接抛出异常。</li>
+</ol>
+<p><strong>以MySQL InnoDB中使用悲观锁为例</strong>？</p>
+<p>要使用悲观锁，我们必须关闭mysql数据库的自动提交属性，因为MySQL默认使用autocommit模式，也就是说，当你执行一个更新操作后，MySQL会立刻将结果进行提交。set autocommit=0;</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">/</span><span class="operator">/</span><span class="number">0.</span>开始事务</span><br><span class="line"><span class="keyword">begin</span>;<span class="operator">/</span><span class="keyword">begin</span> work;<span class="operator">/</span><span class="keyword">start</span> transaction; (三者选一就可以)</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span><span class="number">1.</span>查询出商品信息</span><br><span class="line"><span class="keyword">select</span> status <span class="keyword">from</span> t_goods <span class="keyword">where</span> id<span class="operator">=</span><span class="number">1</span> <span class="keyword">for</span> <span class="keyword">update</span>;</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span><span class="number">2.</span>根据商品信息生成订单</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> t_orders (id,goods_id) <span class="keyword">values</span> (<span class="keyword">null</span>,<span class="number">1</span>);</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span><span class="number">3.</span>修改商品status为<span class="number">2</span></span><br><span class="line"><span class="keyword">update</span> t_goods <span class="keyword">set</span> status<span class="operator">=</span><span class="number">2</span>;</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span><span class="number">4.</span>提交事务</span><br><span class="line"><span class="keyword">commit</span>;<span class="operator">/</span><span class="keyword">commit</span> work;</span><br></pre></td></tr></table></figure>
+<p>上面的查询语句中，我们使用了<code>select…for update</code>的方式，这样就通过开启排他锁的方式实现了悲观锁。此时在t_goods表中，id为1的 那条数据就被我们锁定了，其它的事务必须等本次事务提交之后才能执行。这样我们可以保证当前的数据不会被其它事务修改。</p>
+<p>上面我们提到，使用<code>select…for update</code>会把数据给锁住，不过我们需要注意一些锁的级别，MySQL InnoDB默认行级锁。行级锁都是基于索引的，如果一条SQL语句用不到索引是不会使用行级锁的，会使用表级锁把整张表锁住，这点需要注意。</p>
+<h4 id="基于乐观锁"><a href="#基于乐观锁" class="headerlink" title="基于乐观锁"></a>基于乐观锁</h4><p>乐观并发控制（又名“乐观锁”，Optimistic Concurrency Control，缩写“OCC”）是一种并发控制的方法。它假设多用户并发的事务在处理时不会彼此互相影响，各事务能够在不产生锁的情况下处理各自影响的那部分数据。在提交数据更新之前，每个事务会先检查在该事务读取数据后，有没有其他事务又修改了该数据。如果其他事务有更新的话，正在提交的事务会进行回滚。</p>
+<p><strong>以使用版本号实现乐观锁为例？</strong></p>
+<p>使用版本号时，可以在数据初始化时指定一个版本号，每次对数据的更新操作都对版本号执行+1操作。并判断当前版本号是不是该数据的最新的版本号。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>查询出商品信息</span><br><span class="line"><span class="keyword">select</span> (status,status,version) <span class="keyword">from</span> t_goods <span class="keyword">where</span> id<span class="operator">=</span>#&#123;id&#125;</span><br><span class="line"><span class="number">2.</span>根据商品信息生成订单</span><br><span class="line"><span class="number">3.</span>修改商品status为<span class="number">2</span></span><br><span class="line"><span class="keyword">update</span> t_goods </span><br><span class="line"><span class="keyword">set</span> status<span class="operator">=</span><span class="number">2</span>,version<span class="operator">=</span>version<span class="operator">+</span><span class="number">1</span></span><br><span class="line"><span class="keyword">where</span> id<span class="operator">=</span>#&#123;id&#125; <span class="keyword">and</span> version<span class="operator">=</span>#&#123;version&#125;;</span><br></pre></td></tr></table></figure>
+<p>需要注意的是，乐观锁机制往往基于系统中数据存储逻辑，因此也具备一定的局限性。由于乐观锁机制是在我们的系统中实现的，对于来自外部系统的用户数据更新操作不受我们系统的控制，因此可能会造成脏数据被更新到数据库中。在系统设计阶段，我们应该充分考虑到这些情况，并进行相应的调整（如将乐观锁策略在数据库存储过程中实现，对外只开放基于此存储过程的数据更新途径，而不是将数据库表直接对外公开）。</p>
+<ul>
+<li><strong>缺陷</strong></li>
+</ul>
+<p>对数据库依赖，开销问题，行锁变表锁问题，无法解决数据库单点和可重入的问题。</p>
+<h3 id="基于redis如何实现分布式锁？有什么缺陷？"><a href="#基于redis如何实现分布式锁？有什么缺陷？" class="headerlink" title="基于redis如何实现分布式锁？有什么缺陷？"></a>基于redis如何实现分布式锁？有什么缺陷？</h3><p>相比于用数据库来实现分布式锁，基于缓存实现的分布式锁的性能会更好。目前有很多成熟的分布式产品，包括 Redis、memcache、Tair 等。这里以 Redis 举例。</p>
+<h4 id="Redis-分布式锁原理"><a href="#Redis-分布式锁原理" class="headerlink" title="Redis 分布式锁原理"></a>Redis 分布式锁原理</h4><p>这个分布式锁有 3 个重要的考量点：</p>
+<ol>
+<li>互斥（只能有一个客户端获取锁）</li>
+<li>不能死锁</li>
+<li>容错（只要大部分 redis 节点创建了这把锁就可以）</li>
+</ol>
+<p>对应的 Redis 指令如下：</p>
+<ul>
+<li><code>setnx</code> - <code>setnx key val</code>：当且仅当 key 不存在时，set 一个 key 为 val 的字符串，返回 1；若 key 存在，则什么都不做，返回 0。</li>
+<li><code>expire</code> - <code>expire key timeout</code>：为 key 设置一个超时时间，单位为 second，超过这个时间锁会自动释放，避免死锁。</li>
+<li><code>delete</code> - <code>delete key</code>：删除 key</li>
+</ul>
+<blockquote>
+<p>注意：</p>
+<p>不要将 <code>setnx</code> 和 <code>expire</code> 作为两个命令组合实现加锁，这样就<strong>无法保证原子性</strong>。如果客户端在 <code>setnx</code> 之后崩溃，那么将导致锁无法释放。正确的做法应是在 <code>setnx</code> 命令中指定 <code>expire</code> 时间。</p>
+</blockquote>
+<h4 id="Redis-分布式锁实现"><a href="#Redis-分布式锁实现" class="headerlink" title="Redis 分布式锁实现"></a>Redis 分布式锁实现</h4><p>（1）申请锁</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SET resource_name my_random_value NX PX 30000</span><br></pre></td></tr></table></figure>
+<p>执行这个命令就 ok。</p>
+<ul>
+<li><code>NX</code>：表示只有 <code>key</code> 不存在的时候才会设置成功。（如果此时 redis 中存在这个 key，那么设置失败，返回 <code>nil</code>）</li>
+<li><code>PX 30000</code>：意思是 30s 后锁自动释放。别人创建的时候如果发现已经有了就不能加锁了。</li>
+</ul>
+<p>（2）释放锁</p>
+<p>释放锁就是删除 key ，但是一般可以用 <code>lua</code> 脚本删除，判断 value 一样才删除：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 删除锁的时候，找到 key 对应的 value，跟自己传过去的 value 做比较，如果是一样的才删除。</span></span><br><span class="line"><span class="keyword">if</span> redis.call(<span class="string">&quot;get&quot;</span>,KEYS[<span class="number">1</span>]) == ARGV[<span class="number">1</span>] <span class="keyword">then</span></span><br><span class="line">    <span class="keyword">return</span> redis.call(<span class="string">&quot;del&quot;</span>,KEYS[<span class="number">1</span>])</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<h4 id="Redis分布式锁小结"><a href="#Redis分布式锁小结" class="headerlink" title="Redis分布式锁小结"></a>Redis分布式锁小结</h4><p>为啥要用 <code>random_value</code> 随机值呢？因为如果某个客户端获取到了锁，但是阻塞了很长时间才执行完，比如说超过了 30s，此时可能已经自动释放锁了，此时可能别的客户端已经获取到了这个锁，要是你这个时候直接删除 key 的话会有问题，所以得用随机值加上面的 <code>lua</code> 脚本来释放锁。</p>
+<p>但是这样是肯定不行的。因为如果是普通的 redis 单实例，那就是单点故障。或者是 redis 普通主从，那 redis 主从异步复制，如果主节点挂了（key 就没有了），key 还没同步到从节点，此时从节点切换为主节点，别人就可以 set key，从而拿到锁。</p>
+<h4 id="RedLock-算法"><a href="#RedLock-算法" class="headerlink" title="RedLock 算法"></a>RedLock 算法</h4><p>这个场景是假设有一个 redis cluster，有 5 个 redis master 实例。然后执行如下步骤获取一把锁：</p>
+<ol>
+<li>获取当前时间戳，单位是毫秒；</li>
+<li>跟上面类似，轮流尝试在每个 master 节点上创建锁，过期时间较短，一般就几十毫秒；</li>
+<li>尝试在<strong>大多数节点</strong>上建立一个锁，比如 5 个节点就要求是 3 个节点 <code>n / 2 + 1</code>；</li>
+<li>客户端计算建立好锁的时间，如果建立锁的时间小于超时时间，就算建立成功了；</li>
+<li>要是锁建立失败了，那么就依次之前建立过的锁删除；</li>
+<li>只要别人建立了一把分布式锁，你就得<strong>不断轮询去尝试获取锁</strong>。</li>
+</ol>
+<p><a href="https://gitee.com/link?target=https%3A%2F%2Fredis.io%2F">Redis 官方</a>给出了以上两种基于 Redis 实现分布式锁的方法，详细说明可以查看：<a href="https://gitee.com/link?target=https%3A%2F%2Fredis.io%2Ftopics%2Fdistlock">https://redis.io/topics/distlock</a> 。</p>
+<h4 id="基于Redis的客户端"><a href="#基于Redis的客户端" class="headerlink" title="基于Redis的客户端"></a>基于Redis的客户端</h4><blockquote>
+<p>这里Redis的客户端（Jedis, Redisson, Lettuce等）都是基于上述两类形式来实现分布式锁的，只是两类形式的封装以及一些优化（比如Redisson的watch dog)。</p>
+</blockquote>
+<p>以基于Redisson实现分布式锁为例（支持了 单实例、Redis哨兵、redis cluster、redis master-slave等各种部署架构）：</p>
+<p><strong>特色</strong>？</p>
+<ol>
+<li>redisson所有指令都通过lua脚本执行，保证了操作的原子性</li>
+<li>redisson设置了watchdog看门狗，“看门狗”的逻辑保证了没有死锁发生</li>
+<li>redisson支持Redlock的实现方式。</li>
+</ol>
+<p><strong>过程</strong>？</p>
+<ol>
+<li>线程去获取锁，获取成功: 执行lua脚本，保存数据到redis数据库。</li>
+<li>线程去获取锁，获取失败: 订阅了解锁消息，然后再尝试获取锁，获取成功后，执行lua脚本，保存数据到redis数据库。</li>
+</ol>
+<p><strong>互斥</strong>？</p>
+<p>如果这个时候客户端B来尝试加锁，执行了同样的一段lua脚本。第一个if判断会执行“exists myLock”，发现myLock这个锁key已经存在。接着第二个if判断，判断myLock锁key的hash数据结构中，是否包含客户端B的ID，但明显没有，那么客户端B会获取到pttl myLock返回的一个数字，代表myLock这个锁key的剩余生存时间。此时客户端B会进入一个while循环，不听的尝试加锁。</p>
+<p><strong>watch dog自动延时机制</strong>？</p>
+<p>客户端A加锁的锁key默认生存时间只有30秒，如果超过了30秒，客户端A还想一直持有这把锁，怎么办？其实只要客户端A一旦加锁成功，就会启动一个watch dog看门狗，它是一个后台线程，会每隔10秒检查一下，如果客户端A还持有锁key，那么就会不断的延长锁key的生存时间。</p>
+<p><strong>可重入</strong>？</p>
+<p>每次lock会调用incrby，每次unlock会减一。</p>
+<h4 id="缺陷"><a href="#缺陷" class="headerlink" title="缺陷"></a>缺陷</h4><p>借助Redis实现分布式锁时，有一个共同的缺陷: 当获取锁被拒绝后，需要不断的循环，重新发送获取锁(创建key)的请求，直到请求成功。这就造成空转，浪费宝贵的CPU资源。</p>
+<h3 id="ZooKeeper-分布式锁"><a href="#ZooKeeper-分布式锁" class="headerlink" title="ZooKeeper 分布式锁"></a>ZooKeeper 分布式锁</h3><h4 id="ZooKeeper-分布式锁原理"><a href="#ZooKeeper-分布式锁原理" class="headerlink" title="ZooKeeper 分布式锁原理"></a>ZooKeeper 分布式锁原理</h4><p>ZooKeeper 实现分布式锁基于 ZooKeeper 的两个特性：</p>
+<ul>
+<li><strong>顺序临时节点</strong>：ZooKeeper 的存储类似于 DNS 那样的具有层级的命名空间。ZooKeeper 节点类型可以分为持久节点（PERSISTENT ）、临时节点（EPHEMERAL），每个节点还能被标记为有序性（SEQUENTIAL），一旦节点被标记为有序性，那么整个节点就具有顺序自增的特点。</li>
+<li><strong>Watch 机制</strong>：ZooKeeper 允许用户在指定节点上注册一些 Watcher，并且在特定事件触发的时候，ZooKeeper 服务端会将事件通知给用户。</li>
+</ul>
+<p>这也是 ZooKeeper 客户端 curator 的分布式锁实现。</p>
+<ol>
+<li>创建一个目录 mylock；</li>
+<li>线程 A 想获取锁就在 mylock 目录下创建临时顺序节点；</li>
+<li>获取 mylock 目录下所有的子节点，然后获取比自己小的兄弟节点，如果不存在，则说明当前线程顺序号最小，获得锁；</li>
+<li>线程 B 获取所有节点，判断自己不是最小节点，设置监听比自己次小的节点；</li>
+<li>线程 A 处理完，删除自己的节点，线程 B 监听到变更事件，判断自己是不是最小的节点，如果是则获得锁。</li>
+</ol>
+<h4 id="ZooKeeper-分布式锁小结"><a href="#ZooKeeper-分布式锁小结" class="headerlink" title="ZooKeeper 分布式锁小结"></a>ZooKeeper 分布式锁小结</h4><p>ZooKeeper 版本的分布式锁问题相对比较来说少。</p>
+<ul>
+<li>锁的占用时间限制：redis 就有占用时间限制，而 ZooKeeper 则没有，最主要的原因是 redis 目前没有办法知道已经获取锁的客户端的状态，是已经挂了呢还是正在执行耗时较长的业务逻辑。而 ZooKeeper 通过临时节点就能清晰知道，如果临时节点存在说明还在执行业务逻辑，如果临时节点不存在说明已经执行完毕释放锁或者是挂了。由此看来 redis 如果能像 ZooKeeper 一样添加一些与客户端绑定的临时键，也是一大好事。</li>
+<li>是否单点故障：redis 本身有很多中玩法，如客户端一致性 hash，服务器端 sentinel 方案或者 cluster 方案，很难做到一种分布式锁方式能应对所有这些方案。而 ZooKeeper 只有一种玩法，多台机器的节点数据是一致的，没有 redis 的那么多的麻烦因素要考虑。</li>
+</ul>
+<p>总体上来说 ZooKeeper 实现分布式锁更加的简单，可靠性更高。但 ZooKeeper 因为需要频繁的创建和删除节点，性能上不如 Redis 方式。</p>
+<h3 id="分布式锁方案对比"><a href="#分布式锁方案对比" class="headerlink" title="分布式锁方案对比"></a>分布式锁方案对比</h3><p>数据库分布式锁，问题比较多，解决起来比较麻烦，不推荐。</p>
+<p>性能：</p>
+<ul>
+<li>Redis 分布式锁，其实<strong>需要自己不断自旋去尝试获取锁</strong>，比较消耗性能。</li>
+<li>ZooKeeper 分布式锁，获取不到锁，注册个监听器即可，不需要不断主动尝试获取锁，性能开销较小。</li>
+</ul>
+<p>可靠性：</p>
+<ul>
+<li>如果是 redis 获取锁的那个客户端出现 bug 挂了，那么只能等待超时时间之后才能释放锁；</li>
+<li>而 zk 的话，因为创建的是临时 znode，只要客户端挂了，znode 就没了，此时就自动释放锁。</li>
+</ul>
+<p>综上分析，<strong>ZooKeeper 实现分布式锁更加的简单，可靠性更高</strong></p>
+<h2 id="分布式事务"><a href="#分布式事务" class="headerlink" title="分布式事务"></a>分布式事务</h2><h3 id="如何理解分布式事务"><a href="#如何理解分布式事务" class="headerlink" title="如何理解分布式事务"></a>如何理解分布式事务</h3><blockquote>
+<p>分布式的理论角度和分布式事务的知识体系角度理解分布式事务。</p>
+</blockquote>
+<h4 id="从分布式的理论的角度看"><a href="#从分布式的理论的角度看" class="headerlink" title="从分布式的理论的角度看"></a>从分布式的理论的角度看</h4><blockquote>
+<p>分布式的理论基础是CAP，由于P(分区容错）是必选项，所以只能在AP或者CP中选择。</p>
+</blockquote>
+<ul>
+<li><strong>分布式理论的CP</strong> -&gt; 刚性事务</li>
+</ul>
+<p>遵循ACID，对数据要求强一致性</p>
+<ul>
+<li><strong>分布式理论的AP+BASE</strong> -&gt; 柔性事务</li>
+</ul>
+<p>遵循BASE，允许一定时间内不同节点的数据不一致，但要求最终一致。</p>
+<h4 id="从分布式事务的体系看"><a href="#从分布式事务的体系看" class="headerlink" title="从分布式事务的体系看"></a>从分布式事务的体系看</h4><blockquote>
+<p>我在梳理这个体系时，发现网上几乎都直接写2PC,3PC,TCC,Seata方案，而实际上这是不成体系的。从分布式事务的体系看，我认为至少应该理清楚，什么是技术方案，什么是中间件，以及形成这些方案的依据；</p>
+</blockquote>
+<p>如下图，可以帮助你构筑分布式事务的知识体系，一目了然。</p>
+<p><img src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/arch-z-transection-1.png" alt="img"></p>
+<ul>
+<li><strong>刚性事务</strong>：分布式理论的CP，遵循ACID，对数据要求强一致性。<ul>
+<li><strong>XA协议</strong> 是一个基于数据库层面的分布式事务协议，其分为两部分：事务管理器（Transaction Manager）<strong>和</strong>本地资源管理器（Resource Manager）。事务管理器作为一个全局的调度者，负责对各个本地资源管理器统一号令提交或者回滚。主流的诸如Oracle、MySQL等数据库均已实现了XA接口。 <ul>
+<li><strong>二阶提交协议（2PC）</strong>: 根据XA协议衍生出来而来; 引入一个作为协调者的组件来统一掌控所有参与者的操作结果并最终指示这些节点是否要把操作结果进行真正的提交; 参与者将操作成败通知协调者，再由协调者根据所有参与者的反馈情报决定各参与者是否要提交操作还是中止操作。所谓的两个阶段是指：第一阶段：准备阶段 (投票阶段) 和第二阶段：提交阶段（执行阶段）</li>
+<li><strong>三阶提交协议（3PC）</strong>: 是对两段提交（2PC）的一种升级优化，<strong>3PC在2PC的第一阶段和第二阶段中插入一个准备阶段</strong>。保证了在最后提交阶段之前，各参与者节点的状态都一致。同时在协调者和参与者中都引入超时机制，当参与者各种原因未收到协调者的commit请求后，会对本地事务进行commit，不会一直阻塞等待，解决了2PC的单点故障问题，但3PC还是没能从根本上解决数据一致性的问题。</li>
+</ul>
+</li>
+<li><strong>Java事务规范</strong><ul>
+<li><strong>JTA</strong>： Java事务API（Java Transaction API）是一个Java企业版的应用程序接口，在Java环境中，允许完成跨越多个XA资源的分布式事务。</li>
+<li><strong>JTS</strong>： Java事务服务（Java Transaction Service）是J2EE平台提供了分布式事务服务的具体实现规范，j2ee服务器提供商根据JTS规范实现事务并提供JTA接口。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>柔性事务</strong>：分布式理论的AP，遵循BASE，允许一定时间内不同节点的数据不一致，但要求最终一致。<ul>
+<li><strong>基于业务层</strong><ul>
+<li><strong>TCC</strong>:  TCC（Try-Confirm-Cancel）又被称补偿事务，TCC与2PC的思想很相似，事务处理流程也很相似，但2PC是应用于在DB层面，TCC则可以理解为在应用层面的2PC，是需要我们编写业务逻辑来实现。</li>
+<li><strong>SAGA</strong>： Saga是由一系列的本地事务构成。每一个本地事务在更新完数据库之后，会发布一条消息或者一个事件来触发Saga中的下一个本地事务的执行。如果一个本地事务因为某些业务规则无法满足而失败，Saga会执行在这个失败的事务之前成功提交的所有事务的补偿操作。Saga的实现有很多种方式，其中最流行的两种方式是：基于事件的方式和基于命令的方式。</li>
+</ul>
+</li>
+<li><strong>最终一致性</strong><ul>
+<li><strong>消息表</strong>：本地消息表的方案最初是由 eBay 提出，核心思路是将分布式事务拆分成本地事务进行处理。</li>
+<li><strong>消息队列</strong>：基于 MQ 的分布式事务方案其实是对本地消息表的封装，将本地消息表基于 MQ 内部，其他方面的协议基本与本地消息表一致。</li>
+<li><strong>最大努力通知</strong>：最大努力通知也称为定期校对，是对MQ事务方案的进一步优化。它在事务主动方增加了消息校对的接口，如果事务被动方没有接收到消息，此时可以调用事务主动方提供的消息校对的接口主动获取。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a target="_blank" rel="noopener" href="https://www.nenggz.com/md/arch/arch-z-lock.html">https://www.nenggz.com/md/arch/arch-z-lock.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://dunwu.github.io/blog/categories/">https://dunwu.github.io/blog/categories/</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://MingYRY.github.io">Wenyu Yu</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://mingyry.github.io/mingyry/6f01c864.html">https://mingyry.github.io/mingyry/6f01c864.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://MingYRY.github.io" target="_blank">明月依然的小站</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E5%8D%8F%E5%90%8C/">分布式协同</a></div><div class="post_share"><div class="social-share" data-image="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/63126910.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://unpkg.com/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://unpkg.com/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/mingyry/2a553090.html" title="流量控制"><img class="cover" src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/63126910.jpg" onerror="onerror=null;src='https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img%2F404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">流量控制</div></div></a></div><div class="next-post pull-right"><a href="/mingyry/74281dcb.html" title="分布式调度"><img class="cover" src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/63126910.jpg" onerror="onerror=null;src='https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img%2F404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">分布式调度</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E5%8D%8F%E5%90%8C"><span class="toc-number">1.</span> <span class="toc-text">分布式协同</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81"><span class="toc-number">1.1.</span> <span class="toc-text">分布式锁</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81"><span class="toc-number">1.1.1.</span> <span class="toc-text">什么是分布式锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E7%9A%84%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99"><span class="toc-number">1.1.2.</span> <span class="toc-text">分布式锁的设计原则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88"><span class="toc-number">1.1.3.</span> <span class="toc-text">分布式锁的实现方案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%EF%BC%9F%E6%9C%89%E4%BB%80%E4%B9%88%E7%BC%BA%E9%99%B7%EF%BC%9F"><span class="toc-number">1.1.4.</span> <span class="toc-text">基于数据库如何实现分布式锁？有什么缺陷？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E6%82%B2%E8%A7%82%E9%94%81"><span class="toc-number">1.1.4.1.</span> <span class="toc-text">基于悲观锁</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E4%B9%90%E8%A7%82%E9%94%81"><span class="toc-number">1.1.4.2.</span> <span class="toc-text">基于乐观锁</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8Eredis%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%EF%BC%9F%E6%9C%89%E4%BB%80%E4%B9%88%E7%BC%BA%E9%99%B7%EF%BC%9F"><span class="toc-number">1.1.5.</span> <span class="toc-text">基于redis如何实现分布式锁？有什么缺陷？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Redis-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%8E%9F%E7%90%86"><span class="toc-number">1.1.5.1.</span> <span class="toc-text">Redis 分布式锁原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Redis-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.1.5.2.</span> <span class="toc-text">Redis 分布式锁实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%B0%8F%E7%BB%93"><span class="toc-number">1.1.5.3.</span> <span class="toc-text">Redis分布式锁小结</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RedLock-%E7%AE%97%E6%B3%95"><span class="toc-number">1.1.5.4.</span> <span class="toc-text">RedLock 算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8ERedis%E7%9A%84%E5%AE%A2%E6%88%B7%E7%AB%AF"><span class="toc-number">1.1.5.5.</span> <span class="toc-text">基于Redis的客户端</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%BA%E9%99%B7"><span class="toc-number">1.1.5.6.</span> <span class="toc-text">缺陷</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ZooKeeper-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81"><span class="toc-number">1.1.6.</span> <span class="toc-text">ZooKeeper 分布式锁</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ZooKeeper-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%8E%9F%E7%90%86"><span class="toc-number">1.1.6.1.</span> <span class="toc-text">ZooKeeper 分布式锁原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ZooKeeper-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%B0%8F%E7%BB%93"><span class="toc-number">1.1.6.2.</span> <span class="toc-text">ZooKeeper 分布式锁小结</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E6%96%B9%E6%A1%88%E5%AF%B9%E6%AF%94"><span class="toc-number">1.1.7.</span> <span class="toc-text">分布式锁方案对比</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1"><span class="toc-number">1.2.</span> <span class="toc-text">分布式事务</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E7%90%86%E8%A7%A3%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1"><span class="toc-number">1.2.1.</span> <span class="toc-text">如何理解分布式事务</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%8E%E5%88%86%E5%B8%83%E5%BC%8F%E7%9A%84%E7%90%86%E8%AE%BA%E7%9A%84%E8%A7%92%E5%BA%A6%E7%9C%8B"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">从分布式的理论的角度看</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%8E%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E7%9A%84%E4%BD%93%E7%B3%BB%E7%9C%8B"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">从分布式事务的体系看</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="toc-number">1.3.</span> <span class="toc-text">参考文章</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background-image: url('https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img%2Fwallhaven-5g7rd3.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2023 By Wenyu Yu</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a href="https://MingYRY.github.io/">blog</a>!</div><p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px"><img src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&amp;logo=hexo" title="博客框架为Hexo"/></a><a class="github-badge" target="_blank" href="https://demo.jerryc.me/" style="margin-inline:5px"><img src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&amp;logo=bitdefender" title="主题版本Butterfly"/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px"><img src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub" title="本站项目由Gtihub托管"/></a><a class="github-badge" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" style="margin-inline:5px"><img src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&amp;logo=Claris" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"/></a><a class="github-badge" target="_blank" href="https://beian.miit.gov.cn/" style="margin-inline:5px"><img src="https://img.shields.io/badge/%E9%BB%91ICP%E5%A4%87-2023004985%E5%8F%B7-lightgrey" title="本站已在工信部备案"/></a></p></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://unpkg.com/@fancyapps/ui/dist/fancybox/fancybox.umd.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'JnVNUuheue1XlmfbyvgSY1Oe-gzGzoHsz',
+      appKey: 'bVRKDRonMGGQ5U4Me0xmipvT',
+      placeholder: '欢迎在博客中留言！ 1.昵称输入QQ号可以自动识别头像和QQ邮箱 2.博客留言中昵称和email必须填写 3.欢迎留下网址方便互相回访',
+      avatar: 'monsterid',
+      serverURLs: 'https://jnvnuuhe.lc-cn-n1-shared.com',
+      emojiMaps: "",
+      pageSize: '10',
+      master: '3451cd11a28a25de7691d4d856b929d3',   //博主邮箱md5加密32位小写
+      tagMeta: ["博主", "小伙伴", "访客"],     //标识字段名
+      friends: ['b412f37e42d89e15c8aaf065934eb62e'],  //小伙伴邮箱Md5
+      enableQQ: true,
+      lang: 'zh-CN',
+      path: window.location.pathname,
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('/js/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><div class="aplayer no-destroy" data-id="1384026889" data-server="netease" data-type="song" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-lrctype="1" data-preload="none" data-autoplay="true" muted></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://unpkg.com/butterfly-extsrc/dist/canvas-nest.min.js"></script><script id="click-show-text" src="https://unpkg.com/butterfly-extsrc/dist/click-show-text.min.js" data-mobile="false" data-text="乐观,健康,积极,自由,暴富,增肌,APEX" data-fontsize="15px" data-random="false" async="async"></script><link rel="stylesheet" href="https://unpkg.com/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://unpkg.com/aplayer/dist/APlayer.min.js"></script><script src="https://unpkg.com/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script src="https://unpkg.com/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><!-- hexo injector body_end start --><script async src="//at.alicdn.com/t/c/font_4015716_msa9w6uaxn.js"></script><!-- hexo injector body_end end --></body></html>

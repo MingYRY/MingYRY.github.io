@@ -1,0 +1,466 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>设计模式-结构型 | 明月依然的小站</title><meta name="author" content="Wenyu Yu"><meta name="copyright" content="Wenyu Yu"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="设计模式-结构型适配器模式适配器模式是一种结构型设计模式， 它能使接口不兼容的对象能够相互合作。 把一个类的接口变成客户端所期待的另一种接口，从而使原本接口不匹配而无法工作的两个类能够一起工作 转换匹配，复用功能 适配器分为两种：对象适配器和类适配器 模式结构对象适配器实现其中一个对象的接口，并对另一个对象进行封装   客户端 （Client） 是包含当前程序业务逻辑的类。 客户端接口 （Clie">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设计模式-结构型">
+<meta property="og:url" content="https://mingyry.github.io/mingyry/6e088bfd.html">
+<meta property="og:site_name" content="明月依然的小站">
+<meta property="og:description" content="设计模式-结构型适配器模式适配器模式是一种结构型设计模式， 它能使接口不兼容的对象能够相互合作。 把一个类的接口变成客户端所期待的另一种接口，从而使原本接口不匹配而无法工作的两个类能够一起工作 转换匹配，复用功能 适配器分为两种：对象适配器和类适配器 模式结构对象适配器实现其中一个对象的接口，并对另一个对象进行封装   客户端 （Client） 是包含当前程序业务逻辑的类。 客户端接口 （Clie">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/itstack-demo-design-8-01.png">
+<meta property="article:published_time" content="2023-05-03T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-08-14T13:06:13.679Z">
+<meta property="article:author" content="Wenyu Yu">
+<meta property="article:tag" content="设计模式">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/itstack-demo-design-8-01.png"><link rel="shortcut icon" href="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img%2Fwallhaven-85keej.png"><link rel="canonical" href="https://mingyry.github.io/mingyry/6e088bfd.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/5.13.0/css/all.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?00e91e237345a7bf551803ef3d797bde";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://unpkg.com/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://unpkg.com/flickr-justified-gallery/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '设计模式-结构型',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-08-14 21:06:13'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://unpkg.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://unpkg.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = 'hidden';
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+
+preloader.initLoading()
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img%2Fluffy.png" onerror="onerror=null;src='https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img%2Ffriend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">49</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">38</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">18</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/itstack-demo-design-8-01.png')"><nav id="nav"><span id="blog-info"><a href="/" title="明月依然的小站"><span class="site-name">明月依然的小站</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">设计模式-结构型</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="fa-fw post-meta-icon fas fa-history"></i><span class="post-meta-label">更新于</span><time datetime="2023-08-14T13:06:13.679Z" title="更新于 2023-08-14 21:06:13">2023-08-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">4.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>14分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="设计模式-结构型"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="设计模式-结构型"><a href="#设计模式-结构型" class="headerlink" title="设计模式-结构型"></a>设计模式-结构型</h1><h2 id="适配器模式"><a href="#适配器模式" class="headerlink" title="适配器模式"></a>适配器模式</h2><p><strong>适配器模式</strong>是一种结构型设计模式， 它能使接口不兼容的对象能够相互合作。</p>
+<p>把一个类的接口变成客户端所期待的另一种接口，从而使原本接口不匹配而无法工作的两个类能够一起工作</p>
+<p><strong>转换匹配，复用功能</strong></p>
+<p>适配器分为两种：对象适配器和类适配器</p>
+<h3 id="模式结构"><a href="#模式结构" class="headerlink" title="模式结构"></a>模式结构</h3><h4 id="对象适配器"><a href="#对象适配器" class="headerlink" title="对象适配器"></a>对象适配器</h4><p>实现其中一个对象的接口，并对另一个对象进行封装</p>
+<p><img src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/image-20230523084421298.png" alt="image-20230523084421298"></p>
+<ol>
+<li><strong>客户端</strong> （Client） 是包含当前程序业务逻辑的类。</li>
+<li><strong>客户端接口</strong> （Client Interface） 描述了其他类与客户端代码合作时必须遵循的协议。</li>
+<li><strong>服务</strong> （Service） 中有一些功能类 （通常来自第三方或遗留系统）。 客户端与其接口不兼容， 因此无法直接调用其功能。</li>
+<li><strong>适配器</strong> （Adapter） 是一个可以同时与客户端和服务交互的类： 它在实现客户端接口的同时封装了服务对象。 适配器接受客户端通过适配器接口发起的调用， 并将其转换为适用于被封装服务对象的调用。</li>
+<li>客户端代码只需通过接口与适配器交互即可， 无需与具体的适配器类耦合。 因此， 你可以向程序中添加新类型的适配器而无需修改已有代码。 这在服务类的接口被更改或替换时很有用： 你无需修改客户端代码就可以创建新的适配器类。</li>
+</ol>
+<h4 id="类适配器"><a href="#类适配器" class="headerlink" title="类适配器"></a>类适配器</h4><p>使用继承机制：适配器同时继承两个对象的接口。仅在支持多重继承的编程语言中实现，例如c++。</p>
+<p><strong>Java可以实现接口的同时继承类</strong></p>
+<p><img src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/image-20230523085606587.png" alt="image-20230523085606587"></p>
+<ol>
+<li><strong>类适配器</strong>不需要封装任何对象， 因为它同时继承了客户端和服务的行为。 适配功能在重写的方法中完成。 最后生成的适配器可替代已有的客户端类进行使用。</li>
+</ol>
+<h3 id="伪代码"><a href="#伪代码" class="headerlink" title="伪代码"></a>伪代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 步骤1：创建Target接口；</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Target</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//这是源类Adapteee没有的方法</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">Request</span><span class="params">()</span>; </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 步骤2： 创建源类（Adaptee） ；</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Adaptee</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">SpecificRequest</span><span class="params">()</span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//步骤3： 创建适配器类（Adapter）（不适用继承而是委派）</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Adapter</span> <span class="keyword">implements</span> <span class="title class_">Target</span>&#123;  </span><br><span class="line">    <span class="comment">// 直接关联被适配类  </span></span><br><span class="line">    <span class="keyword">private</span> Adaptee adaptee;  </span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 可以通过构造函数传入具体需要适配的被适配类对象  </span></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Adapter</span> <span class="params">(Adaptee adaptee)</span> &#123;  </span><br><span class="line">        <span class="built_in">this</span>.adaptee = adaptee;  </span><br><span class="line">    &#125;  </span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">Request</span><span class="params">()</span> &#123;  </span><br><span class="line">        <span class="comment">// 这里是使用委托的方式完成特殊功能  </span></span><br><span class="line">        <span class="built_in">this</span>.adaptee.SpecificRequest();  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="comment">// 步骤4：定义具体使用目标类，并通过Adapter类调用所需要的方法从而实现目标</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AdapterPattern</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span>&#123;</span><br><span class="line">        <span class="comment">//需要先创建一个被适配类的对象作为参数  </span></span><br><span class="line">        <span class="type">Target</span> <span class="variable">mAdapter</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Adapter</span>(<span class="keyword">new</span> <span class="title class_">Adaptee</span>())；</span><br><span class="line">        mAdapter.Request();</span><br><span class="line">     </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="实现方式"><a href="#实现方式" class="headerlink" title="实现方式"></a>实现方式</h3><ol>
+<li>确保至少有两个类的接口不兼容：<ul>
+<li>一个无法修改 （通常是第三方、 遗留系统或者存在众多已有依赖的类） 的功能性<em>服务</em>类。</li>
+<li>一个或多个将受益于使用服务类的<em>客户端</em>类。</li>
+</ul>
+</li>
+<li>声明客户端接口， 描述客户端如何与服务交互。</li>
+<li>创建遵循客户端接口的适配器类。 所有方法暂时都为空。</li>
+<li>在适配器类中添加一个成员变量用于保存对于服务对象的引用。 通常情况下会通过构造函数对该成员变量进行初始化， 但有时在调用其方法时将该变量传递给适配器会更方便。</li>
+<li>依次实现适配器类客户端接口的所有方法。 适配器会将实际工作委派给服务对象， 自身只负责接口或数据格式的转换。</li>
+<li>客户端必须通过客户端接口使用适配器。 这样一来， 你就可以在不影响客户端代码的情况下修改或扩展适配器。</li>
+</ol>
+<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3><ul>
+<li><p>当某个类的接口和其他代码不兼容</p>
+</li>
+<li><p>复用多个组件时，对他们的父类进行适配器</p>
+</li>
+<li><p>复用一个类，想要向其添加额外的功能</p>
+<p>一般使用类适配器来重定义部分行为</p>
+</li>
+</ul>
+<h3 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h3><p><strong>优点</strong>：</p>
+<ul>
+<li>单一职责原则。</li>
+<li>开闭原则，不修改现有代码</li>
+</ul>
+<p><strong>缺点</strong>：</p>
+<ul>
+<li>过多使用适配器，会导致系统非常凌乱，不容易进行整体的把控</li>
+</ul>
+<h3 id="与其他模式的关系"><a href="#与其他模式的关系" class="headerlink" title="与其他模式的关系"></a>与其他模式的关系</h3><ul>
+<li>适配器模式对已有接口进行修改，装饰模式则是在不改变对象接口的前提下强化对象功能</li>
+<li>适配器为封装对象提供不同的接口，代理为对象提供相同的接口，装饰为对象提供加强的接口</li>
+<li>外观模式为现有对象定义了一个新接口，而适配器则会运用已有接口</li>
+</ul>
+<h3 id="应用实例"><a href="#应用实例" class="headerlink" title="应用实例"></a>应用实例</h3><h4 id="经典的SpringMVC之HandlerAdapter"><a href="#经典的SpringMVC之HandlerAdapter" class="headerlink" title="经典的SpringMVC之HandlerAdapter"></a>经典的SpringMVC之HandlerAdapter</h4><p>SpringMVC 内部是根据 <code>HandlerMapping</code> 将 <code>Request</code> 和 <code>Controller</code> 里面的方法对应起来的，为了方便理解，我这里把实现它的子类统称为<strong>映射处理器</strong>。</p>
+<p>HandlerMapping 功能就是根据请求匹配到对应的 Handler，然后将找到的 Handler 和所有匹配的 HandlerInterceptor（拦截器）绑定到创建的 HandlerExecutionChain 对象上并返回。HandlerMapping 只是一个接口类，不同的实现类有不同的匹对方式，根据功能的不同我们需要在 SpringMVC 容器中注入不同的映射处理器 HandlerMapping。</p>
+<p><img src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/6c55dc7b77d915c36517fe60c24c1937.png" alt="img"></p>
+<p>HandlerAdapter 为一个接口，该接口内部定义了如下三个方法：</p>
+<ul>
+<li>supports(): 给出一个 handler,查看该 HandlerAdapter 是否支持该 handler。</li>
+<li>handle(): 使用本 HandlerAdapter 代理执行这个 handler 中的方法。</li>
+<li>getLastModified(): 查看该请求的 lastModified 值</li>
+</ul>
+<p><strong>不同请求方式和配置会得到不同的Adapter</strong></p>
+<p><img src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/20210904235851738.png" alt="img"></p>
+<h2 id="桥接模式"><a href="#桥接模式" class="headerlink" title="桥接模式"></a>桥接模式</h2><p>桥接模式，就是将一个类的抽象和它的实现区分开来，使得扩展变得更加容易</p>
+<p>就是分离抽象部分和实现部分，然后来搭桥。但是只能抽象部分的对象去实现具体实现部分的对象</p>
+<h3 id="问题的提出"><a href="#问题的提出" class="headerlink" title="问题的提出"></a>问题的提出</h3><p>当前系统有消息和消息的发送方式，消息分为普通消息和加急消息，发送方式有手机短消息和站内短消息，这种情况下，如果我们想要去扩展整个类的类型或者功能。</p>
+<p>如果要是简单的只使用消息接口，发送方式利用继承，那样整个继承树就特别臃肿</p>
+<p><img src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/2062729-dc5f33faada8ad1a.png" alt="img" style="zoom:50%;" /></p>
+<h3 id="模式结构-1"><a href="#模式结构-1" class="headerlink" title="模式结构"></a>模式结构</h3><p>主要就是示例有两个维度的变化，可以通过桥接模式来实现</p>
+<p><img src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/structure-zh-indexed.png" alt="桥接设计模式"></p>
+<ol>
+<li><strong>抽象部分</strong>：就是所实现的抽象的类</li>
+<li><strong>实现部分</strong>：为实现抽象部分的所有具体的实现类的通用接口，</li>
+<li><strong>具体实现</strong>：具体的实现的操作</li>
+<li><strong>精确抽象</strong>：可以给抽象部分添加相应的功能</li>
+<li><strong>客户端</strong> （Client） 仅关心如何与抽象部分合作。 但是， 客户端需要将抽象对象与一个实现对象连接起来</li>
+</ol>
+<h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><p><img src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/2062729-6234cd68508e8513.png" alt="img" style="zoom:67%;" /></p>
+<p><strong>（1）实现部分定义的接口</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** </span></span><br><span class="line"><span class="comment">   * 实现发送消息的统一接口 </span></span><br><span class="line"><span class="comment">   */</span>  </span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">MessageImplementor</span> &#123;  </span><br><span class="line">      <span class="comment">/** </span></span><br><span class="line"><span class="comment">       * 发送消息 </span></span><br><span class="line"><span class="comment">       * <span class="doctag">@param</span> message 要发送的消息内容 </span></span><br><span class="line"><span class="comment">       * <span class="doctag">@param</span> toUser 消息发送的目的人员 </span></span><br><span class="line"><span class="comment">       */</span>  </span><br><span class="line">      <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">send</span><span class="params">(String message,String toUser)</span>;  </span><br><span class="line">&#125;  </span><br></pre></td></tr></table></figure>
+<p><strong>（2）抽象部分定义的接口</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** </span></span><br><span class="line"><span class="comment">   * 抽象的消息对象 </span></span><br><span class="line"><span class="comment">   */</span>  </span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">AbstractMessage</span> &#123;  </span><br><span class="line">      <span class="comment">/** </span></span><br><span class="line"><span class="comment">       * 持有一个实现部分的对象 </span></span><br><span class="line"><span class="comment">       */</span>  </span><br><span class="line">      <span class="keyword">protected</span> MessageImplementor impl;  </span><br><span class="line">      <span class="comment">/** </span></span><br><span class="line"><span class="comment">       * 构造方法，传入实现部分的对象  </span></span><br><span class="line"><span class="comment">       * <span class="doctag">@param</span> impl 实现部分的对象 </span></span><br><span class="line"><span class="comment">       */</span>  </span><br><span class="line">      <span class="keyword">public</span> <span class="title function_">AbstractMessage</span><span class="params">(MessageImplementor impl)</span>&#123;  </span><br><span class="line">          <span class="built_in">this</span>.impl = impl;  </span><br><span class="line">      &#125;  </span><br><span class="line">      <span class="comment">/** </span></span><br><span class="line"><span class="comment">       * 发送消息，转调实现部分的方法 </span></span><br><span class="line"><span class="comment">       * <span class="doctag">@param</span> message 要发送的消息内容 </span></span><br><span class="line"><span class="comment">       * <span class="doctag">@param</span> toUser 消息发送的目的人员 </span></span><br><span class="line"><span class="comment">       */</span>  </span><br><span class="line">      <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">sendMessage</span><span class="params">(String message,String toUser)</span>&#123;  </span><br><span class="line">          <span class="built_in">this</span>.impl.send(message, toUser);  </span><br><span class="line">      &#125;     </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>（3）具体的实现发送消息</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** </span></span><br><span class="line"><span class="comment">   * 以站内短消息的方式发送消息 </span></span><br><span class="line"><span class="comment">   */</span>  </span><br><span class="line"><span class="keyword">public</span>  <span class="keyword">class</span> <span class="title class_">MessageSMS</span> <span class="keyword">implements</span> <span class="title class_">MessageImplementor</span>&#123;  </span><br><span class="line">      <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">send</span><span class="params">(String message, String toUser)</span> &#123;  </span><br><span class="line">          System.out.println(<span class="string">&quot;使用站内短消息的方式，发送消息&#x27;&quot;</span>+message+<span class="string">&quot;&#x27;给&quot;</span>+toUser);  </span><br><span class="line">      &#125;  </span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/** </span></span><br><span class="line"><span class="comment">   * 以Email的方式发送消息 </span></span><br><span class="line"><span class="comment">   */</span>  </span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MessageEmail</span> <span class="keyword">implements</span> <span class="title class_">MessageImplementor</span>&#123;  </span><br><span class="line">      <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">send</span><span class="params">(String message, String toUser)</span> &#123;  </span><br><span class="line">          System.out.println(<span class="string">&quot;使用Email的方式，发送消息&#x27;&quot;</span>+message+<span class="string">&quot;&#x27;给&quot;</span>+toUser);  </span><br><span class="line">      &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>（4）扩展抽象的消息接口</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CommonMessage</span> <span class="keyword">extends</span> <span class="title class_">AbstractMessage</span>&#123;  </span><br><span class="line">      <span class="keyword">public</span> <span class="title function_">CommonMessage</span><span class="params">(MessageImplementor impl)</span> &#123;  </span><br><span class="line">          <span class="built_in">super</span>(impl);  </span><br><span class="line">      &#125;  </span><br><span class="line">      <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">sendMessage</span><span class="params">(String message, String toUser)</span> &#123;  </span><br><span class="line">          <span class="comment">//对于普通消息，什么都不干，直接调父类的方法，把消息发送出去就可以了  </span></span><br><span class="line">          <span class="built_in">super</span>.sendMessage(message, toUser);  </span><br><span class="line">      &#125;     </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UrgencyMessage</span> <span class="keyword">extends</span> <span class="title class_">AbstractMessage</span>&#123;  </span><br><span class="line">      <span class="keyword">public</span> <span class="title function_">UrgencyMessage</span><span class="params">(MessageImplementor impl)</span> &#123;  </span><br><span class="line">          <span class="built_in">super</span>(impl);  </span><br><span class="line">      &#125;  </span><br><span class="line">      <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">sendMessage</span><span class="params">(String message, String toUser)</span> &#123;  </span><br><span class="line">          message = <span class="string">&quot;加急：&quot;</span>+message;  </span><br><span class="line">          <span class="built_in">super</span>.sendMessage(message, toUser);  </span><br><span class="line">      &#125;  </span><br><span class="line">      <span class="comment">/** </span></span><br><span class="line"><span class="comment">       * 扩展自己的新功能：监控某消息的处理过程 </span></span><br><span class="line"><span class="comment">       * <span class="doctag">@param</span> messageId 被监控的消息的编号 </span></span><br><span class="line"><span class="comment">       * <span class="doctag">@return</span> 包含监控到的数据对象，这里示意一下，所以用了Object </span></span><br><span class="line"><span class="comment">       */</span>  </span><br><span class="line">      <span class="keyword">public</span> Object <span class="title function_">watch</span><span class="params">(String messageId)</span> &#123;  </span><br><span class="line">          <span class="comment">//获取相应的数据，组织成监控的数据对象，然后返回         </span></span><br><span class="line">          <span class="keyword">return</span> <span class="literal">null</span>;  </span><br><span class="line">      &#125;     </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>（5）测试功能</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Client</span> &#123;  </span><br><span class="line">      <span class="function"><span class="keyword">public</span> <span class="type">static</span> <span class="type">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;  </span><br><span class="line">          <span class="comment">//创建具体的实现对象  </span></span><br><span class="line">          MessageImplementor impl = <span class="keyword">new</span> <span class="built_in">MessageSMS</span>();  </span><br><span class="line">          <span class="comment">//创建一个普通消息对象  </span></span><br><span class="line">          AbstractMessage m = <span class="keyword">new</span> <span class="built_in">CommonMessage</span>(impl);  </span><br><span class="line">          m.<span class="built_in">sendMessage</span>(<span class="string">&quot;请喝一杯茶&quot;</span>, <span class="string">&quot;小李&quot;</span>);         </span><br><span class="line">          <span class="comment">//创建一个紧急消息对象  </span></span><br><span class="line">          m = <span class="keyword">new</span> <span class="built_in">UrgencyMessage</span>(impl);  </span><br><span class="line">          m.<span class="built_in">sendMessage</span>(<span class="string">&quot;请喝一杯茶&quot;</span>, <span class="string">&quot;小李&quot;</span>);         </span><br><span class="line">         </span><br><span class="line">          <span class="comment">//把实现方式切换成邮件短消息，然后再实现一遍  </span></span><br><span class="line">          impl = <span class="keyword">new</span> <span class="built_in">MessageEmail</span>();  </span><br><span class="line">          m = <span class="keyword">new</span> <span class="built_in">CommonMessage</span>(impl);  </span><br><span class="line">          m.<span class="built_in">sendMessage</span>(<span class="string">&quot;请喝一杯茶&quot;</span>, <span class="string">&quot;小李&quot;</span>);  </span><br><span class="line">          m = <span class="keyword">new</span> <span class="built_in">UrgencyMessage</span>(impl);  </span><br><span class="line">          m.<span class="built_in">sendMessage</span>(<span class="string">&quot;请喝一杯茶&quot;</span>, <span class="string">&quot;小李&quot;</span>);  </span><br><span class="line">      &#125;  </span><br><span class="line">&#125;  </span><br></pre></td></tr></table></figure>
+<h3 id="应用场景-1"><a href="#应用场景-1" class="headerlink" title="应用场景"></a>应用场景</h3><ul>
+<li><p>不希望抽象和实现部分采用固定的绑定关系</p>
+</li>
+<li><p>出现抽象部分和实现部分都是可扩展的</p>
+</li>
+<li><p>希望实现部分的修改不会影响正常的使用</p>
+<p>客户是面向抽象的接口在运行，实现部分的修改，可以独立于抽象部分</p>
+</li>
+<li><p>采用继承的方法出现太多的子类</p>
+<p>这时候就需要考虑是否可以分出两个维度来使用桥接的模式</p>
+</li>
+</ul>
+<h3 id="优缺点-1"><a href="#优缺点-1" class="headerlink" title="优缺点"></a>优缺点</h3><p><strong>优点：</strong></p>
+<ul>
+<li>单一职责原则</li>
+<li>开闭原则</li>
+<li>减少子类个数</li>
+<li>分离抽象和实现部分</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>高内聚代码比较复杂</li>
+</ul>
+<h3 id="与其他模式的关系-1"><a href="#与其他模式的关系-1" class="headerlink" title="与其他模式的关系"></a>与其他模式的关系</h3><ul>
+<li><strong>桥接模式</strong>和<strong>策略模式</strong>，结构相似，目的不同。<strong>桥接模式</strong>为了分离抽象部分和实现部分，使两部分可以独自变化；<strong>策略模式</strong>是封装一系列算法，使算法可以互相替换</li>
+<li><strong>桥接模式</strong>和<strong>状态模式</strong>，状态模式目的是封装对应状态的行为，并且在内部状态改变时改变对象的行为</li>
+</ul>
+<h3 id="应用实例-1"><a href="#应用实例-1" class="headerlink" title="应用实例"></a>应用实例</h3><h4 id="JDBC"><a href="#JDBC" class="headerlink" title="JDBC"></a>JDBC</h4><p><strong>应用程序使用JDBC驱动程序进行开发的方式</strong>。<strong>所谓驱动程序，指的是按照预先约定好的接口来操作计算机系统或者是外围设备的程序</strong>。</p>
+<p><img src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/2062729-44747b2bcb42bd02.png" alt="img" style="zoom:67%;" /></p>
+<blockquote>
+<p><strong>基于JDBC的应用程序，使用JDBC的API，相当于是对数据库操作的抽象的扩展，算作桥接模式的抽象部分</strong>；而<strong>具体的接口实现是由驱动来完成的，驱动这边自然就相当于桥接模式的实现部分了</strong>。而<strong>桥接的方式，不再是让抽象部分持有实现部分，而是采用了类似于工厂的做法，通过DriverManager来把抽象部分和实现部分对接起来，从而实现抽象部分和实现部分解耦</strong>。</p>
+</blockquote>
+<h2 id="组合模式"><a href="#组合模式" class="headerlink" title="组合模式"></a>组合模式</h2><p>组合模式的目的就是让客户端不再区分操作的是组合对象还是叶子对象，而是使用一个统一的方式来操作</p>
+<h3 id="问题的提出-1"><a href="#问题的提出-1" class="headerlink" title="问题的提出"></a>问题的提出</h3><p>输出一个用树状结构所表示的核心模型</p>
+<p><img src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/problem-zh.png" alt="复杂订单的结构"></p>
+<p>计算订单的总额，需要遍历所有的盒子和具体物品的价值，进行求和，这时候就可以使用组合模式</p>
+<h3 id="模式结构-2"><a href="#模式结构-2" class="headerlink" title="模式结构"></a>模式结构</h3><p><img src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/image-20230602085705990.png" alt="image-20230602085705990"></p>
+<ol>
+<li><p><strong>组件</strong> （Component） 接口描述了树中叶子节点和容器所共有的操作</p>
+</li>
+<li><p><strong>叶子节点</strong> （Leaf） 是树的基本结构， 它不包含子项目</p>
+<p>就是完成实际工作的节点，一般不再给任务推送到其他部分</p>
+</li>
+<li><p><strong>容器</strong> （Container）：包含叶子节点和其他容器的单位，任务到来之后会转发给子容器或者叶子节点来处理</p>
+</li>
+<li><p><strong>客户端</strong> （Client） 通过组件接口与所有项目交互。 因此， 客户端能以相同方式与树状结构中的简单或复杂项目交互</p>
+</li>
+</ol>
+<h3 id="代码实现-1"><a href="#代码实现-1" class="headerlink" title="代码实现"></a>代码实现</h3><ol>
+<li><strong>组件对象的定义</strong></li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 抽象的组件对象，为组合中的对象声明接口，实现接口的缺省行为</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">Component</span> &#123;</span><br><span class="line">      <span class="comment">/**</span></span><br><span class="line"><span class="comment">       * 示意方法，子组件对象可能有的功能方法</span></span><br><span class="line"><span class="comment">       */</span></span><br><span class="line">      <span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title function_">someOperation</span><span class="params">()</span>;</span><br><span class="line">      <span class="comment">/**</span></span><br><span class="line"><span class="comment">       * 向组合对象中加入组件对象</span></span><br><span class="line"><span class="comment">       * <span class="doctag">@param</span> child 被加入组合对象中的组件对象</span></span><br><span class="line"><span class="comment">       */</span></span><br><span class="line">      <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addChild</span><span class="params">(Component child)</span> &#123;</span><br><span class="line">         <span class="comment">// 缺省的实现，抛出例外，因为叶子对象没有这个功能，</span></span><br><span class="line">         <span class="comment">//或者子组件没有实现这个功能</span></span><br><span class="line">         <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">UnsupportedOperationException</span>(<span class="string">&quot;对象不支持这个功能&quot;</span>);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">/**</span></span><br><span class="line"><span class="comment">       * 从组合对象中移出某个组件对象</span></span><br><span class="line"><span class="comment">       * <span class="doctag">@param</span> child 被移出的组件对象</span></span><br><span class="line"><span class="comment">       */</span></span><br><span class="line">      <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">removeChild</span><span class="params">(Component child)</span> &#123;</span><br><span class="line">         <span class="comment">// 缺省的实现，抛出例外，因为叶子对象没有这个功能，</span></span><br><span class="line">         <span class="comment">//或者子组件没有实现这个功能</span></span><br><span class="line">         <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">UnsupportedOperationException</span>(<span class="string">&quot;对象不支持这个功能&quot;</span>);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">/**</span></span><br><span class="line"><span class="comment">       * 返回某个索引对应的组件对象</span></span><br><span class="line"><span class="comment">       * <span class="doctag">@param</span> index 需要获取的组件对象的索引，索引从0开始</span></span><br><span class="line"><span class="comment">       * <span class="doctag">@return</span> 索引对应的组件对象</span></span><br><span class="line"><span class="comment">       */</span></span><br><span class="line">      <span class="keyword">public</span> Component <span class="title function_">getChildren</span><span class="params">(<span class="type">int</span> index)</span> &#123;</span><br><span class="line">         <span class="comment">// 缺省的实现，抛出例外，因为叶子对象没有这个功能，</span></span><br><span class="line">         <span class="comment">//或者子组件没有实现这个功能</span></span><br><span class="line">         <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">UnsupportedOperationException</span>(<span class="string">&quot;对象不支持这个功能&quot;</span>);</span><br><span class="line">      &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li><strong>Composite对象的定义</strong></li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 组合对象，通常需要存储子对象，定义有子部件的部件行为，</span></span><br><span class="line"><span class="comment">   * 并实现在Component里面定义的与子部件有关的操作</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Composite</span> <span class="keyword">extends</span> <span class="title class_">Component</span> &#123;</span><br><span class="line">      <span class="comment">/**</span></span><br><span class="line"><span class="comment">       * 用来存储组合对象中包含的子组件对象</span></span><br><span class="line"><span class="comment">       */</span></span><br><span class="line">      <span class="keyword">private</span> List&lt;Component&gt; childComponents = <span class="literal">null</span>;</span><br><span class="line">      <span class="comment">/**</span></span><br><span class="line"><span class="comment">       * 示意方法，通常在里面需要实现递归的调用</span></span><br><span class="line"><span class="comment">       */</span></span><br><span class="line">      <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">someOperation</span><span class="params">()</span> &#123;     </span><br><span class="line">         <span class="keyword">if</span> (childComponents != <span class="literal">null</span>)&#123;</span><br><span class="line">             <span class="keyword">for</span>(Component c : childComponents)&#123;</span><br><span class="line">                <span class="comment">//递归的进行子组件相应方法的调用</span></span><br><span class="line">                c.someOperation();</span><br><span class="line">             &#125;</span><br><span class="line">         &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addChild</span><span class="params">(Component child)</span> &#123;</span><br><span class="line">         <span class="comment">//延迟初始化</span></span><br><span class="line">         <span class="keyword">if</span> (childComponents == <span class="literal">null</span>) &#123;</span><br><span class="line">             childComponents = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;Component&gt;();</span><br><span class="line">         &#125;</span><br><span class="line">         childComponents.add(child);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">removeChild</span><span class="params">(Component child)</span> &#123;</span><br><span class="line">          <span class="keyword">if</span> (childComponents != <span class="literal">null</span>) &#123;</span><br><span class="line">             childComponents.remove(child);</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">public</span> Component <span class="title function_">getChildren</span><span class="params">(<span class="type">int</span> index)</span> &#123;</span><br><span class="line">         <span class="keyword">if</span> (childComponents != <span class="literal">null</span>)&#123;</span><br><span class="line">             <span class="keyword">if</span>(index&gt;=<span class="number">0</span> &amp;&amp; index&lt;childComponents.size())&#123;</span><br><span class="line">                <span class="keyword">return</span> childComponents.get(index);</span><br><span class="line">             &#125;</span><br><span class="line">         &#125;</span><br><span class="line">         <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">      &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li><strong>叶子对象的定义</strong></li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 叶子对象，叶子对象不再包含其它子对象</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Leaf</span> extends Component &#123;</span><br><span class="line">      <span class="comment">/**</span></span><br><span class="line"><span class="comment">       * 示意方法，叶子对象可能有自己的功能方法</span></span><br><span class="line"><span class="comment">       */</span></span><br><span class="line">      <span class="function"><span class="keyword">public</span> <span class="type">void</span> <span class="title">someOperation</span><span class="params">()</span> </span>&#123;</span><br><span class="line">         <span class="comment">// do something</span></span><br><span class="line">      &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li><strong>Client，就是使用Component接口来操作组合对象结构</strong></li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Client</span> &#123;</span><br><span class="line">      <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">         <span class="comment">//定义多个Composite对象</span></span><br><span class="line">         <span class="type">Component</span> <span class="variable">root</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Composite</span>();</span><br><span class="line">         <span class="type">Component</span> <span class="variable">c1</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Composite</span>();</span><br><span class="line">         <span class="type">Component</span> <span class="variable">c2</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Composite</span>();</span><br><span class="line">         <span class="comment">//定义多个叶子对象</span></span><br><span class="line">         <span class="type">Component</span> <span class="variable">leaf1</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Leaf</span>();</span><br><span class="line">         <span class="type">Component</span> <span class="variable">leaf2</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Leaf</span>();</span><br><span class="line">         <span class="type">Component</span> <span class="variable">leaf3</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Leaf</span>();</span><br><span class="line">     </span><br><span class="line">         <span class="comment">//组合成为树形的对象结构</span></span><br><span class="line">         root.addChild(c1);</span><br><span class="line">         root.addChild(c2);</span><br><span class="line">         root.addChild(leaf1);</span><br><span class="line">         c1.addChild(leaf2);</span><br><span class="line">         c2.addChild(leaf3);</span><br><span class="line">     </span><br><span class="line">         <span class="comment">//操作Component对象</span></span><br><span class="line">         <span class="type">Component</span> <span class="variable">o</span> <span class="operator">=</span> root.getChildren(<span class="number">1</span>);</span><br><span class="line">         System.out.println(o);</span><br><span class="line">      &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="实现方式-1"><a href="#实现方式-1" class="headerlink" title="实现方式"></a>实现方式</h3><ol>
+<li>应用的核心模型可以用树状结构来表示。并且将结构分为两种简单元素和容器</li>
+<li>定义一个抽象类，是简单元素和容器的父类，并且定义所实现抽象的公共方法，和其他对容器与简单元素都有意义的方法</li>
+<li>叶子节点表示简单元素，一般负责完成任务，任务不再分配给其他部分</li>
+<li>容器，定义增加和删除容器的内部元素的方法，也具有完成任务的方法，或者自身参与或者交给子容器和叶子节点来完成任务</li>
+<li><strong>记住</strong>， 这些操作可在组件接口中声明。 这将会违反<em>接口隔离原则</em>， 因为叶节点类中的这些方法为空。 但是， 这可以让客户端无差别地访问所有元素， 即使是组成树状结构的元素。</li>
+</ol>
+<p><strong>安全性是指：从客户使用组合模式上看是否更安全。</strong>如果是安全的，那么不会有发生误操作的可能，能访问的方法都是被支持的功能。</p>
+<p><strong>透明性是指：从客户使用组合模式上，是否需要区分到底是组合对象还是叶子对象。</strong>如果是透明的，那就是不再区分，对于客户而言，都是组件对象，具体的类型对于客户而言是透明的，是客户无需要关心的。</p>
+<p>组合模式的透明性实现，通常的方式是：<strong>在Component中声明管理子组件的操作，并在Component中为这些方法提供缺省的实现，如果是有子对象不支持的功能，缺省的实现可以是抛出一个例外，来表示不支持这个功能。</strong></p>
+<h3 id="应用场景-2"><a href="#应用场景-2" class="headerlink" title="应用场景"></a>应用场景</h3><ul>
+<li><strong>你需要实现树状对象结构，可以使用组合模式</strong></li>
+<li><strong>统一的使用组合结构中的所有对象</strong></li>
+</ul>
+<h3 id="优缺点-2"><a href="#优缺点-2" class="headerlink" title="优缺点"></a>优缺点</h3><p><strong>优点：</strong></p>
+<ul>
+<li><em>开闭原则</em>。 无需更改现有代码， 你就可以在应用中添加新元素， 使其成为对象树的一部分。</li>
+<li>简化了客户端调用</li>
+<li>统一了组合对象和叶子对象</li>
+</ul>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a target="_blank" rel="noopener" href="https://refactoringguru.cn/design-patterns">https://refactoringguru.cn/design-patterns</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/nb/4583287">https://www.jianshu.com/nb/4583287</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/users/383970bef0a0/latest_articles">https://www.jianshu.com/users/383970bef0a0/latest_articles</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/kimichen123/article/">https://blog.csdn.net/kimichen123/article/</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://MingYRY.github.io">Wenyu Yu</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://mingyry.github.io/mingyry/6e088bfd.html">https://mingyry.github.io/mingyry/6e088bfd.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://MingYRY.github.io" target="_blank">明月依然的小站</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></div><div class="post_share"><div class="social-share" data-image="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/itstack-demo-design-8-01.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://unpkg.com/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://unpkg.com/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/mingyry/a2c3ad19.html" title="Java多线程"><img class="cover" src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/aHR0cHM6Ly9tbWJpei5xcGljLmNuL21tYml6X3BuZy84MjJ5d2djOWRDSjVBd2J4b0F3a0ZDcVpQcnpnU0tvYkw1OVFqaWFoZlMyN0FGQTJIdUhySTRrMlgwQzZ6cUhHV3c4UGlhVjFYelhZbjZWZTJZcFRZWWpnLzY0MA.png" onerror="onerror=null;src='https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img%2F404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Java多线程</div></div></a></div><div class="next-post pull-right"><a href="/mingyry/e712e4ca.html" title="设计模式-创建型"><img class="cover" src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/itstack-demo-design-8-01.png" onerror="onerror=null;src='https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img%2F404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">设计模式-创建型</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/mingyry/e712e4ca.html" title="设计模式-创建型"><img class="cover" src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/itstack-demo-design-8-01.png" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2023-08-14</div><div class="title">设计模式-创建型</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%BB%93%E6%9E%84%E5%9E%8B"><span class="toc-number">1.</span> <span class="toc-text">设计模式-结构型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.1.</span> <span class="toc-text">适配器模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E5%BC%8F%E7%BB%93%E6%9E%84"><span class="toc-number">1.1.1.</span> <span class="toc-text">模式结构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1%E9%80%82%E9%85%8D%E5%99%A8"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">对象适配器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B1%BB%E9%80%82%E9%85%8D%E5%99%A8"><span class="toc-number">1.1.1.2.</span> <span class="toc-text">类适配器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%AA%E4%BB%A3%E7%A0%81"><span class="toc-number">1.1.2.</span> <span class="toc-text">伪代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F"><span class="toc-number">1.1.3.</span> <span class="toc-text">实现方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">1.1.4.</span> <span class="toc-text">应用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-number">1.1.5.</span> <span class="toc-text">优缺点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8E%E5%85%B6%E4%BB%96%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="toc-number">1.1.6.</span> <span class="toc-text">与其他模式的关系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E5%AE%9E%E4%BE%8B"><span class="toc-number">1.1.7.</span> <span class="toc-text">应用实例</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%8F%E5%85%B8%E7%9A%84SpringMVC%E4%B9%8BHandlerAdapter"><span class="toc-number">1.1.7.1.</span> <span class="toc-text">经典的SpringMVC之HandlerAdapter</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.2.</span> <span class="toc-text">桥接模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E7%9A%84%E6%8F%90%E5%87%BA"><span class="toc-number">1.2.1.</span> <span class="toc-text">问题的提出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E5%BC%8F%E7%BB%93%E6%9E%84-1"><span class="toc-number">1.2.2.</span> <span class="toc-text">模式结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.2.3.</span> <span class="toc-text">代码实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF-1"><span class="toc-number">1.2.4.</span> <span class="toc-text">应用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E7%BC%BA%E7%82%B9-1"><span class="toc-number">1.2.5.</span> <span class="toc-text">优缺点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8E%E5%85%B6%E4%BB%96%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%85%B3%E7%B3%BB-1"><span class="toc-number">1.2.6.</span> <span class="toc-text">与其他模式的关系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E5%AE%9E%E4%BE%8B-1"><span class="toc-number">1.2.7.</span> <span class="toc-text">应用实例</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#JDBC"><span class="toc-number">1.2.7.1.</span> <span class="toc-text">JDBC</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.3.</span> <span class="toc-text">组合模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E7%9A%84%E6%8F%90%E5%87%BA-1"><span class="toc-number">1.3.1.</span> <span class="toc-text">问题的提出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E5%BC%8F%E7%BB%93%E6%9E%84-2"><span class="toc-number">1.3.2.</span> <span class="toc-text">模式结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-1"><span class="toc-number">1.3.3.</span> <span class="toc-text">代码实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F-1"><span class="toc-number">1.3.4.</span> <span class="toc-text">实现方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF-2"><span class="toc-number">1.3.5.</span> <span class="toc-text">应用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E7%BC%BA%E7%82%B9-2"><span class="toc-number">1.3.6.</span> <span class="toc-text">优缺点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="toc-number">1.4.</span> <span class="toc-text">参考文章</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background-image: url('https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img%2Fwallhaven-5g7rd3.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2023 By Wenyu Yu</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a href="https://MingYRY.github.io/">blog</a>!</div><p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px"><img src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&amp;logo=hexo" title="博客框架为Hexo"/></a><a class="github-badge" target="_blank" href="https://demo.jerryc.me/" style="margin-inline:5px"><img src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&amp;logo=bitdefender" title="主题版本Butterfly"/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px"><img src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub" title="本站项目由Gtihub托管"/></a><a class="github-badge" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" style="margin-inline:5px"><img src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&amp;logo=Claris" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"/></a><a class="github-badge" target="_blank" href="https://beian.miit.gov.cn/" style="margin-inline:5px"><img src="https://img.shields.io/badge/%E9%BB%91ICP%E5%A4%87-2023004985%E5%8F%B7-lightgrey" title="本站已在工信部备案"/></a></p></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://unpkg.com/@fancyapps/ui/dist/fancybox/fancybox.umd.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'JnVNUuheue1XlmfbyvgSY1Oe-gzGzoHsz',
+      appKey: 'bVRKDRonMGGQ5U4Me0xmipvT',
+      placeholder: '欢迎在博客中留言！ 1.昵称输入QQ号可以自动识别头像和QQ邮箱 2.博客留言中昵称和email必须填写 3.欢迎留下网址方便互相回访',
+      avatar: 'monsterid',
+      serverURLs: 'https://jnvnuuhe.lc-cn-n1-shared.com',
+      emojiMaps: "",
+      pageSize: '10',
+      master: '3451cd11a28a25de7691d4d856b929d3',   //博主邮箱md5加密32位小写
+      tagMeta: ["博主", "小伙伴", "访客"],     //标识字段名
+      friends: ['b412f37e42d89e15c8aaf065934eb62e'],  //小伙伴邮箱Md5
+      enableQQ: true,
+      lang: 'zh-CN',
+      path: window.location.pathname,
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('/js/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><div class="aplayer no-destroy" data-id="1384026889" data-server="netease" data-type="song" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-lrctype="1" data-preload="none" data-autoplay="true" muted></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://unpkg.com/butterfly-extsrc/dist/canvas-nest.min.js"></script><script id="click-show-text" src="https://unpkg.com/butterfly-extsrc/dist/click-show-text.min.js" data-mobile="false" data-text="乐观,健康,积极,自由,暴富,增肌,APEX" data-fontsize="15px" data-random="false" async="async"></script><link rel="stylesheet" href="https://unpkg.com/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://unpkg.com/aplayer/dist/APlayer.min.js"></script><script src="https://unpkg.com/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script src="https://unpkg.com/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><!-- hexo injector body_end start --><script async src="//at.alicdn.com/t/c/font_4015716_msa9w6uaxn.js"></script><!-- hexo injector body_end end --></body></html>

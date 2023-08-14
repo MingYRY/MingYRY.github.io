@@ -1,0 +1,420 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Elasticsearch | 明月依然的小站</title><meta name="author" content="Wenyu Yu"><meta name="copyright" content="Wenyu Yu"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Elasticsearch相比MySQL，能够自动帮我们做分词，能够非常高效、灵活地查询内容 索引es中的索引 &#x3D;&gt; MySQL 中的表 es中的字段（field）&#x3D;&gt; MySQL 中的列 正向索引：理解为书籍的目录，可以快速帮你找到对于的内容 倒排索引：根据文章内容里面的词汇来找到对应的文章 ES语法DSL语言操作ES不需要背 JSON格式的参数，和HTTP请求最兼容 EQL不需要背">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Elasticsearch">
+<meta property="og:url" content="https://mingyry.github.io/mingyry/d32d37e5.html">
+<meta property="og:site_name" content="明月依然的小站">
+<meta property="og:description" content="Elasticsearch相比MySQL，能够自动帮我们做分词，能够非常高效、灵活地查询内容 索引es中的索引 &#x3D;&gt; MySQL 中的表 es中的字段（field）&#x3D;&gt; MySQL 中的列 正向索引：理解为书籍的目录，可以快速帮你找到对于的内容 倒排索引：根据文章内容里面的词汇来找到对应的文章 ES语法DSL语言操作ES不需要背 JSON格式的参数，和HTTP请求最兼容 EQL不需要背">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/sadjakfsauwhdjasnkjdnad.jpg">
+<meta property="article:published_time" content="2023-07-13T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-08-14T13:06:13.648Z">
+<meta property="article:author" content="Wenyu Yu">
+<meta property="article:tag" content="Elasticsearch">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/sadjakfsauwhdjasnkjdnad.jpg"><link rel="shortcut icon" href="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img%2Fwallhaven-85keej.png"><link rel="canonical" href="https://mingyry.github.io/mingyry/d32d37e5.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/5.13.0/css/all.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?00e91e237345a7bf551803ef3d797bde";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://unpkg.com/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://unpkg.com/flickr-justified-gallery/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Elasticsearch',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-08-14 21:06:13'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://unpkg.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://unpkg.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = 'hidden';
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+
+preloader.initLoading()
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img%2Fluffy.png" onerror="onerror=null;src='https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img%2Ffriend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">49</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">38</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">18</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/sadjakfsauwhdjasnkjdnad.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="明月依然的小站"><span class="site-name">明月依然的小站</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Elasticsearch</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="fa-fw post-meta-icon fas fa-history"></i><span class="post-meta-label">更新于</span><time datetime="2023-08-14T13:06:13.648Z" title="更新于 2023-08-14 21:06:13">2023-08-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Elasticstack/">Elasticstack</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.9k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>5分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Elasticsearch"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="Elasticsearch"><a href="#Elasticsearch" class="headerlink" title="Elasticsearch"></a>Elasticsearch</h1><p>相比MySQL，能够自动帮我们做分词，能够非常高效、灵活地查询内容</p>
+<h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><p>es中的索引 =&gt; MySQL 中的表</p>
+<p>es中的字段（field）=&gt; MySQL 中的列</p>
+<p>正向索引：理解为书籍的目录，可以快速帮你找到对于的内容</p>
+<p>倒排索引：根据文章内容里面的词汇来找到对应的文章</p>
+<h2 id="ES语法"><a href="#ES语法" class="headerlink" title="ES语法"></a>ES语法</h2><h4 id="DSL语言操作ES"><a href="#DSL语言操作ES" class="headerlink" title="DSL语言操作ES"></a>DSL语言操作ES</h4><p>不需要背</p>
+<p>JSON格式的参数，和HTTP请求最兼容</p>
+<h4 id="EQL"><a href="#EQL" class="headerlink" title="EQL"></a>EQL</h4><p>不需要背</p>
+<p>专门查询 ECS 文档（标准指标文档）的数据的语法，更加规范，特定场景使用</p>
+<h4 id="SQL语言操作ES"><a href="#SQL语言操作ES" class="headerlink" title="SQL语言操作ES"></a>SQL语言操作ES</h4><p>SQL能用尽量用，因为可以跨平台使用</p>
+<p>学习成本低，可能需要额外插件的支持，性能较差</p>
+<h2 id="调用方式"><a href="#调用方式" class="headerlink" title="调用方式"></a>调用方式</h2><h4 id="restful-api调用（HTTP请求）"><a href="#restful-api调用（HTTP请求）" class="headerlink" title="restful api调用（HTTP请求）"></a>restful api调用（HTTP请求）</h4><p>get请求：<a target="_blank" rel="noopener" href="http://localhost:9200/">http://localhost:9200/</a></p>
+<p>curl 可以模拟发送请求： curl -X GET “localhost:9200/?pretty”</p>
+<p><strong>ES的启动端口</strong></p>
+<ol>
+<li>9200：给外部用户（客户端调用）的端口</li>
+<li>9300：给ES集群内部通信的（外部调用不了）</li>
+</ol>
+<h4 id="kibana-devtools"><a href="#kibana-devtools" class="headerlink" title="kibana devtools"></a>kibana devtools</h4><p>利用命令行 自由地对 ES 进行操作（本质也是 restful api）</p>
+<p>dev tools 不建议生产环境使用</p>
+<h4 id="客户端调用"><a href="#客户端调用" class="headerlink" title="客户端调用"></a>客户端调用</h4><p>java 客户端操作 es：</p>
+<ol>
+<li><p>ES 官方的 Java API</p>
+</li>
+<li><p>ES 以前的官方 Java API</p>
+<p>HighLevelRestClient（已废弃，不建议用）</p>
+</li>
+<li><p>Spring Data Elasticsearch</p>
+<p>spring-data系列：spring 提供的操作数据库的框架</p>
+<p>spring-data-redis：操作 redis 的一套方法</p>
+<p>spring-data-mongodb：操作 mongodb 的一套方法</p>
+<p>spring-data-elasticsearch：操作 elasticsearch 的一套方法</p>
+<p><strong>自定义查询方法</strong>：用户可以指定接口的方法名称，框架帮你自动生成查询</p>
+</li>
+</ol>
+<h2 id="Mapping"><a href="#Mapping" class="headerlink" title="Mapping"></a>Mapping</h2><p>类型MySQL中的表结构</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">DSL语法</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># 查询表结构</span></span></span><br><span class="line">get post/_mapping </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>ES 支持动态mapping，表结构可以动态改变</p>
+<p>还支持显示创建mapping（手动指定mapping）</p>
+<h3 id="Runtime-fields"><a href="#Runtime-fields" class="headerlink" title="Runtime fields"></a>Runtime fields</h3><p>这种字段属于运行时才确定值的字段值，可以保证动态计算（利用js的语法来进行计算）</p>
+<p>如果存在该字段，就查找，如果不存在该字段，就不会查找</p>
+<h3 id="index-类型"><a href="#index-类型" class="headerlink" title="index 类型"></a>index 类型</h3><ul>
+<li><p>text：进行全文搜索的类型</p>
+</li>
+<li><p>keyword：不可拆分，用于过滤和排序，关键字，用于结构化内容，如id、电子邮件地址、主机名、状态码、邮政编码或标签。 手机号和（身份证号因为有X）设置为keyword</p>
+</li>
+<li><p>boolean：布尔类型</p>
+</li>
+<li><p>numbers：数字的类型，</p>
+</li>
+<li><p>ip类型</p>
+</li>
+<li><p>range：范围类型</p>
+</li>
+</ul>
+<h3 id="分词器"><a href="#分词器" class="headerlink" title="分词器"></a>分词器</h3><p>分词的一种规则</p>
+<p>es中有很多内置的分词器：</p>
+<p>​    空格分词器：whitespace</p>
+<p>​    标准分词器：standard，将满足的条件进行过滤</p>
+<p>​    关键词分词器：就是不分词，整句话当作专业术语</p>
+<h4 id="IK-分词器（ES的插件）"><a href="#IK-分词器（ES的插件）" class="headerlink" title="IK 分词器（ES的插件）"></a>IK 分词器（ES的插件）</h4><p>中文友好</p>
+<p>ik_smart，只能分词，尽量选择最项一个词的拆分方式</p>
+<p>ik_max_word，尽可能地分词，最精细化进行分词，将“小黑子”，分成 “小黑”，“黑子”</p>
+<h4 id="打分机制"><a href="#打分机制" class="headerlink" title="打分机制"></a>打分机制</h4><p>看内容的词语的匹配度，关注于匹配比例，es会进行打分</p>
+<h2 id="用-ES-实现搜索接口"><a href="#用-ES-实现搜索接口" class="headerlink" title="用 ES 实现搜索接口"></a>用 ES 实现搜索接口</h2><h4 id="1-建表（建立索引）"><a href="#1-建表（建立索引）" class="headerlink" title="1. 建表（建立索引）"></a>1. 建表（建立索引）</h4><p>ES 中，尽量存放需要用户筛选（搜索）的数据，频繁变化的数据也不适合放到ES中</p>
+<p>根据数据库的表来建立 ES Mapping</p>
+<p>ES Mapping：</p>
+<p>id（可以不放到字段设置里）</p>
+<p>aliases：别名（为了后续方便数据迁移），建表时尽量给别名</p>
+<p>字段类型是text，这个字段是可被分词的、可模糊查询的；如果是keyword，只能完全匹配、精确查询</p>
+<p>analyzer（存储时生效的分词器）：ik_max_word，拆的更碎、索引更多，更有可能被搜出来</p>
+<p>search_analyzer（查询时生效的分词器）：ik_smart，更偏向于用户想搜的分词</p>
+<p>如果想要让 text类型的分词字段也支持精确查询，可以创建 keyword 类型的子字段</p>
+<p>ES 中 _字段表示系统的默认字段，比如 _id，如果系统不指定，会自动生成，但是不会再_source 字段中补充id的值，所以建议大家手动指定</p>
+<h4 id="2-增删改查"><a href="#2-增删改查" class="headerlink" title="2. 增删改查"></a>2. 增删改查</h4><p>第一种方式：ElasticsearchRepositiry<PostEsDTO， Long>，默认提供了简单的增删改查，多用于可预期的，相对不复杂的查询、自定义查询</p>
+<p>第二种方式：Spring 默认给我们提供的操作 es 的客户端对象 ElasticsearchRestTemplate，也提供了增删改查，它的增删改查更灵活，适用于更复杂的操作，返回结果更完成，需要自己解析</p>
+<p><strong>查询 DSL语句：</strong></p>
+<ul>
+<li>bool：组合条件</li>
+<li>must： 必须都满足</li>
+<li>match：模糊查询</li>
+<li>term：精确查询</li>
+<li>range：范围查询</li>
+<li>wildcard：模糊查询</li>
+<li>regexp：正则匹配查询</li>
+<li>score：代表查询出来的结果的分数</li>
+<li>should：满足要求的个数才可以，minimum_should_match</li>
+</ul>
+<h4 id="3-查询步骤："><a href="#3-查询步骤：" class="headerlink" title="3. 查询步骤："></a>3. 查询步骤：</h4><ol>
+<li>获取参数</li>
+<li>把参数组合为 ES 支持的搜索条件</li>
+<li>从返回值中获取结果</li>
+<li>先模糊筛选<strong>静态数据</strong>，查出数据后，在根据查到的内容id去数据库查找到<strong>动态数据</strong></li>
+</ol>
+<h2 id="数据同步"><a href="#数据同步" class="headerlink" title="数据同步"></a>数据同步</h2><p>一般情况下，如果做查询搜索功能；使用 ES 来模糊搜索，但是数据是存放在数据库 MySQL 为主，所以我们需要把MySQL 中的数据和 ES 进行同步，保证数据一致（以MySQL为主）。</p>
+<p>首次安装完ES，把MySQL数据全量同步到ES里，写一个单词脚本</p>
+<p><strong>4种方式：全量同步（首次）+增量同步（新数据）</strong></p>
+<ol>
+<li><p>定时任务，比如一分钟一次，找到 MySQL 中过去几分钟（至少是定时周期的两到三倍）内发生改变的数据，然后更新到 ES。</p>
+<p>ES 根据id来更新或者查询数据</p>
+<p>优点：简单易懂、占用资源少、不用引入第三方中间件</p>
+<p>缺点：没有实时性</p>
+<p>应用场景：数据短时间内不同步影响不大、或者数据几乎不发生修改</p>
+</li>
+<li><p>双写：写数据库的时候，必须也去写ES；更新删除数据库同理。（事务：建议先保证MySQL写入成功，如果ES写失败了，通过定时任务+日志+告警进行检测和修复（补偿功能））</p>
+</li>
+<li><p>用 Logstash 数据同步和数据处理管道（一般要配合 kafka消息队列+ beats采集器）：</p>
+<p>配置config，整合了多种输入和输出的模式</p>
+<p>把MySQL 同步到 Elasticsearch</p>
+<p>增量配置：是不是可以只查最新更新的？可以记录上次更新的数据的时间</p>
+<p>全量更新：只需要将配置中的更新数据时间进行删除，然后第一次就会全量更新</p>
+<p>注意查询语句要按照updateTime进行排序，保证最后一条是最大的</p>
+<p>两个问题： 利用<strong>数据处理</strong>的filter组件</p>
+<ul>
+<li>字段全部变成小写了</li>
+<li>多了不想保存的数据</li>
+</ul>
+<p>优点：用起来方便，插件的</p>
+<p>缺点：学习成本高，一般需要配合其他的组件使用，比如kafka</p>
+</li>
+<li><p>订阅数据库流水的同步方式，canal（实时同步）</p>
+<p>原理：数据库每次修改时，会修改 binlog 文件，只要监听该文件的修改，就能第一时间得到消息并处理</p>
+<p>canal：帮你监听 binlog，并解析 binlog 为你可以理解的内容，伪装成mysql的从节点，获取主节点的 binlog</p>
+<p>优点：实时同步，实时性非常强</p>
+</li>
+</ol>
+<p>预编译SQL的优点：</p>
+<ol>
+<li>灵活</li>
+<li>模板好懂</li>
+<li>部分防注入</li>
+<li>主要是快（因为有缓存）</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://MingYRY.github.io">Wenyu Yu</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://mingyry.github.io/mingyry/d32d37e5.html">https://mingyry.github.io/mingyry/d32d37e5.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://MingYRY.github.io" target="_blank">明月依然的小站</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Elasticsearch/">Elasticsearch</a></div><div class="post_share"><div class="social-share" data-image="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/sadjakfsauwhdjasnkjdnad.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://unpkg.com/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://unpkg.com/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/mingyry/37cf2cfd.html" title="Redis集群"><img class="cover" src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/Redis-Logo.wine.png" onerror="onerror=null;src='https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img%2F404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Redis集群</div></div></a></div><div class="next-post pull-right"><a href="/mingyry/a654c162.html" title="Java并发面试题"><img class="cover" src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/aHR0cHM6Ly9tbWJpei5xcGljLmNuL21tYml6X3BuZy84MjJ5d2djOWRDSjVBd2J4b0F3a0ZDcVpQcnpnU0tvYkw1OVFqaWFoZlMyN0FGQTJIdUhySTRrMlgwQzZ6cUhHV3c4UGlhVjFYelhZbjZWZTJZcFRZWWpnLzY0MA.png" onerror="onerror=null;src='https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img%2F404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Java并发面试题</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Elasticsearch"><span class="toc-number">1.</span> <span class="toc-text">Elasticsearch</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95"><span class="toc-number">1.1.</span> <span class="toc-text">索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ES%E8%AF%AD%E6%B3%95"><span class="toc-number">1.2.</span> <span class="toc-text">ES语法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#DSL%E8%AF%AD%E8%A8%80%E6%93%8D%E4%BD%9CES"><span class="toc-number">1.2.0.1.</span> <span class="toc-text">DSL语言操作ES</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#EQL"><span class="toc-number">1.2.0.2.</span> <span class="toc-text">EQL</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SQL%E8%AF%AD%E8%A8%80%E6%93%8D%E4%BD%9CES"><span class="toc-number">1.2.0.3.</span> <span class="toc-text">SQL语言操作ES</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B0%83%E7%94%A8%E6%96%B9%E5%BC%8F"><span class="toc-number">1.3.</span> <span class="toc-text">调用方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#restful-api%E8%B0%83%E7%94%A8%EF%BC%88HTTP%E8%AF%B7%E6%B1%82%EF%BC%89"><span class="toc-number">1.3.0.1.</span> <span class="toc-text">restful api调用（HTTP请求）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#kibana-devtools"><span class="toc-number">1.3.0.2.</span> <span class="toc-text">kibana devtools</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%B0%83%E7%94%A8"><span class="toc-number">1.3.0.3.</span> <span class="toc-text">客户端调用</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Mapping"><span class="toc-number">1.4.</span> <span class="toc-text">Mapping</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Runtime-fields"><span class="toc-number">1.4.1.</span> <span class="toc-text">Runtime fields</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#index-%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.4.2.</span> <span class="toc-text">index 类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E8%AF%8D%E5%99%A8"><span class="toc-number">1.4.3.</span> <span class="toc-text">分词器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#IK-%E5%88%86%E8%AF%8D%E5%99%A8%EF%BC%88ES%E7%9A%84%E6%8F%92%E4%BB%B6%EF%BC%89"><span class="toc-number">1.4.3.1.</span> <span class="toc-text">IK 分词器（ES的插件）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%93%E5%88%86%E6%9C%BA%E5%88%B6"><span class="toc-number">1.4.3.2.</span> <span class="toc-text">打分机制</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%A8-ES-%E5%AE%9E%E7%8E%B0%E6%90%9C%E7%B4%A2%E6%8E%A5%E5%8F%A3"><span class="toc-number">1.5.</span> <span class="toc-text">用 ES 实现搜索接口</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%BB%BA%E8%A1%A8%EF%BC%88%E5%BB%BA%E7%AB%8B%E7%B4%A2%E5%BC%95%EF%BC%89"><span class="toc-number">1.5.0.1.</span> <span class="toc-text">1. 建表（建立索引）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%A2%9E%E5%88%A0%E6%94%B9%E6%9F%A5"><span class="toc-number">1.5.0.2.</span> <span class="toc-text">2. 增删改查</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E6%9F%A5%E8%AF%A2%E6%AD%A5%E9%AA%A4%EF%BC%9A"><span class="toc-number">1.5.0.3.</span> <span class="toc-text">3. 查询步骤：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5"><span class="toc-number">1.6.</span> <span class="toc-text">数据同步</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background-image: url('https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img%2Fwallhaven-5g7rd3.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2023 By Wenyu Yu</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a href="https://MingYRY.github.io/">blog</a>!</div><p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px"><img src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&amp;logo=hexo" title="博客框架为Hexo"/></a><a class="github-badge" target="_blank" href="https://demo.jerryc.me/" style="margin-inline:5px"><img src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&amp;logo=bitdefender" title="主题版本Butterfly"/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px"><img src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub" title="本站项目由Gtihub托管"/></a><a class="github-badge" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" style="margin-inline:5px"><img src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&amp;logo=Claris" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"/></a><a class="github-badge" target="_blank" href="https://beian.miit.gov.cn/" style="margin-inline:5px"><img src="https://img.shields.io/badge/%E9%BB%91ICP%E5%A4%87-2023004985%E5%8F%B7-lightgrey" title="本站已在工信部备案"/></a></p></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://unpkg.com/@fancyapps/ui/dist/fancybox/fancybox.umd.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'JnVNUuheue1XlmfbyvgSY1Oe-gzGzoHsz',
+      appKey: 'bVRKDRonMGGQ5U4Me0xmipvT',
+      placeholder: '欢迎在博客中留言！ 1.昵称输入QQ号可以自动识别头像和QQ邮箱 2.博客留言中昵称和email必须填写 3.欢迎留下网址方便互相回访',
+      avatar: 'monsterid',
+      serverURLs: 'https://jnvnuuhe.lc-cn-n1-shared.com',
+      emojiMaps: "",
+      pageSize: '10',
+      master: '3451cd11a28a25de7691d4d856b929d3',   //博主邮箱md5加密32位小写
+      tagMeta: ["博主", "小伙伴", "访客"],     //标识字段名
+      friends: ['b412f37e42d89e15c8aaf065934eb62e'],  //小伙伴邮箱Md5
+      enableQQ: true,
+      lang: 'zh-CN',
+      path: window.location.pathname,
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('/js/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><div class="aplayer no-destroy" data-id="1384026889" data-server="netease" data-type="song" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-lrctype="1" data-preload="none" data-autoplay="true" muted></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://unpkg.com/butterfly-extsrc/dist/canvas-nest.min.js"></script><script id="click-show-text" src="https://unpkg.com/butterfly-extsrc/dist/click-show-text.min.js" data-mobile="false" data-text="乐观,健康,积极,自由,暴富,增肌,APEX" data-fontsize="15px" data-random="false" async="async"></script><link rel="stylesheet" href="https://unpkg.com/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://unpkg.com/aplayer/dist/APlayer.min.js"></script><script src="https://unpkg.com/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script src="https://unpkg.com/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><!-- hexo injector body_end start --><script async src="//at.alicdn.com/t/c/font_4015716_msa9w6uaxn.js"></script><!-- hexo injector body_end end --></body></html>

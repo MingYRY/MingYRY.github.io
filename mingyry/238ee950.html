@@ -1,0 +1,357 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>网络技术之 CDN | 明月依然的小站</title><meta name="author" content="Wenyu Yu"><meta name="copyright" content="Wenyu Yu"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="网络技术之 CDN文章来源：https:&#x2F;&#x2F;gitee.com&#x2F;turnon&#x2F;blog&#x2F;blob&#x2F;master&#x2F;source&#x2F;_posts&#x2F;13.%E7%BD%91%E7%BB%9C&#x2F;03.%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF&#x2F;02.CDN.md  简介CDN 是什么CDN(Content Delivery Network)，即内容分发网络。 CDN 是一个全球">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网络技术之 CDN">
+<meta property="og:url" content="https://mingyry.github.io/mingyry/238ee950.html">
+<meta property="og:site_name" content="明月依然的小站">
+<meta property="og:description" content="网络技术之 CDN文章来源：https:&#x2F;&#x2F;gitee.com&#x2F;turnon&#x2F;blog&#x2F;blob&#x2F;master&#x2F;source&#x2F;_posts&#x2F;13.%E7%BD%91%E7%BB%9C&#x2F;03.%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF&#x2F;02.CDN.md  简介CDN 是什么CDN(Content Delivery Network)，即内容分发网络。 CDN 是一个全球">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/tcp-86029986.jpg">
+<meta property="article:published_time" content="2023-04-09T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-08-14T13:06:13.680Z">
+<meta property="article:author" content="Wenyu Yu">
+<meta property="article:tag" content="Computer Network">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/tcp-86029986.jpg"><link rel="shortcut icon" href="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img%2Fwallhaven-85keej.png"><link rel="canonical" href="https://mingyry.github.io/mingyry/238ee950.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/5.13.0/css/all.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?00e91e237345a7bf551803ef3d797bde";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://unpkg.com/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://unpkg.com/flickr-justified-gallery/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '网络技术之 CDN',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-08-14 21:06:13'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://unpkg.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://unpkg.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = 'hidden';
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+
+preloader.initLoading()
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img%2Fluffy.png" onerror="onerror=null;src='https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img%2Ffriend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">49</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">38</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">18</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/tcp-86029986.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="明月依然的小站"><span class="site-name">明月依然的小站</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">网络技术之 CDN</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="fa-fw post-meta-icon fas fa-history"></i><span class="post-meta-label">更新于</span><time datetime="2023-08-14T13:06:13.680Z" title="更新于 2023-08-14 21:06:13">2023-08-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Computer-Network/">Computer Network</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>6分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="网络技术之 CDN"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="网络技术之-CDN"><a href="#网络技术之-CDN" class="headerlink" title="网络技术之 CDN"></a>网络技术之 CDN</h1><p>文章来源：<a target="_blank" rel="noopener" href="https://gitee.com/turnon/blog/blob/master/source/_posts/13.%E7%BD%91%E7%BB%9C/03.%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/02.CDN.md">https://gitee.com/turnon/blog/blob/master/source/_posts/13.%E7%BD%91%E7%BB%9C/03.%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/02.CDN.md</a></p>
+<p><img src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/v2-d4ab223ee51aaeaa24c85271721de10e_720w.webp" alt="img"></p>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><h3 id="CDN-是什么"><a href="#CDN-是什么" class="headerlink" title="CDN 是什么"></a>CDN 是什么</h3><p>CDN(<strong>Content Delivery Network</strong>)，即<strong>内容分发网络</strong>。</p>
+<p>CDN 是一个全球性的代理服务器分布式网络，依靠部署在各地的边缘服务器，通过中心平台的负载均衡、内容分发、调度等功能模块，使用户就近获取所需内容，降低网络拥塞，提高用户访问响应速度和命中率。它从靠近用户的位置提供内容。通常，HTML/CSS/JS，图片和视频等静态内容由 CDN 提供。CDN 的 DNS 解析会告知客户端连接哪台服务器。CDN 的关键技术主要有内容存储和分发技术。</p>
+<h3 id="CDN-的优缺点"><a href="#CDN-的优缺点" class="headerlink" title="CDN 的优缺点"></a>CDN 的优缺点</h3><ul>
+<li>优点<ul>
+<li><strong>访问加速</strong> - 由于 CDN 就近服务，大大降低了网络传播时延，所以自然提高了访问速度。</li>
+<li><strong>降低负载</strong> - 如果 CDN 已经能获取数据，那么就不必请求源站，这自然降低了源站（服务器）的负载。</li>
+</ul>
+</li>
+<li>缺点<ul>
+<li>CDN 成本可能因流量而异，可能在权衡之后你将不会使用 CDN。</li>
+<li>如果在 TTL 过期之前更新内容，CDN 缓存内容可能会过时。</li>
+<li>CDN 需要更改静态内容的 URL 地址以指向 CDN。</li>
+</ul>
+</li>
+</ul>
+<h2 id="CDN-原理"><a href="#CDN-原理" class="headerlink" title="CDN 原理"></a>CDN 原理</h2><p>CDN 的基本原理是：</p>
+<ul>
+<li>广泛采用各种缓存服务器，将这些缓存服务器分布到用户访问相对集中的地区或网络中；</li>
+<li>在用户访问网站时，实时地根据网络流量和各节点的连接、负载状况以及到用户的距离和响应时间等综合信息来选择最佳缓存服务器；</li>
+<li>然后，将用户的请求重新导向最佳的缓存服务器上，由缓存服务器直接响应用户请求。</li>
+</ul>
+<p>CDN 网络架构主要由两大部分，分为<strong>中心</strong>和<strong>边缘</strong>两部分：</p>
+<ul>
+<li>中心指 CDN 网管中心和 DNS 重定向解析中心，负责全局负载均衡，设备系统安装在管理中心机房；</li>
+<li>边缘主要指异地节点，CDN 分发的载体，主要由 Cache 和负载均衡器等组成。</li>
+</ul>
+<p>CDN 是一个策略性部署的整体系统，包括<strong>分布式存储</strong>、<strong>负载均衡</strong>、<strong>内容管理</strong>和<strong>网络请求的重定向</strong>４个要件。</p>
+<h3 id="分布式存储"><a href="#分布式存储" class="headerlink" title="分布式存储"></a>分布式存储</h3><p>CDN 网络将存储资源分布到各个地理位置、各个网段。存储系统作为 CDN 系统密不可分的一部分，将 CDN 分发的文件和数据库表记录内容存储起来，提供持续服务。存储系统采用三级存储架构，包括核心存储、CDN 服务节点分布式缓存和终端本地缓存。任意一个点的存储崩溃或失效，并不影响系统服务的可用性。</p>
+<p><img src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/201212182141328438.jpg" alt="clip_image002[4]"></p>
+<p>如 CDN 系统在 5 大运营商（中国电信、中国网通、中国铁通、中国移动、中国联通）以及 2 大专有网络（中国教育和科研计算机网、中国科技网）都布有 CDN 节点。<strong>这样就消除了不同运营商之间互联的瓶颈造成的影响，实现了跨运营商的网络加速，保证不同网络中的用户都能得到良好的访问质量。</strong></p>
+<h3 id="内容管理"><a href="#内容管理" class="headerlink" title="内容管理"></a>内容管理</h3><p>内容管理和全局的网络流量管理(Traffic Management)是 CDN 的核心所在。<strong>通过用户就近性和服务器负载的判断，CDN 确保内容以一种极为高效的方式为用户的请求提供服务</strong>。总的来说，内容服务基于<strong>缓存服务器</strong>，也称作<strong>代理缓存(Surrogate)</strong>，它位于网络的边缘，距用户仅有”一跳”(Single Hop)之遥。同时，代理缓存是内容提供商源服务器（通常位于 CDN 服务提供商的数据中心）的一个透明镜像。这样的架构使得 CDN 服务提供商能够代表他们客户，即内容供应商，向最终用户提供尽可能好的体验，而这些用户是不能容忍请求响应时间有任何延迟的。据统计，采用 CDN 技术，能处理整个网站页面的 70%～ 95％的内容访问量，减轻服务器的压力，提升了网站的性能和可扩展性。</p>
+<h3 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h3><p>CDN 负载均衡系统实现 CDN 的<strong>内容路由功能</strong>。它的作用是将用户的请求导向整个 CDN 网络中的最佳节点。最佳节点的选定可以根据多种策略，例如<strong>距离最近</strong>、<strong>节点负载最轻</strong>等。负载均衡系统是整个 CDN 的核心，负载均衡的准确性和效率直接决定了整个 CDN 的效率和性能。通常负载均衡可以分为两个层次：<strong>全局负载均衡（GSLB）和\本地负载均衡（SLB）</strong>。</p>
+<h3 id="网络请求的重定向"><a href="#网络请求的重定向" class="headerlink" title="网络请求的重定向"></a>网络请求的重定向</h3><p>当用户访问了使用 CDN 服务的资源时，DNS 域名服务器通过 CNAME 方式将最终域名请求重定向到 CDN 系统中的智能 DNS 负载均衡系统。<strong>智能 DNS 负载均衡系统通过一组预先定义好的策略（如内容类型、地理区域、网络负载状况等），将当时能够最快响应用户的节点地址提供给用户，使用户可以得到快速的服务</strong>。</p>
+<p>同时，它还与分布在不同地点的所有 CDN 节点保持通信，搜集各节点的健康状态，确保不将用户的请求分配到任何一个已经不可用的节点上。</p>
+<blockquote>
+<p>参考：</p>
+<ul>
+<li><a href="https://gitee.com/link?target=https%3A%2F%2Fwww.cnblogs.com%2Fskynet%2Farchive%2F2012%2F12%2F18%2F2824141.html">CDN-内容推送网络</a></li>
+<li><a href="https://gitee.com/link?target=https%3A%2F%2Fzhuanlan.zhihu.com%2Fp%2F39028766">闲话 CDN</a></li>
+</ul>
+</blockquote>
+<h2 id="CDN-访问流程"><a href="#CDN-访问流程" class="headerlink" title="CDN 访问流程"></a>CDN 访问流程</h2><p><img src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/201212182141332832.jpg" alt="clip_image003[4]"></p>
+<ol>
+<li>用户在浏览器中访问域名，域名解析的请求被发往网站的 DNS 域名解析服务器；</li>
+<li>由于网站的 DNS 域名解析服务器对此域名的解析设置了 CNAME，请求被指向 CDN 网络中的智能 DNS 负载均衡系统；</li>
+<li>智能 DNS 负载均衡系统对域名进行智能解析，将响应速度最快的节点 IP 返回给用户；浏览器在得到速度最快节点的 IP 地址以后，向 CDN 节点发出访问请求；</li>
+<li>由于是第一次访问，CDN 节点将回到源站取用户请求的数据并发给用户；</li>
+<li>当有其他用户再次访问同样内容时，CDN 将直接将数据返回给客户，完成请求/服务过程。</li>
+</ol>
+<p>同时，它还与分布在不同地点的所有 CDN 节点保持通信，搜集各节点的健康状态，确保不将用户的请求分配到任何一个已经不可用的节点上。</p>
+<blockquote>
+<p>参考：</p>
+<ul>
+<li><a href="https://gitee.com/link?target=https%3A%2F%2Fwww.cnblogs.com%2Fskynet%2Farchive%2F2012%2F12%2F18%2F2824141.html">CDN-内容推送网络</a></li>
+<li><a href="https://gitee.com/link?target=https%3A%2F%2Fzhuanlan.zhihu.com%2Fp%2F39028766">闲话 CDN</a></li>
+</ul>
+</blockquote>
+<h2 id="推送和拉取"><a href="#推送和拉取" class="headerlink" title="推送和拉取"></a>推送和拉取</h2><p>CDN 服务有推送和拉取两种方式：</p>
+<h3 id="CDN-推送"><a href="#CDN-推送" class="headerlink" title="CDN 推送"></a>CDN 推送</h3><p>当你服务器上内容发生变动时，推送 CDN 接受新内容。直接推送给 CDN 并重写 URL 地址以指向你的内容的 CDN 地址。你可以配置内容到期时间及何时更新。内容只有在更改或新增是才推送，流量最小化，但储存最大化。</p>
+<p>优点在于节省源站带宽，提前将要分发的内容放到 CDN 节点上了，当某个流量高峰来临时，不会把你的源站带宽占满（源站还要留点带宽提供动态 HTML 啊）。</p>
+<p>缺点是需要针对 CDN 做接口开发，在被分发内容生成时主动上传给 CDN。</p>
+<h3 id="CDN-拉取"><a href="#CDN-拉取" class="headerlink" title="CDN 拉取"></a>CDN 拉取</h3><p>CDN 拉取是当第一个用户请求该资源时，从服务器上拉取资源。你将内容留在自己的服务器上并重写 URL 指向 CDN 地址。直到内容被缓存在 CDN 上为止，这样请求只会更慢，</p>
+<p><a href="https://gitee.com/link?target=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FTime_to_live">存活时间（TTL）</a>决定缓存多久时间。CDN 拉取方式最小化 CDN 上的储存空间，但如果过期文件并在实际更改之前被拉取，则会导致冗余的流量。</p>
+<p>高流量站点使用 CDN 拉取效果不错，因为只有最近请求的内容保存在 CDN 中，流量才能更平衡地分散。</p>
+<p>优点在于实现简单。</p>
+<blockquote>
+<p>参考：<a href="https://gitee.com/link?target=https%3A%2F%2Fsegmentfault.com%2Fq%2F1010000000119794">推送式与拉取式 CDN 服务的优劣问题</a></p>
+</blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://MingYRY.github.io">Wenyu Yu</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://mingyry.github.io/mingyry/238ee950.html">https://mingyry.github.io/mingyry/238ee950.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://MingYRY.github.io" target="_blank">明月依然的小站</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Computer-Network/">Computer Network</a></div><div class="post_share"><div class="social-share" data-image="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/tcp-86029986.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://unpkg.com/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://unpkg.com/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/mingyry/bae4ff13.html" title="Redis"><img class="cover" src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/Redis-Logo.wine.png" onerror="onerror=null;src='https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img%2F404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Redis</div></div></a></div><div class="next-post pull-right"><a href="/mingyry/f35148c1.html" title="计算机网络-面试相关"><img class="cover" src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/Rasdadadadakfldjsgihs.png" onerror="onerror=null;src='https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img%2F404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">计算机网络-面试相关</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/mingyry/c6823846.html" title="计算机网络-HTTP"><img class="cover" src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/Rasdadadadakfldjsgihs.png" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2023-08-14</div><div class="title">计算机网络-HTTP</div></div></a></div><div><a href="/mingyry/248e04fe.html" title="计算机网络-IP"><img class="cover" src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/Rasdadadadakfldjsgihs.png" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2023-08-14</div><div class="title">计算机网络-IP</div></div></a></div><div><a href="/mingyry/d8da6227.html" title="计算机网络-UDP"><img class="cover" src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/UDP%2520Protocol%2520And%2520Its%2520working.png" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2023-08-14</div><div class="title">计算机网络-UDP</div></div></a></div><div><a href="/mingyry/f35148c1.html" title="计算机网络-面试相关"><img class="cover" src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/Rasdadadadakfldjsgihs.png" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2023-08-14</div><div class="title">计算机网络-面试相关</div></div></a></div><div><a href="/mingyry/96599ed7.html" title="计算机网络-TCP"><img class="cover" src="https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img/tcp-86029986.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="fas fa-history fa-fw"></i> 2023-08-14</div><div class="title">计算机网络-TCP</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF%E4%B9%8B-CDN"><span class="toc-number">1.</span> <span class="toc-text">网络技术之 CDN</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.1.</span> <span class="toc-text">简介</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CDN-%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">1.1.1.</span> <span class="toc-text">CDN 是什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CDN-%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-number">1.1.2.</span> <span class="toc-text">CDN 的优缺点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CDN-%E5%8E%9F%E7%90%86"><span class="toc-number">1.2.</span> <span class="toc-text">CDN 原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8"><span class="toc-number">1.2.1.</span> <span class="toc-text">分布式存储</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86"><span class="toc-number">1.2.2.</span> <span class="toc-text">内容管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1"><span class="toc-number">1.2.3.</span> <span class="toc-text">负载均衡</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82%E7%9A%84%E9%87%8D%E5%AE%9A%E5%90%91"><span class="toc-number">1.2.4.</span> <span class="toc-text">网络请求的重定向</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CDN-%E8%AE%BF%E9%97%AE%E6%B5%81%E7%A8%8B"><span class="toc-number">1.3.</span> <span class="toc-text">CDN 访问流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A8%E9%80%81%E5%92%8C%E6%8B%89%E5%8F%96"><span class="toc-number">1.4.</span> <span class="toc-text">推送和拉取</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CDN-%E6%8E%A8%E9%80%81"><span class="toc-number">1.4.1.</span> <span class="toc-text">CDN 推送</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CDN-%E6%8B%89%E5%8F%96"><span class="toc-number">1.4.2.</span> <span class="toc-text">CDN 拉取</span></a></li></ol></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background-image: url('https://blog-1317788176.cos.ap-nanjing.myqcloud.com/img%2Fwallhaven-5g7rd3.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2023 By Wenyu Yu</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a href="https://MingYRY.github.io/">blog</a>!</div><p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px"><img src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&amp;logo=hexo" title="博客框架为Hexo"/></a><a class="github-badge" target="_blank" href="https://demo.jerryc.me/" style="margin-inline:5px"><img src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&amp;logo=bitdefender" title="主题版本Butterfly"/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px"><img src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub" title="本站项目由Gtihub托管"/></a><a class="github-badge" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" style="margin-inline:5px"><img src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&amp;logo=Claris" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"/></a><a class="github-badge" target="_blank" href="https://beian.miit.gov.cn/" style="margin-inline:5px"><img src="https://img.shields.io/badge/%E9%BB%91ICP%E5%A4%87-2023004985%E5%8F%B7-lightgrey" title="本站已在工信部备案"/></a></p></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://unpkg.com/@fancyapps/ui/dist/fancybox/fancybox.umd.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'JnVNUuheue1XlmfbyvgSY1Oe-gzGzoHsz',
+      appKey: 'bVRKDRonMGGQ5U4Me0xmipvT',
+      placeholder: '欢迎在博客中留言！ 1.昵称输入QQ号可以自动识别头像和QQ邮箱 2.博客留言中昵称和email必须填写 3.欢迎留下网址方便互相回访',
+      avatar: 'monsterid',
+      serverURLs: 'https://jnvnuuhe.lc-cn-n1-shared.com',
+      emojiMaps: "",
+      pageSize: '10',
+      master: '3451cd11a28a25de7691d4d856b929d3',   //博主邮箱md5加密32位小写
+      tagMeta: ["博主", "小伙伴", "访客"],     //标识字段名
+      friends: ['b412f37e42d89e15c8aaf065934eb62e'],  //小伙伴邮箱Md5
+      enableQQ: true,
+      lang: 'zh-CN',
+      path: window.location.pathname,
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('/js/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><div class="aplayer no-destroy" data-id="1384026889" data-server="netease" data-type="song" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-lrctype="1" data-preload="none" data-autoplay="true" muted></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://unpkg.com/butterfly-extsrc/dist/canvas-nest.min.js"></script><script id="click-show-text" src="https://unpkg.com/butterfly-extsrc/dist/click-show-text.min.js" data-mobile="false" data-text="乐观,健康,积极,自由,暴富,增肌,APEX" data-fontsize="15px" data-random="false" async="async"></script><link rel="stylesheet" href="https://unpkg.com/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://unpkg.com/aplayer/dist/APlayer.min.js"></script><script src="https://unpkg.com/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script src="https://unpkg.com/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><!-- hexo injector body_end start --><script async src="//at.alicdn.com/t/c/font_4015716_msa9w6uaxn.js"></script><!-- hexo injector body_end end --></body></html>
